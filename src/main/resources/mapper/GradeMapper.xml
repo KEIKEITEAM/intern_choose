@@ -4,5 +4,24 @@
 <mapper namespace="com.lcvc.intern_choose.dao.GradesDao">
     <!--==================================基本查询============================-->
 
+    <select id="readAll" resultType="Grades">
+        select * from grades order by id
+    </select>
+
+    <select id="get" resultType="Grades">
+        select * from  grades where id=#{id}
+    </select>
+
+    <insert id="save">
+        insert into intern_choose.grades(id,name) values (null ,#{name})
+    </insert>
+
+    <update id="update">
+         update grades set name = #{name} where id = #{id}
+    </update>
+
+    <delete id="delete">
+         delete from grades where id = #{id}
+    </delete>
 
 </mapper>

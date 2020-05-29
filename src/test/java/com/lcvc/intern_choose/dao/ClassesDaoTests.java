@@ -47,7 +47,7 @@ class ClassesDaoTests {
      */
     @Test
     void  delete(){
-        System.out.println(classesDao.delete(7));
+        System.out.println(classesDao.delete(9));
     }
 
     /**
@@ -57,7 +57,7 @@ class ClassesDaoTests {
      */
     @Test
     void  get(){
-        System.out.println(classesDao.get(6).getName());
+        System.out.println(classesDao.get(1));
     }
 
     /**

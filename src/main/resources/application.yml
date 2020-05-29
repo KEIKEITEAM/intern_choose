@@ -10,6 +10,6 @@ mybatis:
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/intern_choose?characterEncoding=utf-8&serverTimezone=CTT
-    username: lcvc
-    password: lcvc123456
+    username: root
+    password: 333
     driverClassName: com.mysql.cj.jdbc.Driver

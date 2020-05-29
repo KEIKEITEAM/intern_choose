@@ -17,9 +17,9 @@
          values(null,#{name},#{majorId},#{gradeId})
     </insert>
 
-    <insert id="update">
+    <update id="update">
          update classes set name=#{name},majorId=#{majorId},gradeId=#{gradeId} where id=#{id}
-    </insert>
+    </update>
 
     <delete id="delete">
         delete from classes where id=#{id}

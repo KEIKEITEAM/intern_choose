@@ -3,6 +3,25 @@
 <!-- 指明这个映射文件adminMapper.xml的逻辑路径,如果与接口建立映射，那么逻辑路径应该与接口的物理路径一致-->
 <mapper namespace="com.lcvc.intern_choose.dao.StudentDao">
     <!--==================================基本查询============================-->
+    <select id="readAll" resultType="Student">
+        select * from student order by studentNumber
+    </select>
+
+    <select id="get" resultType="Student">
+        select * from  student where id=#{id}
+    </select>
+
+    <insert id="save">
+        insert into student(studentNumber, name, password, classId) values (#{studentNumber} , #{name} , #{password} , #{classId})
+    </insert>
+
+    <update id="update">
+         update student set name = #{name} , password = #{password} , classId = #{classId} where studentNumber = #{studentNumber}
+    </update>
+
+    <delete id="delete">
+         delete from student where studentNumber = #{studentNumber}
+    </delete>
 
 
 </mapper>
