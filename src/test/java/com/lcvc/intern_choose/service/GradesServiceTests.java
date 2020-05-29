@@ -1,4 +1,4 @@
-package com.lcvc.intern_choose.service.imp;
+package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Classes;
 import com.lcvc.intern_choose.model.Grades;
@@ -11,14 +11,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class GradesServiceImplTest {
+class GradesServiceTests {
 
     @Autowired
     private GradesService gradesService;
 
     /**
      * ZF
-     * 年级添加方法测试
+     * 成绩添加方法测试
      * 2020年5月29日10：44
      */
     @Test
@@ -31,7 +31,7 @@ class GradesServiceImplTest {
 
     /**
      * ZF
-     * 年级修改方法测试
+     * 成绩修改方法测试
      * 2020年5月29日10：44
      */
     @Test
@@ -44,7 +44,7 @@ class GradesServiceImplTest {
 
     /**
      * ZF
-     * 年级删除方法测试
+     * 成绩删除方法测试
      * 2020年5月29日10：44
      */
     @Test
@@ -54,7 +54,7 @@ class GradesServiceImplTest {
 
     /**
      * ZF
-     * 年级查询方法测试
+     * 成绩查询方法测试
      * 2020年5月29日10：28
      */
     @Test

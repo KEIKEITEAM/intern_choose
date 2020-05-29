@@ -15,11 +15,21 @@ public class TeacherDaoTests {
         System.out.println(teacherDao.login("123", SHA.getResult("123456")));
     }
 
+    /**
+     * liang
+     * 老师添加方法测试
+     * 2020年5月29日19:30
+     */
     @Test
     void get(){
         System.out.println(teacherDao.get("123"));
     }
 
+    /**
+     * liang
+     * 老师查询方法测试
+     * 2020年5月29日19:30
+     */
     @Test
     void readAll() {
         for (Teacher teacher : teacherDao.readAll(null)) {
@@ -27,6 +37,11 @@ public class TeacherDaoTests {
         }
     }
 
+    /**
+     * liang
+     * 老师添加方法测试
+     * 2020年5月29日19:30
+     */
     @Test
     void save() {
         Teacher teacher = new Teacher();
@@ -37,6 +52,11 @@ public class TeacherDaoTests {
         System.out.println(teacherDao.save(teacher));
     }
 
+    /**
+     * liang
+     * 老师修改方法测试
+     * 2020年5月29日19:30
+     */
     @Test
     void update() {
         Teacher teacher = new Teacher();
@@ -47,6 +67,11 @@ public class TeacherDaoTests {
         System.out.println(teacherDao.update(teacher));
     }
 
+    /**
+     * liang
+     * 老师删除方法测试
+     * 2020年5月29日19:30
+     */
     @Test
     void delete() {
         System.out.println(teacherDao.delete("14"));

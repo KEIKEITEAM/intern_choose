@@ -9,17 +9,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class StudentServiceImp implements StudentService {
 
     @Autowired
     private StudentDao studentDao;
-
-    public Student get(String id){
-        Student teacher=studentDao.get(id);
-        return teacher;
-    }
-
 
     public boolean login(String studentNumber, String password){
         boolean judge=false;
@@ -33,6 +31,37 @@ public class StudentServiceImp implements StudentService {
             }
         }
         return judge;
+    }
+
+    public Student get(String studentNumber){
+        return studentDao.get(studentNumber);
+    }
+
+    @Override
+    public List<Student> readAll() {
+        ArrayList<Student> list = new ArrayList<>();
+        for (Student student : studentDao.readAll()) {
+            list.add(student);
+        }
+        return list.size() != 0 ? list : null;
+    }
+
+    @Override
+    public Boolean delete(@NotNull String studentNumber) {
+        int k = studentDao.delete(studentNumber);
+        return k > 0 ? true : false;
+    }
+
+    @Override
+    public boolean update(Student Student) {
+        int k = studentDao.update(Student);
+        return k > 0 ? true : false;
+    }
+
+    @Override
+    public boolean save(Student Student) {
+        int k = studentDao.save(Student);
+        return k > 0 ? true : false;
     }
 
 }

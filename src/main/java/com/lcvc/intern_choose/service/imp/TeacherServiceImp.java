@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.validation.constraints.NotNull;
+import java.util.List;
+
 @Service
 public class TeacherServiceImp implements TeacherService {
 
@@ -33,6 +36,30 @@ public class TeacherServiceImp implements TeacherService {
             }
         }
         return judge;
+    }
+
+
+    public List<Teacher> readAll() {
+        List list = teacherDao.readAll(null);
+        return list.size() != 0 ? list : null;
+    }
+
+
+    public Boolean delete(@NotNull String teacherNumber) {
+        int k = teacherDao.delete(teacherNumber);
+        return k > 0 ? true : false;
+    }
+
+
+    public boolean update(Teacher teacher) {
+        int k = teacherDao.update(teacher);
+        return k > 0 ? true : false;
+    }
+
+
+    public boolean save(Teacher teacher) {
+        int k = teacherDao.save(teacher);
+        return k > 0 ? true : false;
     }
 
 }
