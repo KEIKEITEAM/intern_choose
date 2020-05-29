@@ -13,7 +13,7 @@ public interface MajorDao extends IBaseDao<Major>{
 
     int save(Major major);
 
-    int get(@Param("id")Integer id);
+    Major get(@Param("id")Integer id);
 
     int update(Major major);
 

@@ -22,17 +22,27 @@ class MajorDaoTest {
 
     @Test
     void save() {
+        Major major = new Major();
+        major.setName("55");
+        major.setProfessionalId(1);
+        System.out.println(majorDao.save(major));
     }
 
     @Test
     void get() {
+        System.out.println(majorDao.get(1));
     }
 
     @Test
     void update() {
+        Major major = new Major();
+        major.setName("55");
+        major.setProfessionalId(1);
+        System.out.println(majorDao.update(major));
     }
 
     @Test
     void delete() {
+        System.out.println(majorDao.delete(1));
     }
 }
