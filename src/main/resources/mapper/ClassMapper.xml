@@ -12,7 +12,7 @@
         select * from classes where id=#{id}
     </select>
 
-    <insert id="save">
+    <insert id="save"  >
          insert into classes (id,name,majorId,gradeId)
          values(null,#{name},#{majorId},#{gradeId})
     </insert>

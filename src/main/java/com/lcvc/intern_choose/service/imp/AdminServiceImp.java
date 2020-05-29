@@ -42,7 +42,6 @@ public class AdminServiceImp implements AdminService {
         Admin admin=adminDao.getByUsername(username);
         if (admin!=null)
             return admin;
-
         return  null;
     }
 }

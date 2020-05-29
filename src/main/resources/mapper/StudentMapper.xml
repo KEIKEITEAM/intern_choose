@@ -23,5 +23,12 @@
          delete from student where studentNumber = #{studentNumber}
     </delete>
 
+    <select id="get" resultType="Student">
+        select * from student where studentNumber=#{studentNumber}
+    </select>
+
+    <select id="login"  resultType="Integer">
+        select count(1) from student where studentNumber=#{studentNumber} and password=#{password}
+    </select>
 
 </mapper>
