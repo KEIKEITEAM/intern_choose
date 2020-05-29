@@ -16,7 +16,7 @@ public class TeacherServiceTests {
 
     @Test
     void get(){
-        System.out.println(teacherService.get("123"));
+        System.out.println(teacherService.get("1223"));
     }
 
 }
