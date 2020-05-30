@@ -51,4 +51,13 @@ public class FrontStudentController {
         map.put(Constant.JSON_MESSAGE, "成功注销用户");
         return map;
     }
+
+    @GetMapping("/choose")
+    public Map<String, Object> choose(HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        session.removeAttribute("student");
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_MESSAGE, "成功注销用户");
+        return map;
+    }
 }

@@ -12,4 +12,34 @@
         select count(1) from student where studentNumber=#{studentNumber} and password=#{password}
     </select>
 
+
+    <select id="readAll"  resultType="Student">
+        select * from student order by studentNumber
+    </select>
+
+    <insert id="save">
+         insert into student (studentNumber,name,password,classId)
+         values(#{studentNumber},#{name},#{password},#{classId})
+    </insert>
+
+    <insert id="update">
+         update student
+         <set>
+             <if test="name!=null">
+                name=#{name},
+             </if>
+             <if test="password!=null">
+                 password=#{password},
+             </if>
+             <if test="classId!=null">
+                 classId=#{classId},
+             </if>
+         </set>
+        where studentNumber=#{studentNumber}
+    </insert>
+
+    <delete id="delete">
+        delete from student where studentNumber=#{studentNumber}
+    </delete>
+
 </mapper>
