@@ -25,31 +25,60 @@ public class StudentDaoTests {
         System.out.println(studentDao.readAll(null));
     }
 
-    @Test
-    void delete(){
-        System.out.println(studentDao.delete(1));
-    }
 
 
+    /**
+     * liang
+     * 学生添加方法测试
+     * 2020年5月29日19:25
+     */
     @Test
-    void save(){
-        Student student=new Student();
+    void save() {
+        Student student = new Student();
+        student.setPassword("11");
         student.setClassId(1);
-        student.setStudentNumber("123123");
-        student.setName("123123");
-        student.setPassword("123123");
-        System.out.println(studentDao.save(student));
+        student.setStudentNumber("1");
+        studentDao.save(student);
     }
 
+    /**
+     * liang
+     * 学生查询方法测试
+     * 2020年5月29日19:25
+     */
     @Test
-    void update(){
-        Student student=new Student();
-        student.setStudentNumber("123123");
-        student.setClassId(12);
-        student.setName("ccc");
-        student.setPassword("bbb");
+    void readAll() {
+        for (Student student : studentDao.readAll(null)) {
+            System.out.println(student.getName()+"————"+student.getPassword());
+        }
+    }
+
+    /**
+     * liang
+     * 学生修改方法测试
+     * 2020年5月29日19:25
+     */
+    @Test
+    void update() {
+        Student student = new Student();
+        student.setPassword("11");
+        student.setClassId(1);
+        student.setStudentNumber("1");
+        student.setName("klf");
         System.out.println(studentDao.update(student));
     }
 
+    /**
+     * liang
+     * 学生删除方法测试
+     * 2020年5月29日19:25
+     */
+    @Test
+    void delete() {
+        System.out.println(studentDao.delete("1"));
+    }
 
+    @Test
+    void test(){
+    }
 }

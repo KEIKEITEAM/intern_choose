@@ -1,6 +1,10 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Teacher;
+import com.lcvc.intern_choose.model.TeacherStudent;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 public interface TeacherService {
 
@@ -16,5 +20,37 @@ public interface TeacherService {
      */
     boolean login(String username, String password);
 
+    /**
+     * 获取该表全部数据
+     * @return
+     */
+    List<Teacher> readAll();
 
+    /**
+     * 根据ID删除该表数据
+     * @param teacherNumber
+     * @return
+     */
+    Boolean delete(@NotNull String teacherNumber);
+
+    /**
+     * 根据ID修改该表数据
+     * @param
+     * @return
+     */
+    boolean update(Teacher teacher);
+
+    /**
+     * 添加数据
+     * @param
+     * @return
+     */
+    boolean  save(Teacher teacher);
+
+    /**
+     * 根据teacherNumber查询学生集合
+     * @param teacherNumber 教师工号
+     * @return
+     */
+    List<TeacherStudent>getByTeacherNumber(String teacherNumber);
 }

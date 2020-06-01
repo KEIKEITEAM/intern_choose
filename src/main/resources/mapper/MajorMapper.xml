@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lcvc.intern_choose.dao.MajorDao">
+    <!--==================================基本查询============================-->
+    <!--professional 关联对象    -->
+    <resultMap id="professional" type="com.lcvc.intern_choose.model.Major">
+        <association property="professional" javaType="com.lcvc.intern_choose.model.Professional" column="professionalId" select="com.lcvc.intern_choose.dao.ProfessionalDao.get">
+        </association>
+    </resultMap>
+    <select id="readAll" resultType="Major">
+        select * from major order by id
+    </select>
+
+    <select id="get" resultMap="professional">
+        select * from  Major where id=#{id}
+    </select>
+
+    <insert id="save">
+        insert into intern_choose.Major(id,name,professionalId) values (null ,#{name},#{professionalId})
+    </insert>
+
+    <update id="update">
+         update Major set name = #{name} , professionalId = #{professionalId} where id = #{id}
+    </update>
+
+    <delete id="delete">
+         delete from Major where id = #{id}
+    </delete>
+
+</mapper>

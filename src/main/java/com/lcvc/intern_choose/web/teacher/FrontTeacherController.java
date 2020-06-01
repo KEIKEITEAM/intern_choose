@@ -51,4 +51,13 @@ public class FrontTeacherController {
         map.put(Constant.JSON_MESSAGE, "成功注销用户");
         return map;
     }
+
+    @GetMapping("/getStudent")
+    public Map<String, Object> getStudent(HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Teacher teacher=((Teacher) session.getAttribute("teacher"));
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA, teacherService.getByTeacherNumber(teacher.getTeacherNumber()));
+        return map;
+    }
 }

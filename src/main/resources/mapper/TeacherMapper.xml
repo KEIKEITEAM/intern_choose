@@ -12,4 +12,21 @@
         select count(1) from teacher where teacherNumber=#{teacherNumber} and password=#{password}
     </select>
 
+    <select id="readAll" resultType="Student">
+        select * from teacher
+    </select>
+
+    <insert id="save">
+        insert into teacher(teacherNumber, name, password, professionalId) values (#{teacherNumber},#{name},#{password},#{professionalId})
+    </insert>
+
+    <update id="update">
+         update teacher set name = #{name} , password = #{password} , professionalId = #{professionalId} where teacherNumber = #{teacherNumber}
+    </update>
+
+    <delete id="delete">
+         delete from teacher where teacherNumber = #{teacherNumber}
+    </delete>
+
+
 </mapper>

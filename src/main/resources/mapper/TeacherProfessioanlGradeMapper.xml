@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao">
+    <!--==================================基本查询============================-->
+
+    <!-- teacher表 -->
+    <resultMap id="teacherProfessionalGrade" type="com.lcvc.intern_choose.model.TeacherProfessionalGrade">
+        <association property="teacher" javaType="com.lcvc.intern_choose.model.Teacher" column="teacherNumber" select="com.lcvc.intern_choose.dao.TeacherDao.get">
+        </association>
+    </resultMap>
+
+    <select id="get" resultType="TeacherProfessionalGrade">
+        select * from teacher_professional_grade where id=#{id}
+    </select>
+
+
+    <select id="readAll" resultMap="teacherProfessionalGrade">
+        select * from teacher_professional_grade
+        <include refid="queryWhere"></include>
+    </select>
+    
+    <!--统一查询的条件-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.teacherNumber!=null">
+                    and teacherNumber=#{objectQuery.teacherNumber}
+                </if>
+                <if test="objectQuery.professionalGradeId!=null">
+                    and professionalGradeId=#{objectQuery.professionalGradeId}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+</mapper>

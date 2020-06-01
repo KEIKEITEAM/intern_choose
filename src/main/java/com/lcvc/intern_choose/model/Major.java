@@ -4,6 +4,7 @@ public class Major {
     private Integer id;//专业ID
     private String name;//专业名称
     private Integer professionalId;//专业群ID外键
+    private Professional professional;//专业群对象
 
     public Integer getId() {
         return id;
@@ -27,5 +28,13 @@ public class Major {
 
     public void setProfessionalId(Integer professionalId) {
         this.professionalId = professionalId;
+    }
+
+    public Professional getProfessional() {
+        return professional;
+    }
+
+    public void setProfessional(Professional professional) {
+        this.professional = professional;
     }
 }

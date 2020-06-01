@@ -1,6 +1,8 @@
 package com.lcvc.intern_choose.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 
 /**
@@ -11,7 +13,7 @@ public class Admin implements Serializable {
 	private Integer id;
 
 	private String username;//用户名
-
+	@JsonIgnore//该注解是请求返回json数据指定字段不返回
 	private String password;//用户密码
 
 	private String name;//姓名

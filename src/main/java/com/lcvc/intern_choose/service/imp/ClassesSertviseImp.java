@@ -27,7 +27,7 @@ public class ClassesSertviseImp implements ClassesServise {
     }
 
     @Override
-    public Boolean delete(@NotNull Integer id) {
+    public Boolean delete(Integer id) {
         int k = classesDao.delete(id);
         return k > 0 ? true : false;
     }

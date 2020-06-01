@@ -1,5 +1,6 @@
 package com.lcvc.intern_choose.dao;
 
+
 import com.lcvc.intern_choose.model.Student;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -14,5 +15,7 @@ public interface StudentDao extends IBaseDao<Student>{
      * @return 返回匹配的账户总数
      */
     int login(@Param(value = "studentNumber") String studentNumber, @Param(value = "password") String password);
+
+
 
 }

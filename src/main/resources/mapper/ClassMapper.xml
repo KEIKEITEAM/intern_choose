@@ -3,12 +3,19 @@
 <!-- 指明这个映射文件adminMapper.xml的逻辑路径,如果与接口建立映射，那么逻辑路径应该与接口的物理路径一致-->
 <mapper namespace="com.lcvc.intern_choose.dao.ClassesDao">
     <!--==================================基本查询============================-->
+    <!--major 和 grade 关联对象    -->
+    <resultMap id="majorAndGrade" type="com.lcvc.intern_choose.model.Classes">
+        <association property="major" javaType="com.lcvc.intern_choose.model.Major" column="majorId" select="com.lcvc.intern_choose.dao.MajorDao.get">
+        </association>
+        <association property="grades" javaType="com.lcvc.intern_choose.model.Grades" column="gradeId" select="com.lcvc.intern_choose.dao.GradesDao.get">
+        </association>
+    </resultMap>
 
     <select id="readAll"  resultType="Classes">
         select * from classes order by Id
     </select>
 
-    <select id="get"  resultType="Classes">
+    <select id="get"  resultMap="majorAndGrade">
         select * from classes where id=#{id}
     </select>
 
@@ -17,9 +24,9 @@
          values(null,#{name},#{majorId},#{gradeId})
     </insert>
 
-    <insert id="update">
+    <update id="update">
          update classes set name=#{name},majorId=#{majorId},gradeId=#{gradeId} where id=#{id}
-    </insert>
+    </update>
 
     <delete id="delete">
         delete from classes where id=#{id}

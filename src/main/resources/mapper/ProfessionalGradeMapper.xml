@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lcvc.intern_choose.dao.ProfessionalGradeDao">
+    <!--==================================基本查询============================-->
+    <select id="readAll" resultType="ProfessionalGrade">
+        select * from  professional_grade
+       <include refid="queryWhere"></include>
+    </select>
+
+    <select id="get" resultType="ProfessionalGrade">
+        select * from  professional_grade where id=#{id}
+    </select>
+    
+    <!--统一查询的条件-->
+    <sql id="queryWhere">
+    <if test="objectQuery!=null">
+        <where>
+            <if test="objectQuery.professionalId!=null">
+                and professionalId=#{objectQuery.professionalId}
+            </if>
+            <if test="objectQuery.gradeId!=null">
+                and gradeId=#{objectQuery.gradeId}
+            </if>
+            <if test="objectQuery.open!=null and objectQuery.availableOpen==true">
+                and open=#{objectQuery.open}
+            </if>
+        </where>
+    </if>
+    </sql>
+
+</mapper>

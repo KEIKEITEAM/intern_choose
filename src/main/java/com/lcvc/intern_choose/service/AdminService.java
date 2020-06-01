@@ -1,7 +1,9 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Admin;
+import org.springframework.stereotype.Service;
 
+@Service
 public interface AdminService {
 
 

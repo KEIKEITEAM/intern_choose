@@ -4,6 +4,7 @@ import com.lcvc.intern_choose.model.Admin;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+
 @Repository//为了不让idea报错加上
 public interface AdminDao extends IBaseDao<Admin>{
     /**
@@ -15,5 +16,10 @@ public interface AdminDao extends IBaseDao<Admin>{
     int login(@Param(value = "username") String username, @Param(value = "password") String password);
 
 
+    /**
+     * 根据账户名查询某个用户的方法
+     * @param username
+     * @return
+     */
     Admin getByUsername(@Param(value = "username") String username);
 }

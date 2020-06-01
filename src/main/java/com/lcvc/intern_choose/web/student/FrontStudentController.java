@@ -6,10 +6,12 @@ import com.lcvc.intern_choose.model.base.JsonCode;
 import com.lcvc.intern_choose.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,12 +54,31 @@ public class FrontStudentController {
         return map;
     }
 
-    @GetMapping("/choose")
-    public Map<String, Object> choose(HttpSession session){
+    @GetMapping("/choose/{teacherNumber}")
+    public Map<String, Object> choose(@PathVariable  String teacherNumber, HttpSession session) throws ParseException {
         Map<String, Object> map=new HashMap<String, Object>();
-        session.removeAttribute("student");
+        Student student=((Student) session.getAttribute("student"));
+        studentService.choose(student.getStudentNumber(),teacherNumber);
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_MESSAGE, "成功注销用户");
+        map.put(Constant.JSON_MESSAGE, "选择成功");
+        return map;
+    }
+
+    @GetMapping("/getTeacher")
+    public Map<String, Object> getTeacher(HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Student student=((Student) session.getAttribute("student"));
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA, studentService.getTeacher(student.getStudentNumber()));
+        return map;
+    }
+
+    @GetMapping("/getAvailableTeacher")
+    public Map<String, Object> getAvailableTeacher(HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Student student=((Student) session.getAttribute("student"));
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA, studentService.getAvailableTeacher(student.getClasses().getId()));
         return map;
     }
 }

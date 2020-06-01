@@ -1,14 +1,12 @@
 package com.lcvc.intern_choose.model;
 
-import org.hibernate.validator.constraints.Length;
-
 public class Classes {
     private Integer id;
-    @Length(min = 2, max = 20, message = "名称长度必须在 {min} - {max} 之间")
     private String name;
     private Integer majorId;
     private Integer gradeId;
-
+    private Major major;//专业对象
+    private Grades grades;//年级对象
 
     public Integer getId() {
         return id;
@@ -40,5 +38,21 @@ public class Classes {
 
     public void setGradeId(Integer gradeId) {
         this.gradeId = gradeId;
+    }
+
+    public Major getMajor() {
+        return major;
+    }
+
+    public void setMajor(Major major) {
+        this.major = major;
+    }
+
+    public Grades getGrades() {
+        return grades;
+    }
+
+    public void setGrades(Grades grades) {
+        this.grades = grades;
     }
 }

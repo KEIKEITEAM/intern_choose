@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lcvc.intern_choose.dao.TeacherStudentDao">
+    <!--==================================基本查询============================-->
+    <!-- teacher表 -->
+    <resultMap id="student" type="com.lcvc.intern_choose.model.TeacherStudent">
+        <association property="student" javaType="com.lcvc.intern_choose.model.Student" column="studentNumber" select="com.lcvc.intern_choose.dao.StudentDao.get">
+        </association>
+    </resultMap>
+
+    <select id="querySize" resultType="Integer">
+        select count(1) from  teacher_student
+       <include refid="queryWhere"></include>
+    </select>
+
+    <select id="getByStudentNumber" resultType="TeacherStudent">
+        select * from teacher_student where studentNumber=#{studentNumber}
+    </select>
+
+    <insert id="save">
+        insert into teacher_student (id,studentNumber,tpgId) value (null,#{studentNumber},#{tpgId})
+    </insert>
+
+    <select id="readAll" resultMap="student">
+        select * from teacher_student
+        <include refid="queryWhere"></include>
+    </select>
+    <!--统一查询的条件，查询条件少的时候不需要需要对象来查询-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.tpgId!=null">
+                    and tpgId=#{objectQuery.tpgId}
+                </if>
+                <if test="objectQuery.studentNumber!=null">
+                    and studentNumber=#{objectQuery.studentNumber}
+                </if>
+            </where>
+        </if>
+    </sql>
+
+</mapper>

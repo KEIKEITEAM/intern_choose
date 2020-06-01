@@ -1,9 +1,12 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Student;
+import com.lcvc.intern_choose.model.Teacher;
+import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.query.StudentQuery;
 
 import javax.validation.constraints.NotNull;
+import java.text.ParseException;
 import java.util.List;
 
 public interface StudentService {
@@ -53,5 +56,19 @@ public interface StudentService {
     /**
      *实习学生选择实习老师
      */
-    boolean choose(String studentNumber,Integer tpgId);
+    void choose(String studentNumber,String teacherNumber) throws ParseException;
+
+    /**
+     * 获取选择的实习老师的信息
+     * @param studentNumber
+     * @return
+     */
+    Teacher getTeacher(String studentNumber);
+
+    /**
+     * 获取可供学生选择的教师集合
+     * @param classesId 班级Id
+     * @return
+     */
+    List<TeacherProfessionalGrade>getAvailableTeacher(Integer classesId);
 }

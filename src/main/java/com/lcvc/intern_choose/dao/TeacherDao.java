@@ -15,5 +15,4 @@ public interface TeacherDao extends IBaseDao<Teacher>{
      */
     int login(@Param(value = "teacherNumber") String teacherNumber, @Param(value = "password") String password);
 
-
 }
