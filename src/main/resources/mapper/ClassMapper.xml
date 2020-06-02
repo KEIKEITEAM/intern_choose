@@ -11,7 +11,7 @@
         </association>
     </resultMap>
 
-    <select id="readAll"  resultType="Classes">
+    <select id="readAll"  resultMap="majorAndGrade">
         select * from classes order by Id
     </select>
 
@@ -25,7 +25,13 @@
     </insert>
 
     <update id="update">
-         update classes set name=#{name},majorId=#{majorId},gradeId=#{gradeId} where id=#{id}
+         update classes
+         <set>
+             <if test="name!=null">name=#{name},</if>
+             <if test="majorId!=null">majorId=#{majorId},</if>
+             <if test="gradeId!=null">gradeId=#{gradeId},</if>
+         </set>
+       where id=#{id}
     </update>
 
     <delete id="delete">

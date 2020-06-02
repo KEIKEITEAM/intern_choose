@@ -3,8 +3,12 @@
 <!-- 指明这个映射文件adminMapper.xml的逻辑路径,如果与接口建立映射，那么逻辑路径应该与接口的物理路径一致-->
 <mapper namespace="com.lcvc.intern_choose.dao.TeacherDao">
     <!--==================================基本查询============================-->
-
-    <select id="get" resultType="Teacher">
+    <!--professional 关联对象    -->
+    <resultMap id="professional" type="com.lcvc.intern_choose.model.Teacher">
+        <association property="professional" javaType="com.lcvc.intern_choose.model.Professional" column="professionalId" select="com.lcvc.intern_choose.dao.ProfessionalDao.get">
+        </association>
+    </resultMap>
+    <select id="get" resultMap="professional">
         select * from teacher where teacherNumber=#{teacherNumber}
     </select>
 
@@ -12,7 +16,7 @@
         select count(1) from teacher where teacherNumber=#{teacherNumber} and password=#{password}
     </select>
 
-    <select id="readAll" resultType="Student">
+    <select id="readAll" resultMap="professional">
         select * from teacher
     </select>
 

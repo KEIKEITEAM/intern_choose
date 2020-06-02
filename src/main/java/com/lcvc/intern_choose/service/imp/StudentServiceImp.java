@@ -97,9 +97,9 @@ public class StudentServiceImp implements StudentService {
         professionalGradeQuery.setProfessionalId(professional.getId());
         professionalGradeQuery.setGradeId(classes.getGrades().getId());
         List<ProfessionalGrade> list = professionalGradeDao.readAll(professionalGradeQuery);
-        ProfessionalGrade professionalGrade = list.get(0);
         if (list.size() != 1)
             throw new MyServiceException("数据有误，请联系管理员");
+        ProfessionalGrade professionalGrade = list.get(0);
         //判断是否开放选择权限
         if (professionalGrade.isOpen()) {
             //判断当前时间是不是在开放的时间范围内
@@ -109,7 +109,7 @@ public class StudentServiceImp implements StudentService {
                 if (teacher == null)
                     throw new MyServiceException("教师ID有误，请重新提交");
                 //判断该学生的专业群是否跟该实习老师的专业群一致
-                if (major.getProfessional().getId() == teacher.getProfessionalId()) {
+                if (major.getProfessional().getId() == teacher.getProfessional().getId()) {
                     //根据学号判断是不是已经选择过实习老师
                     TeacherStudentQuery teacherStudentQuery = null;
                     teacherStudentQuery = new TeacherStudentQuery();

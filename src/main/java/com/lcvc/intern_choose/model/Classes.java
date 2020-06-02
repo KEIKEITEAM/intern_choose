@@ -1,9 +1,18 @@
 package com.lcvc.intern_choose.model;
 
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 public class Classes {
     private Integer id;
+    @NotEmpty(message = "name不能为空")
+    @Length(min = 1, max = 10, message = "name长度要求1到10之间。")
     private String name;
+    @NotNull(message = "majorId不能为空")
     private Integer majorId;
+    @NotNull(message = "gradeId不能为空")
     private Integer gradeId;
     private Major major;//专业对象
     private Grades grades;//年级对象
@@ -55,4 +64,6 @@ public class Classes {
     public void setGrades(Grades grades) {
         this.grades = grades;
     }
+
+
 }
