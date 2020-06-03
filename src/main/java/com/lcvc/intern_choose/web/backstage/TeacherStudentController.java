@@ -1,10 +1,10 @@
 package com.lcvc.intern_choose.web.backstage;
 
-import com.lcvc.intern_choose.model.Professional;
-import com.lcvc.intern_choose.model.Teacher;
+import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
+import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
-import com.lcvc.intern_choose.service.TeacherService;
+import com.lcvc.intern_choose.service.TeacherStudentService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -17,48 +17,49 @@ import java.util.Map;
  * @author liang
  */
 @RestController
-@RequestMapping("api/backstage/teacher")
-public class TeacherController {
+@RequestMapping("api/backstage/teacherstudent")
+public class TeacherStudentController {
+    
     @Autowired
-    private TeacherService teacherService;
+    private TeacherStudentService teacherStudentService;
+    
     @GetMapping
     public Map<String, Object> readAll(){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.readAll());
+        map.put(Constant.JSON_DATA, teacherStudentService.readAll(null));
         return map;
     }
 
     @GetMapping("/{id}")
-    public Map<String, Object> get(@PathVariable String id){
+    public Map<String, Object> get(@PathVariable Integer id){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.get(id));
+        map.put(Constant.JSON_DATA, teacherStudentService.get(id));
         return map;
     }
 
     @Delete("/{id}")
-    public Map<String, Object> delete(@PathVariable String id){
+    public Map<String, Object> delete(@PathVariable Integer id){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.delete(id));
+        map.put(Constant.JSON_DATA, teacherStudentService.delete(id));
         return map;
     }
 
     @PostMapping
-    public Map<String, Object> save(@Validated @RequestBody Teacher teacher){
+    public Map<String, Object> save(@Validated @RequestBody TeacherStudent teacherStudent){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.save(teacher));
+        map.put(Constant.JSON_DATA, teacherStudentService.save(teacherStudent));
         return map;
     }
 
     @PutMapping
-    public Map<String, Object> update(@RequestBody Teacher teacher){
+    public Map<String, Object> update(@RequestBody TeacherStudent teacherStudent){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.update(teacher));
+        map.put(Constant.JSON_DATA, teacherStudentService.update(teacherStudent));
         return map;
     }
-
 }

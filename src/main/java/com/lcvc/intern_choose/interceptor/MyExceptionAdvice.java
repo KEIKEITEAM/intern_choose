@@ -41,7 +41,7 @@ public class MyExceptionAdvice {
         map.put(Constant.JSON_MESSAGE, e.getMessage());
         map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());//返回错误信息
         //log.error("前端提交异常", e.getMessage());
-        return map;
+         return map;
     }
 
     @ExceptionHandler

@@ -10,6 +10,19 @@
     <select id="get" resultType="ProfessionalGrade">
         select * from  professional_grade where id=#{id}
     </select>
+
+    <insert id="save">
+         insert into professional_grade(Id,professionalId, gradeId, startTime, endTime)
+          values (null , #{professionalId},#{gradeId},#{startTime},#{endTime})
+    </insert>
+
+    <delete id="delete">
+        delete from professional_grade where id = #{id}
+    </delete>
+
+    <update id="update">
+        update professional_grade set professionalId = #{professionalId} ,gradeId = #{gradeId},startTime = #{startTime} , endTime = #{endTime} where id = #{id}
+    </update>
     
     <!--统一查询的条件-->
     <sql id="queryWhere">

@@ -18,6 +18,19 @@
         select * from teacher_professional_grade
         <include refid="queryWhere"></include>
     </select>
+
+    <insert id="save">
+        insert into teacher_professional_grade(id,teacherNumber, professionalGradeId, studentQuantity)
+        values(null , #{teacherNumber} , #{professionalGradeId} , #{studentQuantity} )
+    </insert>
+
+    <update id="update">
+        update teacher_professional_grade set teacherNumber = #{teacherNumber} ,professionalGradeId = #{professionalGradeId} ,studentQuantity = #{studentQuantity} where  id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from teacher_professional_grade where  id = #{id}
+    </delete>
     
     <!--统一查询的条件-->
     <sql id="queryWhere">

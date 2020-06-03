@@ -21,6 +21,19 @@
         insert into teacher_student (id,studentNumber,tpgId) value (null,#{studentNumber},#{tpgId})
     </insert>
 
+    <update id="update">
+        update teacher_student set studentNumber = #{studentNumber} , tpgId = #{tpgId} where  id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete from teacher_student where  id = #{id}
+    </delete>
+
+    <select id="get" resultType="TeacherStudent">
+        select * from teacher_student where id = #{id}
+    </select>
+
+
     <select id="readAll" resultMap="student">
         select * from teacher_student
         <include refid="queryWhere"></include>

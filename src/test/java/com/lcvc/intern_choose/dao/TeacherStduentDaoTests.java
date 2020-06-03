@@ -31,4 +31,23 @@ public class TeacherStduentDaoTests {
     void test() {
         System.out.println(teacherStudentDao.getByStudentNumber("123"));
     }
+
+    @Test
+    void update(){
+        TeacherStudentQuery teacherStudentQuery=new TeacherStudentQuery();
+        teacherStudentQuery.setId(7);
+        teacherStudentQuery.setTpgId(1);
+        teacherStudentQuery.setStudentNumber("123");
+        System.out.println(teacherStudentDao.update(teacherStudentQuery));
+    }
+
+    @Test
+    void delete(){
+        System.out.println(teacherStudentDao.delete(7));
+    }
+
+    @Test
+    void get(){
+        System.out.println(teacherStudentDao.get(8));
+    }
 }

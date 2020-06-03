@@ -1,7 +1,9 @@
 package com.lcvc.intern_choose.service.imp;
 
 import com.lcvc.intern_choose.dao.MajorDao;
+import com.lcvc.intern_choose.dao.ProfessionalDao;
 import com.lcvc.intern_choose.model.Major;
+import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,9 @@ import java.util.List;
 public class MajorServiceImp implements MajorService {
     @Autowired
     private MajorDao majorDao;
+    @Autowired
+    private ProfessionalDao professionalDao;
+
     @Override
     public Major get(@NotNull Integer id) {
         return null;
@@ -33,17 +38,21 @@ public class MajorServiceImp implements MajorService {
         int k = majorDao.delete(id);
         return k > 0 ? true : false;
     }
-    
+
 
     @Override
-    public boolean update(Major Major) {
-        int k = majorDao.update(Major);
+    public boolean update(Major major) {
+        int k = majorDao.update(major);
         return k > 0 ? true : false;
     }
 
     @Override
-    public boolean save(Major Major) {
-        int k = majorDao.save(Major);
+    public boolean save(Major major) {
+
+     if (professionalDao.get(major.getProfessionalId()) == null){
+         throw new MyWebException("不存在此专业");
+     }
+        int k = majorDao.save(major);
         return k > 0 ? true : false;
     }
 }

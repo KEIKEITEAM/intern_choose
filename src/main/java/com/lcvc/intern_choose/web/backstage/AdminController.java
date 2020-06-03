@@ -30,6 +30,7 @@ public class AdminController {
         }else{
             map.put(Constant.JSON_MESSAGE, "登录失败：用户名和密码错误");
         }
+        System.out.println("46444");
         return map;
     }
 

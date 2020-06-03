@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TeacherStudentDao extends IBaseDao<TeacherStudent> {
-    //根据studentNumber查询
+    /**
+     *   根据studentNumber查询
+     */
     TeacherStudent getByStudentNumber(String studentNumber);
 
 }

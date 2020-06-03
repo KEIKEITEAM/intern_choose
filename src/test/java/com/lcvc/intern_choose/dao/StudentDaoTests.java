@@ -35,9 +35,10 @@ public class StudentDaoTests {
     @Test
     void save() {
         Student student = new Student();
-        student.setPassword("11");
+        student.setName("hh");
+        student.setPassword("121");
         student.setClassId(1);
-        student.setStudentNumber("1");
+        student.setStudentNumber("32");
         studentDao.save(student);
     }
 
