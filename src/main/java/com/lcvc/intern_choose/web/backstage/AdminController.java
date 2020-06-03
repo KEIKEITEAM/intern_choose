@@ -43,7 +43,7 @@ public class AdminController {
         return map;
     }
 
-    @GetMapping("/loginout")
+    @GetMapping("/logout")
     public Map<String, Object> logout(HttpSession session){
         Map<String, Object> map=new HashMap<String, Object>();
         session.removeAttribute("admin");
