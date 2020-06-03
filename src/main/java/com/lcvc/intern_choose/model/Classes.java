@@ -14,8 +14,10 @@ public class Classes {
     private Integer majorId;
     @NotNull(message = "gradeId不能为空")
     private Integer gradeId;
-    private Major major;//专业对象
-    private Grades grades;//年级对象
+    //专业对象
+    private Major major;
+    //年级对象
+    private Grades grades;
 
     public Integer getId() {
         return id;

@@ -1,6 +1,7 @@
 package com.lcvc.intern_choose.service.imp;
 
 import com.lcvc.intern_choose.dao.MajorDao;
+import com.lcvc.intern_choose.dao.ProfessionalDao;
 import com.lcvc.intern_choose.model.Major;
 import com.lcvc.intern_choose.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ import java.util.List;
 public class MajorServiceImp implements MajorService {
     @Autowired
     private MajorDao majorDao;
+    @Autowired
+    private ProfessionalDao professionalDao;
     @Override
     public Major get(@NotNull Integer id) {
         return null;
@@ -42,8 +45,8 @@ public class MajorServiceImp implements MajorService {
     }
 
     @Override
-    public boolean save(Major Major) {
-        int k = majorDao.save(Major);
+    public boolean save(Major major) {
+        int k = majorDao.save(major);
         return k > 0 ? true : false;
     }
 }

@@ -27,7 +27,7 @@ public class FrontStudentController {
         map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
         if(studentService.login(studentNumber, password)){//如果登录成功
             Student student=studentService.get(studentNumber);
-            session.setAttribute("student",student);
+             session.setAttribute("student",student);
             map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
             map.put(Constant.JSON_MESSAGE, "登录成功");
         }else{
@@ -45,7 +45,7 @@ public class FrontStudentController {
         return map;
     }
 
-    @GetMapping("/loginout")
+    @GetMapping("/logout")
     public Map<String, Object> logout(HttpSession session){
         Map<String, Object> map=new HashMap<String, Object>();
         session.removeAttribute("student");

@@ -38,7 +38,7 @@ public class WebConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/api/student/**")//要拦截的路径
                 .excludePathPatterns(new LinkedList<String>(){{//不拦截的路径（一般指addPathPatterns中包含，但是不进行拦截的特例）
                     add("/api/student/login");
-                    add("/api/student/logout");
+                    add("/api/student/loginout");
                 }});
 
         //教师账户登陆的拦截器

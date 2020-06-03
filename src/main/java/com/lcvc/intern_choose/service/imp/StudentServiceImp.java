@@ -41,12 +41,14 @@ public class StudentServiceImp implements StudentService {
     @Autowired
     private TeacherDao teacherDao;
 
+    @Override
     public Student get(String id) {
         Student student = studentDao.get(id);
         return student;
     }
 
 
+    @Override
     public boolean login(String studentNumber, String password) {
         boolean judge = false;
         if (StringUtils.isEmpty(studentNumber)) {

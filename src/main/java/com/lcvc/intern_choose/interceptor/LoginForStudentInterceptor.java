@@ -33,7 +33,10 @@ public class LoginForStudentInterceptor extends HandlerInterceptorAdapter {
         boolean flag = false;//默认验证失败，即拦截请求
         String path = request.getServletPath();
         HttpSession session=request.getSession();
-        if (flag) {//对要拦截的路径进行判断（当前不需要）
+        if (flag) {
+
+
+            //对要拦截的路径进行判断（当前不需要）
             //不需要的拦截直接过
             flag=true;
         } else {
