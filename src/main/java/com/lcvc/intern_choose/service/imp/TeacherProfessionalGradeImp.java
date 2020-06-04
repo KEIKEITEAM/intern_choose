@@ -3,7 +3,9 @@ package com.lcvc.intern_choose.service.imp;
 import com.lcvc.intern_choose.dao.ProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
+import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
 import com.lcvc.intern_choose.service.TeacherProfessionalGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,7 +39,7 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
             throw new MyServiceException("professionalGradeId数据有误，请重新输入");
         }
         int k = teacherProfessionalGradeDao.save(teacherProfessionalGrade);
-        return k>0?true:false;
+        return k>0;
     }
 
     @Override
@@ -46,12 +48,19 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
             throw new MyServiceException("professionalGradeId数据有误，请重新输入");
         }
         int k = teacherProfessionalGradeDao.update(teacherProfessionalGrade);
-        return k>0?true:false;
+        return k>0;
     }
 
     @Override
     public Boolean delete(Integer id) {
         int k = teacherProfessionalGradeDao.delete(id);
-        return k>0?true:false;
+        return k>0;
+    }
+
+    @Override
+    public PageObject query(Integer page, Integer limit, TeacherProfessionalGradeQuery teacherProfessionalGradeQuery) {
+        PageObject pageObject = new PageObject(limit,page,teacherProfessionalGradeDao.querySize(teacherProfessionalGradeQuery));
+        pageObject.setList(teacherProfessionalGradeDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherProfessionalGradeQuery));
+        return pageObject;
     }
 }

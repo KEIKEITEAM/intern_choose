@@ -38,6 +38,14 @@
         select * from teacher_student
         <include refid="queryWhere"></include>
     </select>
+
+    <select id="query" resultMap="student">
+        select * from teacher_student
+        <include refid="queryWhere"></include>
+        order by id asc limit #{offset},#{length}
+    </select>
+
+
     <!--统一查询的条件，查询条件少的时候不需要需要对象来查询-->
     <sql id="queryWhere">
         <if test="objectQuery!=null">

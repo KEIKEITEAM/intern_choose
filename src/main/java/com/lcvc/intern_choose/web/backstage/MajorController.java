@@ -6,7 +6,6 @@ import com.lcvc.intern_choose.model.base.JsonCode;
 import com.lcvc.intern_choose.service.MajorService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,10 +19,10 @@ public class MajorController {
     private MajorService majorService;
 
     @GetMapping
-    public Map<String, Object> readAll(){
+    public Map<String, Object> readAll(Integer page,Integer limit){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, majorService.readAll());
+        map.put(Constant.JSON_DATA, majorService.query(page,limit,null));
         return map;
     }
 

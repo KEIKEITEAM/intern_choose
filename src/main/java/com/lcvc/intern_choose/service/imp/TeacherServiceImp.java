@@ -6,8 +6,10 @@ import com.lcvc.intern_choose.dao.TeacherStudentDao;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.TeacherStudent;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
+import com.lcvc.intern_choose.model.query.TeacherQuery;
 import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
 import com.lcvc.intern_choose.service.TeacherService;
 import com.lcvc.intern_choose.util.SHA;
@@ -88,6 +90,13 @@ public class TeacherServiceImp implements TeacherService {
         List<TeacherStudent> list = teacherStudentDao.readAll(teacherStudentQuery);
 
         return list.size() != 0 ? list : null;
+    }
+
+    @Override
+    public PageObject query(Integer page, Integer limit, TeacherQuery teacherQuery) {
+        PageObject pageObject = new PageObject(limit,page,teacherDao.querySize(teacherQuery));
+        pageObject.setList(teacherDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherQuery));
+        return pageObject;
     }
 
 }

@@ -1,9 +1,9 @@
 package com.lcvc.intern_choose.web.backstage;
 
-import com.lcvc.intern_choose.model.Professional;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.query.TeacherQuery;
 import com.lcvc.intern_choose.service.TeacherService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +22,10 @@ public class TeacherController {
     @Autowired
     private TeacherService teacherService;
     @GetMapping
-    public Map<String, Object> readAll(){
+    public Map<String, Object> readAll(Integer page, Integer limit, TeacherQuery teacherQuery){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.readAll());
+        map.put(Constant.JSON_DATA, teacherService.query(page,limit,teacherQuery));
         return map;
     }
 

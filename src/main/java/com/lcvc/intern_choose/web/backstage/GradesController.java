@@ -1,11 +1,9 @@
 package com.lcvc.intern_choose.web.backstage;
 
 
-import com.lcvc.intern_choose.model.Classes;
 import com.lcvc.intern_choose.model.Grades;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
-import com.lcvc.intern_choose.service.ClassesServise;
 import com.lcvc.intern_choose.service.GradesService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +22,10 @@ public class GradesController {
     private GradesService gradesService;
 
     @GetMapping
-    public Map<String, Object> readAll(){
+    public Map<String, Object> query(Integer page, Integer limit){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, gradesService.readAll());
+        map.put(Constant.JSON_DATA, gradesService.query(page,limit,null));
         return map;
     }
 

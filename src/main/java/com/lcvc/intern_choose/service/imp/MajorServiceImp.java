@@ -3,6 +3,7 @@ package com.lcvc.intern_choose.service.imp;
 import com.lcvc.intern_choose.dao.MajorDao;
 import com.lcvc.intern_choose.dao.ProfessionalDao;
 import com.lcvc.intern_choose.model.Major;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,16 +34,23 @@ public class MajorServiceImp implements MajorService {
     }
 
     @Override
+    public PageObject query(Integer page, Integer limit, Major major) {
+        PageObject pageObject = new PageObject(limit,page,majorDao.querySize(major));
+        pageObject.setList(majorDao.query(pageObject.getOffset(),pageObject.getLimit(),major));
+        return pageObject;
+    }
+
+    @Override
     public Boolean delete(@NotNull Integer id) {
         int k = majorDao.delete(id);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
 
     @Override
     public boolean update(Major major) {
         int k = majorDao.update(major);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override

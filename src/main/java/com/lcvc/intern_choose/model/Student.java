@@ -1,14 +1,12 @@
 package com.lcvc.intern_choose.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Student {
     private String studentNumber;//学生主键
     private String name;//学生名字
-    @JsonIgnore//该注解是请求返回json数据指定字段不返回
-    private String password;//密码
-    private Integer classId;//班级ID，可以通过班级ID查询到所在的专业群
-    private Classes classes;//班级对象
+    //@JsonIgnore//该注解是请求返回json数据指定字段不返回
+    private String password; //密码
+    private Integer classId; //班级ID，可以通过班级ID查询到所在的专业群
+    private Classes classes; //班级对象
 
     public String getStudentNumber() {
         return studentNumber;

@@ -3,6 +3,7 @@ package com.lcvc.intern_choose.service;
 import com.lcvc.intern_choose.model.Student;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.query.StudentQuery;
 
 import javax.validation.constraints.NotNull;
@@ -71,4 +72,10 @@ public interface StudentService {
      * @return
      */
     List<TeacherProfessionalGrade>getAvailableTeacher(Integer classesId);
+
+    /**
+     * 分页获取该表全部数据
+     * @return
+     */
+    PageObject query (Integer page, Integer limit, StudentQuery studentQuery);
 }

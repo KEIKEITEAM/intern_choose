@@ -7,8 +7,17 @@
         <association property="professional" javaType="com.lcvc.intern_choose.model.Professional" column="professionalId" select="com.lcvc.intern_choose.dao.ProfessionalDao.get">
         </association>
     </resultMap>
-    <select id="readAll" resultType="Major">
+    <select id="readAll" resultMap="professional">
         select * from major order by id
+    </select>
+
+    <select id="query" resultMap="professional">
+        select * from major
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from major
     </select>
 
     <select id="get" resultMap="professional">

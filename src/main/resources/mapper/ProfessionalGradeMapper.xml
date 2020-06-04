@@ -7,6 +7,17 @@
        <include refid="queryWhere"></include>
     </select>
 
+    <select id="query" resultType="ProfessionalGrade">
+        select * from professional_grade
+        <include refid="queryWhere"></include>
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1) from professional_grade
+    </select>
+
+
     <select id="get" resultType="ProfessionalGrade">
         select * from  professional_grade where id=#{id}
     </select>

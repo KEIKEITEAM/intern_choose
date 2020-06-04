@@ -2,6 +2,8 @@ package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherStudent;
+import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.query.TeacherQuery;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -53,4 +55,10 @@ public interface TeacherService {
      * @return
      */
     List<TeacherStudent>getByTeacherNumber(String teacherNumber);
+
+    /**
+     * 分页获取该表全部数据
+     * @return
+     */
+    PageObject query (Integer page, Integer limit, TeacherQuery teacherQuery);
 }

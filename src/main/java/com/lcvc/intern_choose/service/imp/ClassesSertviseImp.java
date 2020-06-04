@@ -4,6 +4,7 @@ import com.lcvc.intern_choose.dao.ClassesDao;
 import com.lcvc.intern_choose.dao.GradesDao;
 import com.lcvc.intern_choose.dao.MajorDao;
 import com.lcvc.intern_choose.model.Classes;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.service.ClassesServise;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,16 @@ public class ClassesSertviseImp implements ClassesServise {
     }
 
     @Override
+    public PageObject query(Integer page, Integer limit,Classes classes) {
+        PageObject pageObject = new PageObject(limit,page,classesDao.querySize(classes));
+        pageObject.setList(classesDao.query(pageObject.getOffset(),pageObject.getLimit(),classes));
+        return pageObject;
+    }
+
+    @Override
     public Boolean delete(Integer id) {
         int k = classesDao.delete(id);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override
@@ -59,7 +67,7 @@ public class ClassesSertviseImp implements ClassesServise {
                 throw new MyServiceException("gradeId数据有误，请重新提交");
         }
         int k = classesDao.update(classes);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override
@@ -71,6 +79,6 @@ public class ClassesSertviseImp implements ClassesServise {
         if (majorDao.get(classes.getMajorId()) == null)
             throw new MyServiceException("majorId数据有误，请重新提交");
         int k = classesDao.save(classes);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 }

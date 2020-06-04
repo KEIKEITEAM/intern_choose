@@ -19,6 +19,15 @@
         select * from classes where id=#{id}
     </select>
 
+    <select id="query" resultMap="majorAndGrade">
+        select * from classes
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from classes
+    </select>
+
     <insert id="save">
          insert into classes (id,name,majorId,gradeId)
          values(null,#{name},#{majorId},#{gradeId})

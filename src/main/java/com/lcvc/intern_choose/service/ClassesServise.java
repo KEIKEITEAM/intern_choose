@@ -1,6 +1,7 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Classes;
+import com.lcvc.intern_choose.model.base.PageObject;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,12 @@ public interface ClassesServise {
      * @return
      */
     List<Classes> readAll();
+
+    /**
+     * 分页获取该表全部数据
+     * @return
+     */
+    PageObject query (Integer page, Integer limit,Classes classes);
 
     /**
      * 根据ID删除该表数据

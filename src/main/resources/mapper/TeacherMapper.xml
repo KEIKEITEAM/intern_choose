@@ -20,6 +20,15 @@
         select * from teacher
     </select>
 
+    <select id="query" resultType="professional">
+        select * from teacher
+        order by teacherNumber asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from teacher
+    </select>
+
     <insert id="save">
         insert into teacher(teacherNumber, name, password, professionalId) values (#{teacherNumber},#{name},#{password},#{professionalId})
     </insert>

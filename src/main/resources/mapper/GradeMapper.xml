@@ -8,6 +8,16 @@
         select * from grades order by id
     </select>
 
+    <select id="query" resultType="Grades">
+        select * from grades
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from grades
+    </select>
+
+
     <select id="get" resultType="Grades">
         select * from  grades where id=#{id}
     </select>

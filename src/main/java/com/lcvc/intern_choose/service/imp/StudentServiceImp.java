@@ -2,6 +2,7 @@ package com.lcvc.intern_choose.service.imp;
 
 import com.lcvc.intern_choose.dao.*;
 import com.lcvc.intern_choose.model.*;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
@@ -72,20 +73,20 @@ public class StudentServiceImp implements StudentService {
     @Override
     public Boolean delete(@NotNull String teacherNumber) {
         int k = studentDao.delete(teacherNumber);
-        return k > 0 ? true : false;
+        return k > 0 ;
     }
 
     @Override
     public boolean update(Student student) {
         int k = studentDao.update(student);
-        return k > 0 ? true : false;
+        return k > 0 ;
     }
 
 
     @Override
     public boolean save(Student student) {
         int k = studentDao.save(student);
-        return k > 0 ? true : false;
+        return k > 0 ;
     }
 
     @Override
@@ -191,6 +192,13 @@ public class StudentServiceImp implements StudentService {
         teacherProfessionalGradeQuery.setProfessionalGradeId(professionalGrade.getId());
         List<TeacherProfessionalGrade> list = teacherProfessionalGradeDao.readAll(teacherProfessionalGradeQuery);
         return list.size() > 0 ? list : null;
+    }
+
+    @Override
+    public PageObject query(Integer page, Integer limit, StudentQuery studentQuery) {
+        PageObject pageObject = new PageObject(limit,page,professionalDao.querySize(studentQuery));
+        pageObject.setList(professionalDao.query(pageObject.getOffset(),pageObject.getLimit(),studentQuery));
+        return pageObject;
     }
 
 }

@@ -28,7 +28,7 @@ public class WebConfigurer implements WebMvcConfigurer {
         //后台管理账户登陆的拦截器
        registry.addInterceptor(loginForAdminInterceptor())
                 .addPathPatterns("/api/backstage/**")//要拦截的路径
-                .excludePathPatterns(new LinkedList<String>(){{//不拦截的路径（一般指addPathPatterns中包含，但是不进行拦截的特例）
+                .excludePathPatterns(new LinkedList<String>(){{  //不拦截的路径（一般指addPathPatterns中包含，但是不进行拦截的特例）
                     add("/api/backstage/login");
                     add("/api/backstage/logout");
                 }});
@@ -38,7 +38,7 @@ public class WebConfigurer implements WebMvcConfigurer {
                 .addPathPatterns("/api/student/**")//要拦截的路径
                 .excludePathPatterns(new LinkedList<String>(){{//不拦截的路径（一般指addPathPatterns中包含，但是不进行拦截的特例）
                     add("/api/student/login");
-                    add("/api/student/loginout");
+                    add("/api/student/logout");
                 }});
 
         //教师账户登陆的拦截器

@@ -1,9 +1,9 @@
 package com.lcvc.intern_choose.web.backstage;
 
-import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
 import com.lcvc.intern_choose.service.TeacherStudentService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,17 @@ import java.util.Map;
  * @author liang
  */
 @RestController
-@RequestMapping("api/backstage/teacherstudent")
+@RequestMapping("api/backstage/teacherStudent")
 public class TeacherStudentController {
     
     @Autowired
     private TeacherStudentService teacherStudentService;
     
     @GetMapping
-    public Map<String, Object> readAll(){
+    public Map<String, Object> readAll(Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherStudentService.readAll(null));
+        map.put(Constant.JSON_DATA, teacherStudentService.query(page,limit,teacherStudentQuery));
         return map;
     }
 

@@ -19,10 +19,10 @@ public class ProfessionalController {
     private ProfessionalService professionalService;
 
     @GetMapping
-    public Map<String, Object> readAll(){
+    public Map<String, Object> readAll(Integer page,Integer limit){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, professionalService.readAll(null));
+        map.put(Constant.JSON_DATA, professionalService.query(page,limit,null));
         return map;
     }
 

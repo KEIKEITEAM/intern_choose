@@ -22,6 +22,15 @@
         select * from student order by studentNumber
     </select>
 
+    <select id="query" resultMap="classes">
+        select * from student
+        order by studentNumber asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from student
+    </select>
+
     <insert id="save">
          insert into student (studentNumber,name,password,classId)
          values(#{studentNumber},#{name},#{password},#{classId})

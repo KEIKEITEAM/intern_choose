@@ -38,6 +38,7 @@ public class AdminServiceImp implements AdminService {
         return judge;
     }
 
+    @Override
     public Admin getByUsername(String username) {
         Admin admin=adminDao.getByUsername(username);
         if (admin!=null)

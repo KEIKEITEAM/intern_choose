@@ -1,6 +1,8 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.TeacherStudent;
+import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
 
 import java.util.List;
 
@@ -18,4 +20,11 @@ public interface TeacherStudentService {
     Boolean update(TeacherStudent teacherStudent);
 
     Boolean delete(Integer id);
+
+    /**
+     * 分页获取该表全部数据
+     * @return
+     */
+    PageObject query (Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery);
 }
+

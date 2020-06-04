@@ -1,11 +1,8 @@
 package com.lcvc.intern_choose.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Teacher {
     private String teacherNumber;
     private String name;
-    @JsonIgnore//该注解是请求返回json数据指定字段不返回
     private String password;
     private Integer professionalId;//专业群ID
     private Integer studentQuantity;//学生数量

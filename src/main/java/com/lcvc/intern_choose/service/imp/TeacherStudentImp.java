@@ -3,8 +3,9 @@ package com.lcvc.intern_choose.service.imp;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherStudentDao;
 import com.lcvc.intern_choose.model.TeacherStudent;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
-import com.lcvc.intern_choose.service.TeacherProfessionalGradeService;
+import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
 import com.lcvc.intern_choose.service.TeacherStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,7 +40,7 @@ public class TeacherStudentImp implements TeacherStudentService {
         }
 
         int k = teacherStudentDao.save(teacherStudent);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override
@@ -53,12 +54,19 @@ public class TeacherStudentImp implements TeacherStudentService {
         }
 
         int k = teacherStudentDao.update(teacherStudent);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override
     public Boolean delete(Integer id) {
         int k = teacherStudentDao.delete(id);
-        return k > 0 ? true : false;
+        return k > 0 ;
+    }
+
+    @Override
+    public PageObject query(Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery) {
+        PageObject pageObject = new PageObject(limit,page,teacherStudentDao.querySize(teacherStudentQuery));
+        pageObject.setList(teacherStudentDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherStudentQuery));
+        return pageObject;
     }
 }

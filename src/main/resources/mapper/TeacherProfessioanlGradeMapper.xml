@@ -19,6 +19,16 @@
         <include refid="queryWhere"></include>
     </select>
 
+    <select id="query" resultMap="teacherProfessionalGrade">
+        select * from teacher_professional_grade
+        <include refid="queryWhere"></include>
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from teacher_professional_grade
+    </select>
+
     <insert id="save">
         insert into teacher_professional_grade(id,teacherNumber, professionalGradeId, studentQuantity)
         values(null , #{teacherNumber} , #{professionalGradeId} , #{studentQuantity} )

@@ -1,9 +1,9 @@
 package com.lcvc.intern_choose.web.backstage;
 
 import com.lcvc.intern_choose.model.ProfessionalGrade;
-import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
 import com.lcvc.intern_choose.service.ProfessionalGradeService;
 import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,17 +17,17 @@ import java.util.Map;
  * @author liang
  */
 @RestController
-@RequestMapping("api/backstage/professionalgrade")
+@RequestMapping("api/backstage/professionalGrade")
 public class ProfessionalGradeController {
 
     @Autowired
     private ProfessionalGradeService professionalGradeService;
 
     @GetMapping
-    public Map<String, Object> readAll(){
+    public Map<String, Object> readAll(Integer page, Integer limit, ProfessionalGradeQuery professionalGradeQuery){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, professionalGradeService.readAll(null));
+        map.put(Constant.JSON_DATA, professionalGradeService.query(page,limit,professionalGradeQuery));
         return map;
     }
 

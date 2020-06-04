@@ -4,8 +4,18 @@
     <!--==================================基本查询============================-->
 
     <select id="readAll" resultType="Professional">
-        select * from professional order by id
+        select * from professional order by id asc
     </select>
+
+    <select id="query" resultType="Professional">
+        select * from professional
+        order by id asc limit #{offset},#{length}
+    </select>
+
+    <select id="querySize" resultType="Integer">
+        select count(1)  from professional_grade
+    </select>
+
 
     <select id="get" resultType="Professional">
         select * from  professional where id=#{id}

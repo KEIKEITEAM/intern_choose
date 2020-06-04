@@ -3,9 +3,10 @@ package com.lcvc.intern_choose.service.imp;
 import com.lcvc.intern_choose.dao.GradesDao;
 import com.lcvc.intern_choose.dao.ProfessionalDao;
 import com.lcvc.intern_choose.dao.ProfessionalGradeDao;
-import com.lcvc.intern_choose.model.Professional;
 import com.lcvc.intern_choose.model.ProfessionalGrade;
+import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
+import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
 import com.lcvc.intern_choose.service.ProfessionalGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,14 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
     }
 
     @Override
+    public PageObject query(Integer page, Integer limit, ProfessionalGradeQuery professionalGradeQuery) {
+        PageObject pageObject = new PageObject(limit,page,professionalGradeDao.querySize(professionalGradeQuery));
+        pageObject.setList(professionalGradeDao.query(pageObject.getOffset(),pageObject.getLimit(),professionalGradeQuery));
+        return pageObject;
+    }
+
+
+    @Override
     public ProfessionalGrade get(Integer id) {
 
         return professionalGradeDao.get(id);
@@ -44,7 +53,7 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
         }
 
         int k = professionalGradeDao.save(professionalGrade);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override
@@ -59,13 +68,13 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
         }
 
         int k = professionalGradeDao.update(professionalGrade);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
     @Override
     public Boolean delete(Integer id) {
         int k = professionalGradeDao.delete(id);
 
-        return k>0?true:false;
+        return k > 0;
     }
 }
