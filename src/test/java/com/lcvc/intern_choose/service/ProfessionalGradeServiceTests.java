@@ -50,13 +50,14 @@ class ProfessionalGradeServiceTests {
     @Test
     void update() {
         ProfessionalGradeQuery professionalGradesave=new ProfessionalGradeQuery();
+        professionalGradesave.setId(1);
         professionalGradesave.setProfessionalId(1);
         professionalGradesave.setGradeId(1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date star = null;
         Date end = null;
         try {
-            star= sdf.parse("1992-07-08");
+            star= sdf.parse("2020-07-20");
             end = sdf.parse("2020-07-09");
         } catch (ParseException e) {
             e.printStackTrace();
