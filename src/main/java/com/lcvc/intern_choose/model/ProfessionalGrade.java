@@ -10,6 +10,15 @@ public class ProfessionalGrade {
     private boolean open;//是否开放选择实习老师的权限
     private Date startTime;//开放选择权限的开始时间
     private Date endTime;//开放选择权限的结束时间
+    private Professional professional;//专业群对象
+
+    public Professional getProfessional() {
+        return professional;
+    }
+
+    public void setProfessional(Professional professional) {
+        this.professional = professional;
+    }
 
     public Integer getId() {
         return Id;

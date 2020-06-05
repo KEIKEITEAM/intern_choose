@@ -100,8 +100,9 @@ public class StudentServiceImp implements StudentService {
         professionalGradeQuery.setProfessionalId(professional.getId());
         professionalGradeQuery.setGradeId(classes.getGrades().getId());
         List<ProfessionalGrade> list = professionalGradeDao.readAll(professionalGradeQuery);
-        if (list.size() != 1)
+        if (list.size() != 1) {
             throw new MyServiceException("数据有误，请联系管理员");
+        }
         ProfessionalGrade professionalGrade = list.get(0);
         //判断是否开放选择权限
         if (professionalGrade.isOpen()) {
@@ -109,10 +110,11 @@ public class StudentServiceImp implements StudentService {
             if (IsInDate.judge(new Date(), professionalGrade.getStartTime(), professionalGrade.getEndTime())) {
                 Teacher teacher = teacherDao.get(teacherNumber);
                 //如果教师工号为null
-                if (teacher == null)
+                if (teacher == null) {
                     throw new MyServiceException("教师ID有误，请重新提交");
+                }
                 //判断该学生的专业群是否跟该实习老师的专业群一致
-                if (major.getProfessional().getId() == teacher.getProfessional().getId()) {
+                if (major.getProfessional().getId().equals(teacher.getProfessional().getId())) {
                     //根据学号判断是不是已经选择过实习老师
                     TeacherStudentQuery teacherStudentQuery = null;
                     teacherStudentQuery = new TeacherStudentQuery();
@@ -124,8 +126,9 @@ public class StudentServiceImp implements StudentService {
                         teacherProfessionalGradeQuery.setTeacherNumber(teacherNumber);
                         List<TeacherProfessionalGrade> teacherProfessionalGradeList = teacherProfessionalGradeDao.readAll(teacherProfessionalGradeQuery);
                         TeacherProfessionalGrade tpg = null;
-                        if (teacherProfessionalGradeList.size() == 1)
+                        if (teacherProfessionalGradeList.size() == 1) {
                             tpg = teacherProfessionalGradeList.get(0);
+                        }
                         teacherStudentQuery = new TeacherStudentQuery();
                         teacherStudentQuery.setTpgId(tpg.getId());
                         int studentSum = teacherStudentDao.querySize(teacherStudentQuery);
@@ -160,8 +163,9 @@ public class StudentServiceImp implements StudentService {
         Teacher teacher = new Teacher();
         //根据学号查询teacher_student表
         TeacherStudent teacherStudent = teacherStudentDao.getByStudentNumber(studentNumber);
-        if (teacherStudent == null)
+        if (teacherStudent == null) {
             return null;
+        }
         //根据teacherStduent表的tpgId查询teacher_professional_grade
         TeacherProfessionalGrade tpg = teacherProfessionalGradeDao.get(teacherStudent.getTpgId());
         //根据tpg表里的teacherNumber查询教师信息表
@@ -170,8 +174,6 @@ public class StudentServiceImp implements StudentService {
         teacher.setStudentQuantity(tpg.getStudentQuantity());
         //查询专业群
         Professional professional = professionalDao.get(teacher.getProfessionalId());
-        //设置专业群
-        teacher.setProfessional(professional);
         return teacher;
     }
 
