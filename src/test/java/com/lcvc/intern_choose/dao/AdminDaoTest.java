@@ -1,5 +1,6 @@
 package com.lcvc.intern_choose.dao;
 
+import com.lcvc.intern_choose.model.Admin;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,5 +31,26 @@ class AdminDaoTest {
     @Test
     void getByUsername() {
         System.out.println(adminDao.getByUsername("admin"));
+    }
+
+    @Test
+    void get(){
+        System.out.println(adminDao.get(2).getPassword());
+    }
+
+    @Test
+    void update(){
+        Admin admin=new Admin();
+        admin.setUsername("123");
+        System.out.println(adminDao.update(admin));
+    }
+    @Test
+    void updatePassword(){
+        Admin admin=new Admin();
+        admin.setPassword("123");
+        admin.setUsername("123");
+        admin.setName("123123");
+        admin.setId(1);
+        System.out.println(adminDao.update(admin));
     }
 }

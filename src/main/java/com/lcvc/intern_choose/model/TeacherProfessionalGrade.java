@@ -1,10 +1,21 @@
 package com.lcvc.intern_choose.model;
 
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
 public class TeacherProfessionalGrade {
     private Integer id;
+    @NotNull
     private String teacherNumber;
+    @NotNull
     private Integer professionalGradeId;//专业群年级关系表ID外键
-    private Integer StudentQuantity;//实习学生最大选择数量
+    @NotNull
+    private Integer studentQuantity;//实习学生最大选择数量
+    /*
+     *创建时间
+     */
+    private Date creatTime;
+
     private Teacher teacher;
 
     public Integer getId() {
@@ -32,11 +43,11 @@ public class TeacherProfessionalGrade {
     }
 
     public Integer getStudentQuantity() {
-        return StudentQuantity;
+        return studentQuantity;
     }
 
     public void setStudentQuantity(Integer studentQuantity) {
-        StudentQuantity = studentQuantity;
+        this.studentQuantity = studentQuantity;
     }
 
     public Teacher getTeacher() {
@@ -45,5 +56,13 @@ public class TeacherProfessionalGrade {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
     }
 }

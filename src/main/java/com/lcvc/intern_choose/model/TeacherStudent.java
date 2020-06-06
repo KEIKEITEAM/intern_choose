@@ -1,10 +1,29 @@
 package com.lcvc.intern_choose.model;
 
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
 public class TeacherStudent {
-    //学生和专业群年级开放权限的教师关系表
+    /**
+     *  学生和专业群年级开放权限的教师关系表
+     */
     private Integer id;
-    private String studentNumber;//学号
-    private Integer tpgId;//专业群年级开放权限的教师关系表的ID *TeacherProfessioanlGrade简写tpg
+    /**
+     * 学号
+     */
+    @NotNull(message = "学号不能为空")
+    private String studentNumber;
+    /**
+     * 专业群年级开放权限的教师关系表的ID *TeacherProfessioanlGrade简写tpg
+     */
+    @NotNull(message = "tpgId不能为空")
+    private Integer tpgId;
+
+    /*
+     *创建时间
+     */
+    private Date creatTime;
+
     private Student student;
 
     public Integer getId() {
@@ -37,5 +56,13 @@ public class TeacherStudent {
 
     public void setStudent(Student student) {
         this.student = student;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
     }
 }

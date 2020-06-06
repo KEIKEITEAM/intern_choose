@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,10 +25,7 @@ public class MajorServiceImp implements MajorService {
 
     @Override
     public List<Major> readAll() {
-        ArrayList<Major> list = new ArrayList<>();
-        for (Major student : majorDao.readAll(null)) {
-            list.add(student);
-        }
+        List<Major> list = majorDao.readAll(null);
         return list.size() != 0 ? list : null;
     }
 
@@ -57,9 +53,9 @@ public class MajorServiceImp implements MajorService {
     public boolean save(Major major) {
 
      if (professionalDao.get(major.getProfessionalId()) == null){
-         throw new MyWebException("不存在此专业");
+         throw new MyWebException("不存在此专业群");
      }
         int k = majorDao.save(major);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 }

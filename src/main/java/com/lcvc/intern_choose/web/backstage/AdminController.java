@@ -3,8 +3,10 @@ package com.lcvc.intern_choose.web.backstage;
 import com.lcvc.intern_choose.model.Admin;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.form.AdminPasswordForm;
 import com.lcvc.intern_choose.service.imp.AdminServiceImp;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
@@ -48,6 +50,22 @@ public class AdminController {
         session.removeAttribute("admin");
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_MESSAGE, "成功注销用户");
+        return map;
+    }
+
+    @PutMapping("/updatePassword")
+    public Map<String, Object> updatePassword(@Validated @RequestBody AdminPasswordForm adminPasswordForm, HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Admin admin=((Admin) session.getAttribute("admin"));
+        Boolean status=adminService.updatePassword(adminPasswordForm,admin.getId());
+        if (status){
+            map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+            map.put(Constant.JSON_MESSAGE,"修改密码成功，请重新登录");
+            logout(session);
+        }else{
+            map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
+            map.put(Constant.JSON_MESSAGE,"修改失败");
+        }
         return map;
     }
 }

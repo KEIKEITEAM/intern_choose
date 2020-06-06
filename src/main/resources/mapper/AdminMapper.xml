@@ -7,7 +7,6 @@
         select * from admin where id=#{id}
     </select>
 
-
     <select id="getByUsername"  resultType="Admin">
         select * from admin where username=#{username}
     </select>
@@ -15,4 +14,14 @@
     <select id="login"  resultType="Integer">
         select count(1) from admin where username=#{username} and password=#{password}
     </select>
+
+    <update id="update">
+        update admin
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="username!=null">username=#{username},</if>
+            <if test="password!=null">password=#{password},</if>
+        </set>
+        where id=#{id}
+    </update>
 </mapper>

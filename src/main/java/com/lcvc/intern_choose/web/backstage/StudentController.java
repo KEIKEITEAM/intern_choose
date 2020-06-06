@@ -5,7 +5,6 @@ import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
 import com.lcvc.intern_choose.model.query.StudentQuery;
 import com.lcvc.intern_choose.service.StudentService;
-import org.apache.ibatis.annotations.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,7 +39,7 @@ public class StudentController {
         return map;
     }
 
-    @Delete("/{id}")
+    @DeleteMapping("/{id}")
     public Map<String, Object> delete(@PathVariable String id) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
@@ -57,7 +56,7 @@ public class StudentController {
     }
 
     @PutMapping
-    public Map<String, Object> update(@RequestBody Student student) {
+    public Map<String, Object> update(@Validated @RequestBody Student student) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, studentService.update(student));

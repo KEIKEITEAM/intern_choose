@@ -3,11 +3,11 @@ package com.lcvc.intern_choose.web.teacher;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.form.TeacherPasswordForm;
 import com.lcvc.intern_choose.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -58,6 +58,22 @@ public class FrontTeacherController {
         Teacher teacher=((Teacher) session.getAttribute("teacher"));
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherService.getByTeacherNumber(teacher.getTeacherNumber()));
+        return map;
+    }
+
+    @PutMapping("/updatePassword")
+    public Map<String, Object> updatePassword(@Validated @RequestBody TeacherPasswordForm teacherPasswordForm, HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Teacher teacher=((Teacher) session.getAttribute("teacher"));
+        Boolean status=teacherService.updatePassword(teacherPasswordForm,teacher.getTeacherNumber());
+        if (status){
+            map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+            map.put(Constant.JSON_MESSAGE, "修改成功，请重新登录");
+            logout(session);
+        }else {
+            map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
+            map.put(Constant.JSON_MESSAGE, "修改失败");
+        }
         return map;
     }
 }

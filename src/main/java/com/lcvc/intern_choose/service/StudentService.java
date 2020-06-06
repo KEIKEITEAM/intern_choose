@@ -4,6 +4,7 @@ import com.lcvc.intern_choose.model.Student;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.form.StudentPasswordForm;
 import com.lcvc.intern_choose.model.query.StudentQuery;
 
 import javax.validation.constraints.NotNull;
@@ -78,4 +79,11 @@ public interface StudentService {
      * @return
      */
     PageObject query (Integer page, Integer limit, StudentQuery studentQuery);
+
+    /**
+     * 修改密码
+     * @param studentPasswordForm
+     * @return
+     */
+    Boolean updatePassword(StudentPasswordForm studentPasswordForm, String studentNumber);
 }

@@ -21,6 +21,7 @@
 
     <select id="querySize" resultType="Integer">
         select count(1) from professional_grade
+        <include refid="queryWhere"></include>
     </select>
 
 
@@ -29,8 +30,8 @@
     </select>
 
     <insert id="save">
-         insert into professional_grade(Id,professionalId, gradeId, startTime, endTime)
-          values (null , #{professionalId},#{gradeId},#{startTime},#{endTime})
+         insert into professional_grade(Id,professionalId, gradeId,open, startTime, endTime,creatTime)
+          values (null , #{professionalId},#{gradeId},#{open},#{startTime},#{endTime},#{creatTime})
     </insert>
 
     <delete id="delete">
@@ -38,7 +39,7 @@
     </delete>
 
     <update id="update">
-        update professional_grade set professionalId = #{professionalId} ,gradeId = #{gradeId},startTime = #{startTime} , endTime = #{endTime} where id = #{id}
+        update professional_grade set professionalId = #{professionalId} ,gradeId = #{gradeId},open=#{open},startTime = #{startTime} , endTime = #{endTime} where id = #{id}
     </update>
     
     <!--统一查询的条件-->

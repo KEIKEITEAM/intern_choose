@@ -31,7 +31,6 @@ public class TeacherServiceTests {
         Teacher teacher = new Teacher();
         teacher.setTeacherNumber("1");
         teacher.setProfessionalId(1);
-        teacher.setPassword("1111");
         teacher.setName("张三");
         System.out.println(teacherService.save(teacher));
     }
@@ -46,7 +45,6 @@ public class TeacherServiceTests {
         Teacher teacher = new Teacher();
         teacher.setTeacherNumber("1");
         teacher.setProfessionalId(1);
-        teacher.setPassword("1111");
         teacher.setName("张三1");
         System.out.println(teacherService.save(teacher));
     }

@@ -5,6 +5,7 @@ import com.lcvc.intern_choose.model.*;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
+import com.lcvc.intern_choose.model.form.StudentPasswordForm;
 import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
 import com.lcvc.intern_choose.model.query.StudentQuery;
 import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
@@ -78,6 +79,14 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public boolean update(Student student) {
+        if (student.getClassId()!=null){
+            if(classesDao.get(student.getClassId())==null){
+                throw new MyServiceException("不存在此专业");
+            }
+        }
+        if (student.getPassword()!=null){
+            student.setPassword(SHA.getResult(student.getPassword()));
+        }
         int k = studentDao.update(student);
         return k > 0 ;
     }
@@ -85,6 +94,12 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public boolean save(Student student) {
+        if(classesDao.get(student.getClassId())==null){
+            throw new MyServiceException("不存在此专业");
+        }
+        if (student.getPassword()!=null){
+            student.setPassword(SHA.getResult(student.getPassword()));
+        }
         int k = studentDao.save(student);
         return k > 0 ;
     }
@@ -137,6 +152,7 @@ public class StudentServiceImp implements StudentService {
                             TeacherStudent teacherStudent = new TeacherStudent();
                             teacherStudent.setStudentNumber(studentNumber);
                             teacherStudent.setTpgId(tpg.getId());
+                            teacherStudent.setCreatTime(new Date());
                             teacherStudentDao.save(teacherStudent);
                         } else {
                             throw new MyServiceException("该老师的学生学生名额已满");
@@ -198,9 +214,25 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public PageObject query(Integer page, Integer limit, StudentQuery studentQuery) {
-        PageObject pageObject = new PageObject(limit,page,professionalDao.querySize(studentQuery));
-        pageObject.setList(professionalDao.query(pageObject.getOffset(),pageObject.getLimit(),studentQuery));
+        PageObject pageObject = new PageObject(limit,page,studentDao.querySize(studentQuery));
+        pageObject.setList(studentDao.query(pageObject.getOffset(),pageObject.getLimit(),studentQuery));
         return pageObject;
+    }
+
+    @Override
+    public Boolean updatePassword(StudentPasswordForm studentPasswordForm, String studentNumber) {
+        Student student=studentDao.get(studentNumber);
+        if (!student.getPassword().equals(SHA.getResult(studentPasswordForm.getPassword()))){
+            throw new MyServiceException("与原密码不一致");
+        }
+        if (!studentPasswordForm.getNewPassword().equals(studentPasswordForm.getConfirmPassword())){
+            throw new MyServiceException("新密码与确认密码不一致");
+        }
+        Student newStduent=new Student();
+        newStduent.setStudentNumber(studentNumber);
+        newStduent.setPassword(SHA.getResult(studentPasswordForm.getNewPassword()));
+
+        return studentDao.update(newStduent)>0;
     }
 
 }

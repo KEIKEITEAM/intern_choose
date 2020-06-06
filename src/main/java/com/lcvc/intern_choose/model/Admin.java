@@ -6,25 +6,23 @@ import java.io.Serializable;
 /**
  * 管理账户
  * 说明：UserDetails为spring security的专属方法
+ * @author 张峰
  */
 public class Admin implements Serializable {
 	private Integer id;
+	//用户名
+	private String username;
 
-	private String username;//用户名
+	private String password;
+	//姓名
+	private String name;
 
-	private String password;//用户密码
-
-	private String name;//姓名
-
-
-
-	public Admin() {
+	public String getPassword() {
+		return password;
 	}
 
-	public Admin(Integer id){
-		super();
-		this.id=id;
-
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public Integer getId() {
@@ -41,14 +39,6 @@ public class Admin implements Serializable {
 
 	public void setUsername(String username) {
 		this.username = username;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
 	}
 
 	public String getName() {

@@ -1,12 +1,9 @@
 package com.lcvc.intern_choose.service;
 
-import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class TeacherProfessionalGradeServiceTest {
@@ -27,8 +24,8 @@ class TeacherProfessionalGradeServiceTest {
     void save() {
         TeacherProfessionalGrade teacherProfessionalGrade = new TeacherProfessionalGrade();
         teacherProfessionalGrade.setProfessionalGradeId(1);
-        teacherProfessionalGrade.setStudentQuantity(5);
-        teacherProfessionalGrade.setTeacherNumber("15");
+        teacherProfessionalGrade.setStudentQuantity(10);
+        teacherProfessionalGrade.setTeacherNumber("2006010006");
         System.out.println(teacherProfessionalGradeService.save(teacherProfessionalGrade));
     }
 

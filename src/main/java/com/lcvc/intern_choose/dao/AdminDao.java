@@ -5,6 +5,9 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 
+/**
+ * @author 张峰
+ */
 @Repository//为了不让idea报错加上
 public interface AdminDao extends IBaseDao<Admin>{
     /**
@@ -22,4 +25,5 @@ public interface AdminDao extends IBaseDao<Admin>{
      * @return
      */
     Admin getByUsername(@Param(value = "username") String username);
+
 }

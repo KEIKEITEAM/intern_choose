@@ -11,6 +11,7 @@ import com.lcvc.intern_choose.service.ProfessionalGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -43,6 +44,17 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
 
     @Override
     public Boolean save(ProfessionalGrade professionalGrade) {
+        //根据professionalId和gradeId判断是否存在数据，保证数据唯一
+        ProfessionalGradeQuery professionalGradeQuery=new ProfessionalGradeQuery();
+        professionalGradeQuery.setGradeId(professionalGrade.getGradeId());
+        professionalGradeQuery.setProfessionalId(professionalGrade.getProfessionalId());
+        int sum=professionalGradeDao.querySize(professionalGradeQuery);
+        if (sum==1){
+            throw new MyServiceException("您已经添加过相同的记录，请勿重复添加");
+        }else if (sum>1){
+            throw new MyServiceException("数据有误,请联系管理员");
+        }
+
         //判断professional是否存在
         if (professionalDao.get(professionalGrade.getProfessionalId()) == null) {
             throw new MyServiceException("professionalId数据有误，请重新提交");
@@ -56,7 +68,8 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
         if (professionalGrade.getEndTime().compareTo(professionalGrade.getStartTime())<0){
             throw new MyServiceException("权限开放时间有误，请重新提交");
         }
-
+        //创建时间
+        professionalGrade.setCreatTime(new Date());
         int k = professionalGradeDao.save(professionalGrade);
         return k > 0;
     }

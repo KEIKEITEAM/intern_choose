@@ -3,6 +3,7 @@ package com.lcvc.intern_choose.service;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.form.TeacherPasswordForm;
 import com.lcvc.intern_choose.model.query.TeacherQuery;
 
 import javax.validation.constraints.NotNull;
@@ -51,6 +52,7 @@ public interface TeacherService {
 
     /**
      * 根据teacherNumber查询学生集合
+     *  TeacherProfessionalGrade对象只能一条数据
      * @param teacherNumber 教师工号
      * @return
      */
@@ -61,4 +63,11 @@ public interface TeacherService {
      * @return
      */
     PageObject query (Integer page, Integer limit, TeacherQuery teacherQuery);
+
+    /**
+     * 修改密码
+     * @param teacherPasswordForm
+     * @return
+     */
+    Boolean updatePassword(TeacherPasswordForm teacherPasswordForm, String teacherNumber);
 }

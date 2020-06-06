@@ -3,12 +3,11 @@ package com.lcvc.intern_choose.web.student;
 import com.lcvc.intern_choose.model.Student;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.form.StudentPasswordForm;
 import com.lcvc.intern_choose.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
@@ -54,7 +53,7 @@ public class FrontStudentController {
         return map;
     }
 
-    @GetMapping("/choose/{teacherNumber}")
+    @PostMapping("/choose/{teacherNumber}")
     public Map<String, Object> choose(@PathVariable  String teacherNumber, HttpSession session) throws ParseException {
         Map<String, Object> map=new HashMap<String, Object>();
         Student student=((Student) session.getAttribute("student"));
@@ -79,6 +78,22 @@ public class FrontStudentController {
         Student student=((Student) session.getAttribute("student"));
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, studentService.getAvailableTeacher(student.getClasses().getId()));
+        return map;
+    }
+
+    @PutMapping("/updatePassword")
+    public Map<String, Object> updatePassword(@Validated  @RequestBody StudentPasswordForm studentPasswordForm, HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Student student=((Student) session.getAttribute("student"));
+        Boolean status=studentService.updatePassword(studentPasswordForm,student.getStudentNumber());
+        if (status){
+            map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+            map.put(Constant.JSON_MESSAGE, "修改成功，请重新登录");
+            logout(session);
+        }else {
+            map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
+            map.put(Constant.JSON_MESSAGE, "修改失败");
+        }
         return map;
     }
 }

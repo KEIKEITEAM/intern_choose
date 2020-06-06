@@ -1,6 +1,5 @@
 package com.lcvc.intern_choose.service;
 
-import com.lcvc.intern_choose.dao.ProfessionalGradeDao;
 import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ProfessionalGradeServiceTests {
@@ -29,7 +26,7 @@ class ProfessionalGradeServiceTests {
     @Test
     void save() {
         ProfessionalGradeQuery professionalGradesave=new ProfessionalGradeQuery();
-        professionalGradesave.setProfessionalId(1);
+        professionalGradesave.setProfessionalId(3);
         professionalGradesave.setGradeId(1);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date star = null;

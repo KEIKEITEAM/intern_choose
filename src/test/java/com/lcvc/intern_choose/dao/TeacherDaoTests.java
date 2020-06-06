@@ -46,7 +46,6 @@ public class TeacherDaoTests {
     void save() {
         Teacher teacher = new Teacher();
         teacher.setName("1513");
-        teacher.setPassword("123456");
         teacher.setProfessionalId(2);
         teacher.setTeacherNumber("14");
         System.out.println(teacherDao.save(teacher));
@@ -61,7 +60,6 @@ public class TeacherDaoTests {
     void update() {
         Teacher teacher = new Teacher();
         teacher.setName("1513");
-        teacher.setPassword("123456");
         teacher.setProfessionalId(1);
         teacher.setTeacherNumber("14");
         System.out.println(teacherDao.update(teacher));

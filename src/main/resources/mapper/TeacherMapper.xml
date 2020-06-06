@@ -20,7 +20,7 @@
         select * from teacher
     </select>
 
-    <select id="query" resultType="professional">
+    <select id="query" resultMap="professional">
         select * from teacher
         order by teacherNumber asc limit #{offset},#{length}
     </select>
@@ -34,7 +34,13 @@
     </insert>
 
     <update id="update">
-         update teacher set name = #{name} , password = #{password} , professionalId = #{professionalId} where teacherNumber = #{teacherNumber}
+         update teacher
+        <set>
+            <if test="name!=null">name=#{name},</if>
+            <if test="password!=null">password=#{password},</if>
+            <if test="professionalId!=null">professionalId=#{professionalId},</if>
+        </set>
+       where teacherNumber = #{teacherNumber}
     </update>
 
     <delete id="delete">

@@ -1,5 +1,6 @@
 package com.lcvc.intern_choose.service.imp;
 
+import com.lcvc.intern_choose.dao.ProfessionalDao;
 import com.lcvc.intern_choose.dao.TeacherDao;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherStudentDao;
@@ -7,7 +8,9 @@ import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
+import com.lcvc.intern_choose.model.form.TeacherPasswordForm;
 import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
 import com.lcvc.intern_choose.model.query.TeacherQuery;
 import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
@@ -29,13 +32,17 @@ public class TeacherServiceImp implements TeacherService {
     private TeacherProfessionalGradeDao teacherProfessionalGradeDao;
     @Autowired
     private TeacherStudentDao teacherStudentDao;
+    @Autowired
+    private ProfessionalDao professionalDao;
 
+    @Override
     public Teacher get(String id) {
         Teacher teacher = teacherDao.get(id);
         return teacher;
     }
 
 
+    @Override
     public boolean login(String teacherNumber, String password) {
         boolean judge = false;
         if (StringUtils.isEmpty(teacherNumber)) {
@@ -51,44 +58,62 @@ public class TeacherServiceImp implements TeacherService {
     }
 
 
+    @Override
     public List<Teacher> readAll() {
         List list = teacherDao.readAll(null);
         return list.size() != 0 ? list : null;
     }
 
 
+    @Override
     public Boolean delete(@NotNull String teacherNumber) {
         int k = teacherDao.delete(teacherNumber);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
 
+    @Override
     public boolean update(Teacher teacher) {
+        if (teacher.getProfessionalId()!=null){
+            if (professionalDao.get(teacher.getProfessionalId()) == null){
+                throw new MyWebException("不存在此专业群");
+            }
+        }
+        if (teacher.getPassword()!=null){
+            teacher.setPassword(teacher.getPassword());
+        }
         int k = teacherDao.update(teacher);
-        return k > 0 ? true : false;
+        return k > 0;
     }
 
 
+    @Override
     public boolean save(Teacher teacher) {
+        if (professionalDao.get(teacher.getProfessionalId()) == null){
+            throw new MyWebException("不存在此专业群");
+        }
+        if (teacher.getPassword()!=null){
+            teacher.setPassword(teacher.getPassword());
+        }
         int k = teacherDao.save(teacher);
-        return k > 0 ? true : false;
+        return k > 0 ;
     }
 
     @Override
     public List<TeacherStudent> getByTeacherNumber(String teacherNumber) {
+
         //根据teacherNumber查询 TeacherProfessionalGrade对象
         TeacherProfessionalGradeQuery teacherProfessionalGradeQuery = new TeacherProfessionalGradeQuery();
         teacherProfessionalGradeQuery.setTeacherNumber(teacherNumber);
         List<TeacherProfessionalGrade> teacherProfessionalGradeList = teacherProfessionalGradeDao.readAll(teacherProfessionalGradeQuery);
         TeacherProfessionalGrade teacherProfessionalGrade = null;
-        if (teacherProfessionalGradeList.size() == 1)
+        if (teacherProfessionalGradeList.size() == 1) {
             teacherProfessionalGrade = teacherProfessionalGradeList.get(0);
-
+        }
         //根据tpgId查询 TeacherStudent集合
         TeacherStudentQuery teacherStudentQuery = new TeacherStudentQuery();
         teacherStudentQuery.setTpgId(teacherProfessionalGrade.getId());
         List<TeacherStudent> list = teacherStudentDao.readAll(teacherStudentQuery);
-
         return list.size() != 0 ? list : null;
     }
 
@@ -97,6 +122,22 @@ public class TeacherServiceImp implements TeacherService {
         PageObject pageObject = new PageObject(limit,page,teacherDao.querySize(teacherQuery));
         pageObject.setList(teacherDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherQuery));
         return pageObject;
+    }
+
+    @Override
+    public Boolean updatePassword(TeacherPasswordForm teacherPasswordForm, String teacherNumber) {
+        Teacher teacher=teacherDao.get(teacherNumber);
+        if (!teacher.getPassword().equals(SHA.getResult(teacherPasswordForm.getPassword()))){
+            throw new MyServiceException("与原密码不一致");
+        }
+        if (!teacherPasswordForm.getNewPassword().equals(teacherPasswordForm.getConfirmPassword())){
+            throw new MyServiceException("新密码与确认密码不一致");
+        }
+        Teacher newTeacher=new Teacher();
+        newTeacher.setTeacherNumber(teacherNumber);
+        newTeacher.setPassword(SHA.getResult(teacherPasswordForm.getNewPassword()));
+
+        return teacherDao.update(newTeacher)>0;
     }
 
 }

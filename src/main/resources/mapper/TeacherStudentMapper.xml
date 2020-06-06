@@ -18,7 +18,7 @@
     </select>
 
     <insert id="save">
-        insert into teacher_student (id,studentNumber,tpgId) value (null,#{studentNumber},#{tpgId})
+        insert into teacher_student (id,studentNumber,tpgId,creatTime) value (null,#{studentNumber},#{tpgId},#{creatTime})
     </insert>
 
     <update id="update">

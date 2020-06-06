@@ -1,16 +1,26 @@
 package com.lcvc.intern_choose.model;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class ProfessionalGrade {
     //专业群年级关系表
     private Integer Id;//id
+    @NotNull(message = "professionalId不能为空")
     private Integer professionalId;//专业群ID外键
+    @NotNull(message = "gradeId不能为空")
     private Integer gradeId;//年级表ID外键
+    @NotNull(message = "open不能为空")
     private boolean open;//是否开放选择实习老师的权限
+    @NotNull(message = "startTime不能为空")
     private Date startTime;//开放选择权限的开始时间
-    private Date endTime;//开放选择权限的结束时间
-    private Professional professional;//专业群对象
+    //开放选择权限的结束时间
+    @NotNull(message = "endTime不能为空")
+    private Date endTime;
+    //创建时间
+    private Date creatTime;
+    //专业群对象
+    private Professional professional;
 
     public Professional getProfessional() {
         return professional;
@@ -66,5 +76,13 @@ public class ProfessionalGrade {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
     }
 }

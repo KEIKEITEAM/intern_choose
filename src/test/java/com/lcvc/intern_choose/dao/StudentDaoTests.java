@@ -38,7 +38,7 @@ public class StudentDaoTests {
         student.setName("hh");
         student.setPassword("121");
         student.setClassId(1);
-        student.setStudentNumber("32");
+        student.setStudentNumber("33434");
         studentDao.save(student);
     }
 
@@ -50,7 +50,7 @@ public class StudentDaoTests {
     @Test
     void readAll() {
         for (Student student : studentDao.readAll(null)) {
-            System.out.println(student.getName()+"————"+student.getPassword());
+            System.out.println(student.getName()+"————");
         }
     }
 
@@ -62,7 +62,7 @@ public class StudentDaoTests {
     @Test
     void update() {
         Student student = new Student();
-        student.setPassword("11");
+        //student.setPassword("11");
         student.setClassId(1);
         student.setStudentNumber("1");
         student.setName("klf");

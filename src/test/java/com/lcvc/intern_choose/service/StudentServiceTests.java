@@ -1,13 +1,11 @@
 package com.lcvc.intern_choose.service;
 
-import com.lcvc.intern_choose.model.ProfessionalGrade;
 import com.lcvc.intern_choose.model.Student;
 import com.lcvc.intern_choose.util.SHA;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.sql.SQLOutput;
 import java.text.ParseException;
 
 @SpringBootTest
@@ -35,7 +33,7 @@ public class StudentServiceTests {
         student.setStudentNumber("1");
         student.setName("zhangsan");
         student.setClassId(1);
-        student.setPassword("333");
+        //student.setPassword("333");
         System.out.println(studentService.save(student));
     }
 
@@ -50,7 +48,7 @@ public class StudentServiceTests {
         student.setStudentNumber("1");
         student.setName("zhangsan2");
         student.setClassId(1);
-        student.setPassword("333");
+        //student.setPassword("333");
         System.out.println(studentService.save(student));
     }
 

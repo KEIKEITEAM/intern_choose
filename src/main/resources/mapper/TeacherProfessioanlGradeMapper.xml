@@ -30,8 +30,8 @@
     </select>
 
     <insert id="save">
-        insert into teacher_professional_grade(id,teacherNumber, professionalGradeId, studentQuantity)
-        values(null , #{teacherNumber} , #{professionalGradeId} , #{studentQuantity} )
+        insert into teacher_professional_grade(id,teacherNumber, professionalGradeId, studentQuantity,creatTime)
+        values(null , #{teacherNumber} , #{professionalGradeId} , #{studentQuantity},#{creatTime} )
     </insert>
 
     <update id="update">
