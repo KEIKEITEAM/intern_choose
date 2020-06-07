@@ -9,7 +9,7 @@
         </association>
     </resultMap>
 
-    <select id="get" resultType="TeacherProfessionalGrade">
+    <select id="get" resultMap="teacherProfessionalGrade">
         select * from teacher_professional_grade where id=#{id}
     </select>
 
@@ -35,7 +35,13 @@
     </insert>
 
     <update id="update">
-        update teacher_professional_grade set teacherNumber = #{teacherNumber} ,professionalGradeId = #{professionalGradeId} ,studentQuantity = #{studentQuantity} where  id = #{id}
+        update teacher_professional_grade
+         <set>
+             <if test="teacherNumber!=null">teacherNumber = #{teacherNumber},</if>
+             <if test="professionalGradeId!=null">professionalGradeId = #{professionalGradeId},</if>
+             <if test="studentQuantity!=null">studentQuantity = #{studentQuantity},</if>
+         </set>
+         where  id = #{id}
     </update>
 
     <delete id="delete">

@@ -18,7 +18,7 @@
     </select>
 
 
-    <select id="readAll"  resultType="Student">
+    <select id="readAll"  resultMap="classes">
         select * from student order by studentNumber
     </select>
 

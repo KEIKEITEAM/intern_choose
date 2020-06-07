@@ -26,6 +26,8 @@ public class TeacherStudent {
 
     private Student student;
 
+    private TeacherProfessionalGrade teacherProfessionalGrade;
+
     public Integer getId() {
         return id;
     }
@@ -64,5 +66,13 @@ public class TeacherStudent {
 
     public void setCreatTime(Date creatTime) {
         this.creatTime = creatTime;
+    }
+
+    public TeacherProfessionalGrade getTeacherProfessionalGrade() {
+        return teacherProfessionalGrade;
+    }
+
+    public void setTeacherProfessionalGrade(TeacherProfessionalGrade teacherProfessionalGrade) {
+        this.teacherProfessionalGrade = teacherProfessionalGrade;
     }
 }

@@ -52,7 +52,8 @@ public interface TeacherService {
 
     /**
      * 根据teacherNumber查询学生集合
-     *  TeacherProfessionalGrade对象只能一条数据
+     *  TeacherProfessionalGrade对象只能一条数据,否则会抛出异常
+     *  因为teacher查询模糊，，只能靠teacherNumber查询，还缺少一个gradeId
      * @param teacherNumber 教师工号
      * @return
      */

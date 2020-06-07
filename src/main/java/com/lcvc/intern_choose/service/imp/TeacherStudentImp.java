@@ -1,5 +1,6 @@
 package com.lcvc.intern_choose.service.imp;
 
+import com.lcvc.intern_choose.dao.StudentDao;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherStudentDao;
 import com.lcvc.intern_choose.model.TeacherStudent;
@@ -18,10 +19,11 @@ public class TeacherStudentImp implements TeacherStudentService {
     private TeacherStudentDao teacherStudentDao;
     @Autowired
     private TeacherProfessionalGradeDao teacherProfessionalGradeDao;
-
+    @Autowired
+    private StudentDao studentDao;
     @Override
-    public List<TeacherStudent> readAll(Object object) {
-        return teacherStudentDao.readAll(null);
+    public List<TeacherStudent> readAll(TeacherStudentQuery teacherStudentQuery) {
+        return teacherStudentDao.readAll(teacherStudentQuery);
     }
 
     @Override
@@ -34,7 +36,9 @@ public class TeacherStudentImp implements TeacherStudentService {
         /**
          * tpgId是专业群年级开放权限的教师关系表的ID *TeacherProfessioanlGrade简写tpg
          */
-
+        if(studentDao.get(teacherStudent.getStudentNumber())==null){
+            throw new MyServiceException("studentNumber输入有误，请重新输入");
+        }
         if (teacherProfessionalGradeDao.get(teacherStudent.getTpgId()) == null) {
             throw new MyServiceException("tpgId输入有误，请重新输入");
         }
@@ -48,11 +52,12 @@ public class TeacherStudentImp implements TeacherStudentService {
         /**
          * tpgId是专业群年级开放权限的教师关系表的ID *TeacherProfessioanlGrade简写tpg
          */
-
+        if(studentDao.get(teacherStudent.getStudentNumber())==null){
+            throw new MyServiceException("studentNumber输入有误，请重新输入");
+        }
         if (teacherProfessionalGradeDao.get(teacherStudent.getTpgId()) == null) {
             throw new MyServiceException("tpgId输入有误，请重新输入");
         }
-
         int k = teacherStudentDao.update(teacherStudent);
         return k > 0;
     }

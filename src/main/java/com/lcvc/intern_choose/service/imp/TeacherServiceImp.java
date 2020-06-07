@@ -101,7 +101,6 @@ public class TeacherServiceImp implements TeacherService {
 
     @Override
     public List<TeacherStudent> getByTeacherNumber(String teacherNumber) {
-
         //根据teacherNumber查询 TeacherProfessionalGrade对象
         TeacherProfessionalGradeQuery teacherProfessionalGradeQuery = new TeacherProfessionalGradeQuery();
         teacherProfessionalGradeQuery.setTeacherNumber(teacherNumber);
@@ -109,6 +108,8 @@ public class TeacherServiceImp implements TeacherService {
         TeacherProfessionalGrade teacherProfessionalGrade = null;
         if (teacherProfessionalGradeList.size() == 1) {
             teacherProfessionalGrade = teacherProfessionalGradeList.get(0);
+        }else {
+            throw new MyServiceException("数据有误，请联系管理员");
         }
         //根据tpgId查询 TeacherStudent集合
         TeacherStudentQuery teacherStudentQuery = new TeacherStudentQuery();

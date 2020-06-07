@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface TeacherStudentService {
 
-    List<TeacherStudent> readAll(Object object);
+    List<TeacherStudent> readAll(TeacherStudentQuery teacherStudentQuery);
 
     TeacherStudent get(Integer id);
 

@@ -3,8 +3,10 @@
 <mapper namespace="com.lcvc.intern_choose.dao.TeacherStudentDao">
     <!--==================================基本查询============================-->
     <!-- teacher表 -->
-    <resultMap id="student" type="com.lcvc.intern_choose.model.TeacherStudent">
+    <resultMap id="studentAndTeacher" type="com.lcvc.intern_choose.model.TeacherStudent">
         <association property="student" javaType="com.lcvc.intern_choose.model.Student" column="studentNumber" select="com.lcvc.intern_choose.dao.StudentDao.get">
+        </association>
+        <association property="teacherProfessionalGrade" javaType="com.lcvc.intern_choose.model.TeacherProfessionalGrade" column="tpgId" select="com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao.get">
         </association>
     </resultMap>
 
@@ -22,7 +24,12 @@
     </insert>
 
     <update id="update">
-        update teacher_student set studentNumber = #{studentNumber} , tpgId = #{tpgId} where  id = #{id}
+        update teacher_student
+        <set>
+            <if test="studentNumber!=null">studentNumber = #{studentNumber},</if>
+            <if test="tpgId!=null">tpgId = #{tpgId},</if>
+        </set>
+       where  id = #{id}
     </update>
 
     <delete id="delete">
@@ -34,12 +41,12 @@
     </select>
 
 
-    <select id="readAll" resultMap="student">
+    <select id="readAll" resultMap="studentAndTeacher">
         select * from teacher_student
         <include refid="queryWhere"></include>
     </select>
 
-    <select id="query" resultMap="student">
+    <select id="query" resultMap="studentAndTeacher">
         select * from teacher_student
         <include refid="queryWhere"></include>
         order by id asc limit #{offset},#{length}

@@ -1,7 +1,7 @@
 package com.lcvc.intern_choose.util.poi;
 
 
-import com.lcvc.intern_choose.model.Student;
+import com.lcvc.intern_choose.model.TeacherStudent;
 import org.apache.poi.ss.usermodel.BorderStyle;
 import org.apache.poi.ss.usermodel.HorizontalAlignment;
 import org.apache.poi.ss.usermodel.VerticalAlignment;
@@ -12,18 +12,19 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ExcelWirteForStudentSheet {
+public class ExcelWirteForTeacherStudentSheet {
 
 
-    public static XSSFSheet getShee(XSSFWorkbook book, List<Student> list) {
-        String[] header = {"学生信息表"};
+    public static XSSFSheet getShee(XSSFWorkbook book, List<TeacherStudent> list) {
+        String[] header = {"实习学生信息表"};
         String[] title = {
                 "学号",
                 "姓名",
                 "专业群",
                 "年级",
                 "专业",
-                "班级"
+                "班级",
+                "实习指导老师"
         };
 
         // 创建工作表
@@ -99,37 +100,44 @@ public class ExcelWirteForStudentSheet {
             XSSFCell listRowCell0 = listRow.createCell(0);
             //为列赋值和样式
             listRowCell0.setCellStyle(titleStyle);
-            listRowCell0.setCellValue(list.get(i).getStudentNumber());
+            listRowCell0.setCellValue(list.get(i).getStudent().getStudentNumber());
 
             //创建列
             XSSFCell listRowCell1 = listRow.createCell(1);
             //为列赋值和样式
             listRowCell1.setCellStyle(titleStyle);
-            listRowCell1.setCellValue(list.get(i).getName());
+            listRowCell1.setCellValue(list.get(i).getStudent().getName());
 
             //创建列
             XSSFCell listRowCell2 = listRow.createCell(2);
             //为列赋值和样式
             listRowCell2.setCellStyle(titleStyle);
-            listRowCell2.setCellValue(list.get(i).getClasses().getMajor().getProfessional().getName());
+            listRowCell2.setCellValue(list.get(i).getStudent().getClasses().getMajor().getProfessional().getName());
 
             //创建列
             XSSFCell listRowCell3 = listRow.createCell(3);
             //为列赋值和样式
             listRowCell3.setCellStyle(titleStyle);
-            listRowCell3.setCellValue(list.get(i).getClasses().getGrades().getName());
+            listRowCell3.setCellValue(list.get(i).getStudent().getClasses().getGrades().getName());
 
             //创建列
             XSSFCell listRowCell4 = listRow.createCell(4);
             //为列赋值和样式
             listRowCell4.setCellStyle(titleStyle);
-            listRowCell4.setCellValue(list.get(i).getClasses().getMajor().getName());
+            listRowCell4.setCellValue(list.get(i).getStudent().getClasses().getMajor().getName());
 
             //创建列
             XSSFCell listRowCell5 = listRow.createCell(5);
             //为列赋值和样式
             listRowCell5.setCellStyle(titleStyle);
-            listRowCell5.setCellValue(list.get(i).getClasses().getName());
+            listRowCell5.setCellValue(list.get(i).getStudent().getClasses().getName());
+
+            //创建列
+            XSSFCell listRowCell6 = listRow.createCell(6);
+            //为列赋值和样式
+            listRowCell6.setCellStyle(titleStyle);
+            String s=list.get(i).getTeacherProfessionalGrade().getTeacher().getName();
+            listRowCell6.setCellValue(s);
         }
         return sheet;
     }
