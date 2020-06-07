@@ -120,7 +120,7 @@ public class StudentServiceImp implements StudentService {
         }
         ProfessionalGrade professionalGrade = list.get(0);
         //判断是否开放选择权限
-        if (professionalGrade.isOpen()) {
+        if (professionalGrade.isOpen()&&major.getOpen()) {
             //判断当前时间是不是在开放的时间范围内
             if (IsInDate.judge(new Date(), professionalGrade.getStartTime(), professionalGrade.getEndTime())) {
                 Teacher teacher = teacherDao.get(teacherNumber);
@@ -197,7 +197,9 @@ public class StudentServiceImp implements StudentService {
     public List<TeacherProfessionalGrade> getAvailableTeacher(Integer classesId) {
         Classes classes = classesDao.get(classesId);
         Major major = majorDao.get(classes.getMajor().getId());
-
+        if (!major.getOpen()){
+            throw new MyServiceException("还没有开放您专业的选择权限");
+        }
         //查询条件
         ProfessionalGradeQuery professionalGradeQuery = new ProfessionalGradeQuery();
         professionalGradeQuery.setOpen(true);

@@ -25,11 +25,17 @@
     </select>
 
     <insert id="save">
-        insert into intern_choose.Major(id,name,professionalId) values (null ,#{name},#{professionalId})
+        insert into intern_choose.Major(id,name,professionalId,open) values (null ,#{name},#{professionalId},#{open})
     </insert>
 
     <update id="update">
-         update Major set name = #{name} , professionalId = #{professionalId} where id = #{id}
+         update Major
+         <set>
+             <if test="name!=null">name = #{name} ,</if>
+             <if test="professionalId!=null">professionalId = #{professionalId},</if>
+             <if test="open!=null">open = #{open},</if>
+         </set>
+         where id = #{id}
     </update>
 
     <delete id="delete">

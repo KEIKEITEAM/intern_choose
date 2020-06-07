@@ -39,7 +39,16 @@
     </delete>
 
     <update id="update">
-        update professional_grade set professionalId = #{professionalId} ,gradeId = #{gradeId},open=#{open},startTime = #{startTime} , endTime = #{endTime} where id = #{id}
+        update professional_grade
+        <set>
+            <if test="professionalId!=null"> professionalId = #{professionalId},</if>
+            <if test="gradeId!=null"> gradeId = #{gradeId},</if>
+            <if test="open!=null"> open = #{open},</if>
+            <if test="name!=null"> name = #{name},</if>
+            <if test="startTime!=null"> startTime = #{startTime},</if>\
+            <if test="endTime!=null"> endTime = #{endTime},</if>
+        </set>
+         where id = #{id}
     </update>
     
     <!--统一查询的条件-->

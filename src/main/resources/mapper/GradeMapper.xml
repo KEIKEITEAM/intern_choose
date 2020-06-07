@@ -27,7 +27,11 @@
     </insert>
 
     <update id="update">
-         update grades set name = #{name} where id = #{id}
+         update grades
+         <set>
+             <if test="name!=null"> name = #{name},</if>
+         </set>
+        where id = #{id}
     </update>
 
     <delete id="delete">

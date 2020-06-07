@@ -11,7 +11,9 @@ public class Major {
     private String name;//专业名称
     @NotNull(message = "professionalId不能够为空")
     private Integer professionalId;//专业群ID外键
+    private Boolean open;   //是否开放选择权限
     private Professional professional;//专业群对象
+
 
     public Integer getId() {
         return id;
@@ -35,6 +37,14 @@ public class Major {
 
     public void setProfessionalId(Integer professionalId) {
         this.professionalId = professionalId;
+    }
+
+    public Boolean getOpen() {
+        return open;
+    }
+
+    public void setOpen(Boolean open) {
+        this.open = open;
     }
 
     public Professional getProfessional() {
