@@ -185,7 +185,7 @@ public class StudentServiceImp implements StudentService {
         //根据teacherStduent表的tpgId查询teacher_professional_grade
         TeacherProfessionalGrade tpg = teacherProfessionalGradeDao.get(teacherStudent.getTpgId());
         //根据tpg表里的teacherNumber查询教师信息表
-        teacher = teacherDao.get(tpg.getTeacherNumber());
+        teacher = teacherDao.get(tpg.getTeacher().getTeacherNumber());
         //设置学生数量
         teacher.setStudentQuantity(tpg.getStudentQuantity());
         //查询专业群
