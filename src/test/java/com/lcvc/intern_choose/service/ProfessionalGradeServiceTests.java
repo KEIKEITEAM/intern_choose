@@ -1,5 +1,6 @@
 package com.lcvc.intern_choose.service;
 
+import com.lcvc.intern_choose.model.ProfessionalGrade;
 import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,23 +47,22 @@ class ProfessionalGradeServiceTests {
 
     @Test
     void update() {
-        ProfessionalGradeQuery professionalGradesave=new ProfessionalGradeQuery();
-        professionalGradesave.setId(1);
-        professionalGradesave.setProfessionalId(1);
+        ProfessionalGrade professionalGradesave=new ProfessionalGrade();
+        professionalGradesave.setId(16);
+        professionalGradesave.setProfessionalId(3);
         professionalGradesave.setGradeId(1);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date star = null;
-        Date end = null;
-        try {
-            star= sdf.parse("2020-07-20");
-            end = sdf.parse("2020-07-09");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        professionalGradesave.setStartTime(star);
-        professionalGradesave.setEndTime(end);
-        professionalGradesave.setOpen(false);
-        professionalGradesave.setAvailableOpen(false);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date star = null;
+//        Date end = null;
+//        try {
+//            star= sdf.parse("2020-07-09");
+//            end = sdf.parse("2020-07-20");
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        professionalGradesave.setStartTime(star);
+//        professionalGradesave.setEndTime(end);
+//        professionalGradesave.setOpen(false);
         System.out.println(professionalGradeService.update(professionalGradesave));
     }
 

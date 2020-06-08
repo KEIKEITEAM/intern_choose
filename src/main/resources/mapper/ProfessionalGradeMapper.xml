@@ -47,8 +47,7 @@
             <if test="professionalId!=null"> professionalId = #{professionalId},</if>
             <if test="gradeId!=null"> gradeId = #{gradeId},</if>
             <if test="open!=null"> open = #{open},</if>
-            <if test="name!=null"> name = #{name},</if>
-            <if test="startTime!=null"> startTime = #{startTime},</if>\
+            <if test="startTime!=null"> startTime = #{startTime},</if>
             <if test="endTime!=null"> endTime = #{endTime},</if>
         </set>
          where id = #{id}

@@ -14,7 +14,7 @@ public class TeacherProfessionalGrade {
     @NotNull
     private Integer studentQuantity;//实习学生最大选择数量
     /*
-     *创建时间
+     * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date creatTime;

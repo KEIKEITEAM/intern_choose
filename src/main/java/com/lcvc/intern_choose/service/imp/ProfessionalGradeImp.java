@@ -77,18 +77,24 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
     @Override
     public Boolean update(ProfessionalGrade professionalGrade) {
         //判断professional是否存在
-        if (professionalDao.get(professionalGrade.getProfessionalId()) == null) {
-            throw new MyServiceException("professionalId数据有误，请重新提交");
-        }
-        //判断grades是否存在
-        if (gradesDao.get(professionalGrade.getGradeId()) == null) {
-            throw new MyServiceException("gradeId数据有误，请重新提交");
-        }
-        //判断开放权限的时间，结束时间要大于开始时间
-        if (professionalGrade.getEndTime().compareTo(professionalGrade.getStartTime())<0){
-            throw new MyServiceException("权限开放时间有误，请重新提交");
+        if (professionalGrade.getProfessionalId()!=null){
+            if (professionalDao.get(professionalGrade.getProfessionalId()) == null) {
+                throw new MyServiceException("professionalId数据有误，请重新提交");
+            }
         }
 
+        //判断grades是否存在
+        if (professionalGrade.getGradeId()!=null) {
+            if (gradesDao.get(professionalGrade.getGradeId()) == null) {
+                throw new MyServiceException("gradeId数据有误，请重新提交");
+            }
+        }
+        //判断开放权限的时间，结束时间要大于开始时间
+        if (professionalGrade.getEndTime()!=null&&professionalGrade.getStartTime()!=null){
+            if (professionalGrade.getEndTime().compareTo(professionalGrade.getStartTime())<0){
+                throw new MyServiceException("权限开放时间有误，请重新提交");
+            }
+        }
         int k = professionalGradeDao.update(professionalGrade);
         return k > 0;
     }
