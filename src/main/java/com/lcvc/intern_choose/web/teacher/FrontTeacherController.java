@@ -53,11 +53,11 @@ public class FrontTeacherController {
     }
 
     @GetMapping("/getStudent")
-    public Map<String, Object> getStudent(HttpSession session){
+    public Map<String, Object> getStudent(Integer page, Integer limit,HttpSession session){
         Map<String, Object> map=new HashMap<String, Object>();
         Teacher teacher=((Teacher) session.getAttribute("teacher"));
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.getByTeacherNumber(teacher.getTeacherNumber()));
+        map.put(Constant.JSON_DATA, teacherService.getByTeacherNumber(teacher.getTeacherNumber(),page,limit));
         return map;
     }
 

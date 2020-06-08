@@ -28,9 +28,6 @@ public class CorsConfig implements WebMvcConfigurer {
         add("http://localhost:8080");
         add("http://127.0.0.1:8081");
         add("http://47.103.0.255:8080");//朱晓茵的服务器
-//        add("http://120.76.118.101");//ljy的服务器
-//        add("http://220.173.103.143");//学校的服务器
-//        add("http://yq.lcvc.cn");//学校的服务器
     }};
     /**
      * 说明：addCorsMappings允许跨域，简单访问没问题，如果用户没登录被 filter 拦截的话，返回信息得不到，显示跨域失败，

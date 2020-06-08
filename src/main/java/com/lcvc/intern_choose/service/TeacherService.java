@@ -1,7 +1,6 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Teacher;
-import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.form.TeacherPasswordForm;
 import com.lcvc.intern_choose.model.query.TeacherQuery;
@@ -57,7 +56,7 @@ public interface TeacherService {
      * @param teacherNumber 教师工号
      * @return
      */
-    List<TeacherStudent>getByTeacherNumber(String teacherNumber);
+    PageObject getByTeacherNumber(String teacherNumber,Integer page, Integer limit);
 
     /**
      * 分页获取该表全部数据

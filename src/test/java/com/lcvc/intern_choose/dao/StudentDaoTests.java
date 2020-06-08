@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class StudentDaoTests {
     @Autowired
@@ -22,7 +24,17 @@ public class StudentDaoTests {
 
     @Test
     void realAll(){
-        System.out.println(studentDao.readAll(null));
+        List<Student>list=studentDao.readAll(null);
+        for (int i = 0; i < list.size(); i++) {
+            //452130199811031813
+            String s=list.get(i).getPassword();
+            System.out.println(s+" "+list.get(i).getStudentNumber());
+            Student student=new Student();
+            student.setPassword(SHA.getResult(s));
+            student.setStudentNumber(list.get(i).getStudentNumber());
+            studentDao.update(student);
+        }
+
     }
 
 

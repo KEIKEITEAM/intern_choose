@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 
+/**
+ * @author 张峰
+ */
 @RestController
 @RequestMapping("/api/backstage/class")
 public class ClassesController {
@@ -66,6 +69,4 @@ public class ClassesController {
         map.put(Constant.JSON_DATA, classesServise.update(classes));
         return map;
     }
-
-
 }

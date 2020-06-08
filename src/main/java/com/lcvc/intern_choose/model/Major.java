@@ -11,6 +11,7 @@ public class Major {
     private String name;//专业名称
     @NotNull(message = "professionalId不能够为空")
     private Integer professionalId;//专业群ID外键
+    @NotNull(message = "open不能为空")
     private Boolean open;   //是否开放选择权限
     private Professional professional;//专业群对象
 

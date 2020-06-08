@@ -1,5 +1,7 @@
 package com.lcvc.intern_choose.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
@@ -22,6 +24,7 @@ public class TeacherStudent {
     /*
      *创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date creatTime;
 
     private Student student;

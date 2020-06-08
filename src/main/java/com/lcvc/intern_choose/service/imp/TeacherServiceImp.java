@@ -6,7 +6,6 @@ import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherStudentDao;
 import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
-import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
@@ -100,7 +99,7 @@ public class TeacherServiceImp implements TeacherService {
     }
 
     @Override
-    public List<TeacherStudent> getByTeacherNumber(String teacherNumber) {
+    public PageObject getByTeacherNumber(String teacherNumber,Integer page, Integer limit) {
         //根据teacherNumber查询 TeacherProfessionalGrade对象
         TeacherProfessionalGradeQuery teacherProfessionalGradeQuery = new TeacherProfessionalGradeQuery();
         teacherProfessionalGradeQuery.setTeacherNumber(teacherNumber);
@@ -114,8 +113,9 @@ public class TeacherServiceImp implements TeacherService {
         //根据tpgId查询 TeacherStudent集合
         TeacherStudentQuery teacherStudentQuery = new TeacherStudentQuery();
         teacherStudentQuery.setTpgId(teacherProfessionalGrade.getId());
-        List<TeacherStudent> list = teacherStudentDao.readAll(teacherStudentQuery);
-        return list.size() != 0 ? list : null;
+        PageObject pageObject = new PageObject(limit,page,teacherStudentDao.querySize(teacherStudentQuery));
+        pageObject.setList(teacherStudentDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherStudentQuery));
+        return pageObject;
     }
 
     @Override

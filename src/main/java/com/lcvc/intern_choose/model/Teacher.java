@@ -4,6 +4,9 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author 张峰
+ */
 public class Teacher{
     @NotNull(message = "教师工号不能为空")
     private String teacherNumber;

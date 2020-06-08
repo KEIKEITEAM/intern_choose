@@ -6,6 +6,9 @@
     <resultMap id="professional" type="com.lcvc.intern_choose.model.ProfessionalGrade">
         <association property="professional" javaType="com.lcvc.intern_choose.model.ProfessionalGrade" column="professionalId" select="com.lcvc.intern_choose.dao.ProfessionalDao.get">
         </association>
+        <!-- 年级关联对象 -->
+        <association property="grades" javaType="com.lcvc.intern_choose.model.Grades" column="gradeId" select="com.lcvc.intern_choose.dao.GradesDao.get">
+        </association>
     </resultMap>
 
     <select id="readAll" resultMap="professional">
