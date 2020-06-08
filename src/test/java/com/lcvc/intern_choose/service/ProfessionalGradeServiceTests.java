@@ -68,7 +68,11 @@ class ProfessionalGradeServiceTests {
 
     @Test
     void delete() {
-
         System.out.println(professionalGradeService.delete(13));
+    }
+
+    @Test
+    void getProfessionalGradeByTeacherNumber(){
+        System.out.println(professionalGradeService.getProfessionalGradeByTeacherNumber("2006000002"));
     }
 }

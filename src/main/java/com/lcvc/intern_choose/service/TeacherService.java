@@ -49,14 +49,8 @@ public interface TeacherService {
      */
     boolean  save(Teacher teacher);
 
-    /**
-     * 根据teacherNumber查询学生集合
-     *  TeacherProfessionalGrade对象只能一条数据,否则会抛出异常
-     *  因为teacher查询模糊，，只能靠teacherNumber查询，还缺少一个gradeId
-     * @param teacherNumber 教师工号
-     * @return
-     */
-    PageObject getByTeacherNumber(String teacherNumber,Integer page, Integer limit);
+
+
 
     /**
      * 分页获取该表全部数据
@@ -70,4 +64,5 @@ public interface TeacherService {
      * @return
      */
     Boolean updatePassword(TeacherPasswordForm teacherPasswordForm, String teacherNumber);
+
 }

@@ -23,4 +23,10 @@ public interface ProfessionalGradeService {
 
     Boolean delete(Integer id);
 
+    /**
+     * 根据teacherNumber获取ProfessionalGrade集合
+     * @param teacherNumber
+     * @return
+     */
+    List<ProfessionalGrade> getProfessionalGradeByTeacherNumber(String teacherNumber);
 }

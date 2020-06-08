@@ -4,7 +4,9 @@ import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
 import com.lcvc.intern_choose.model.form.TeacherPasswordForm;
+import com.lcvc.intern_choose.service.ProfessionalGradeService;
 import com.lcvc.intern_choose.service.TeacherService;
+import com.lcvc.intern_choose.service.TeacherStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +20,11 @@ import java.util.Map;
 public class FrontTeacherController {
     @Autowired
     private TeacherService teacherService;
-
-    @GetMapping(value = "/login")
+    @Autowired
+    private ProfessionalGradeService professionalGradeService;
+    @Autowired
+    private TeacherStudentService teacherStudentService;
+    @GetMapping("/login")
     public Map<String, Object> login(String teacherNumber, String password, HttpSession session){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.ERROR.getValue());
@@ -53,11 +58,20 @@ public class FrontTeacherController {
     }
 
     @GetMapping("/getStudent")
-    public Map<String, Object> getStudent(Integer page, Integer limit,HttpSession session){
+    public Map<String, Object> getStudent(Integer professionalGradeId,Integer page,Integer limit,HttpSession session){
         Map<String, Object> map=new HashMap<String, Object>();
         Teacher teacher=((Teacher) session.getAttribute("teacher"));
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.getByTeacherNumber(teacher.getTeacherNumber(),page,limit));
+        map.put(Constant.JSON_DATA, teacherStudentService.getByTeacherNumber(teacher.getTeacherNumber(),professionalGradeId,page,limit));
+        return map;
+    }
+
+    @GetMapping("/getProfessionalGrade")
+    public Map<String, Object> getTeacherGrade(HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Teacher teacher=((Teacher) session.getAttribute("teacher"));
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA, professionalGradeService.getProfessionalGradeByTeacherNumber(teacher.getTeacherNumber()));
         return map;
     }
 

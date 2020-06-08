@@ -38,7 +38,17 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
 
     @Override
     public Boolean save(TeacherProfessionalGrade teacherProfessionalGrade) {
-        //判断教师书否存在
+        //以专业群Id和教师Id查询该条记录是否存在
+        TeacherProfessionalGradeQuery teacherProfessionalGradeQuery=new TeacherProfessionalGradeQuery();
+        teacherProfessionalGradeQuery.setTeacherNumber(teacherProfessionalGrade.getTeacherNumber());
+        teacherProfessionalGradeQuery.setProfessionalGradeId(teacherProfessionalGrade.getProfessionalGradeId());
+        int size=teacherProfessionalGradeDao.querySize(teacherProfessionalGradeQuery);
+        if (size==1){
+            throw new MyServiceException("该条数据已经存在，请勿重复添加");
+        }else if (size>1){
+            throw new MyServiceException("数据库有误，请联系管理员");
+        }
+        //判断教师是否存在
         if(teacherDao.get(teacherProfessionalGrade.getTeacherNumber())==null){
             throw new MyServiceException("teacherNumber数据有误，请重新提交");
         }
@@ -53,8 +63,18 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
 
     @Override
     public Boolean update(TeacherProfessionalGrade teacherProfessionalGrade) {
-        if (professionalGradeDao.get(teacherProfessionalGrade.getProfessionalGradeId()) == null ){
-            throw new MyServiceException("professionalGradeId数据有误，请重新提交");
+
+        //判断专业群是否存在
+        if (teacherProfessionalGrade.getProfessionalGradeId()!=null){
+            if (professionalGradeDao.get(teacherProfessionalGrade.getProfessionalGradeId()) == null ){
+                throw new MyServiceException("professionalGradeId数据有误，请重新提交");
+            }
+        }
+        //判断教师是否存在
+        if (teacherProfessionalGrade.getTeacherNumber()!=null){
+            if(teacherDao.get(teacherProfessionalGrade.getTeacherNumber())==null){
+                throw new MyServiceException("teacherNumber数据有误，请重新提交");
+            }
         }
         int k = teacherProfessionalGradeDao.update(teacherProfessionalGrade);
         return k>0;

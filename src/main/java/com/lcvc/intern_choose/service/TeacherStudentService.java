@@ -26,5 +26,18 @@ public interface TeacherStudentService {
      * @return
      */
     PageObject query (Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery);
+
+    /**
+     * 根据teacherNumber和professionalGradeId查询TeacherStudent集合
+     * @param teacherNumber
+     * @param professionalGradeId
+     * @param page
+     * @param limit
+     * @return
+     */
+    PageObject getByTeacherNumber(String teacherNumber,
+                                  Integer professionalGradeId,
+                                  Integer page,
+                                  Integer limit);
 }
 
