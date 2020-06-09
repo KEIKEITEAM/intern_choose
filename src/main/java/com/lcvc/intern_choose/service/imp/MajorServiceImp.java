@@ -1,10 +1,13 @@
 package com.lcvc.intern_choose.service.imp;
 
+import com.lcvc.intern_choose.dao.ClassesDao;
 import com.lcvc.intern_choose.dao.MajorDao;
 import com.lcvc.intern_choose.dao.ProfessionalDao;
 import com.lcvc.intern_choose.model.Major;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
+import com.lcvc.intern_choose.model.query.ClassesQuery;
 import com.lcvc.intern_choose.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +21,8 @@ public class MajorServiceImp implements MajorService {
     private MajorDao majorDao;
     @Autowired
     private ProfessionalDao professionalDao;
+    @Autowired
+    private ClassesDao classesDao;
     @Override
     public Major get(@NotNull Integer id) {
         return null;
@@ -38,8 +43,13 @@ public class MajorServiceImp implements MajorService {
 
     @Override
     public Boolean delete(@NotNull Integer id) {
-        int k = majorDao.delete(id);
-        return k > 0;
+        ClassesQuery classesQuery=new ClassesQuery();
+        classesQuery.setMajorId(id);
+        int sum=classesDao.querySize(classesQuery);
+        if (sum!=0){
+            throw new MyServiceException("该专业下还有"+sum+"条班级记录，不能删除！");
+        }
+        return majorDao.delete(id)> 0;
     }
 
 

@@ -13,14 +13,36 @@ public class Teacher{
     @NotNull(message = "教师姓名不能为空")
     @Length(min = 2,max = 10,message = "教师姓名长度要求2到10之间")
     private String name;
+    /**
+     * 专业群ID
+     */
     @NotNull(message = "professionalId不能为空")
-    private Integer professionalId;//专业群ID
+    private Integer professionalId;
 
+    /**
+     * 密码
+     */
     private String password;
 
+    /**
+     * 电话号码
+     */
+    @Length(min = 11,max = 11,message = "电话号码的长度必须为11")
+    private String tel;
+
+    /**
+     * QQ号码
+     */
+    private String qq;
+    /**
+     * 学生数量
+     */
     @NotNull(message = "studentQuantity不能为空")
-    private Integer studentQuantity;//学生数量
-    private Professional professional;//专业群
+    private Integer studentQuantity;
+    /**
+     * 专业群
+     */
+    private Professional professional;
 
 
     public String getPassword() {
@@ -53,6 +75,22 @@ public class Teacher{
 
     public void setProfessionalId(Integer professionalId) {
         this.professionalId = professionalId;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
+    }
+
+    public String getQq() {
+        return qq;
+    }
+
+    public void setQq(String qq) {
+        this.qq = qq;
     }
 
     public Integer getStudentQuantity() {

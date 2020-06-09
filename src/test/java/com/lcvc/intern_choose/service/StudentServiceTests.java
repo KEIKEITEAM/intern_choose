@@ -30,10 +30,12 @@ public class StudentServiceTests {
     @Test
     void  save(){
         Student student = new Student();
-        student.setStudentNumber("1");
-        student.setName("zhangsan");
+        student.setName("hh");
+        student.setPassword("121");
         student.setClassId(1);
-        //student.setPassword("333");
+        student.setStudentNumber("33434");
+        student.setQq("123123");
+        student.setTel("123123123");
         System.out.println(studentService.save(student));
     }
 
@@ -45,11 +47,13 @@ public class StudentServiceTests {
     @Test
     void  update(){
         Student student = new Student();
-        student.setStudentNumber("1");
-        student.setName("zhangsan2");
-        student.setClassId(1);
-        //student.setPassword("333");
-        System.out.println(studentService.save(student));
+        student.setName("123");
+        student.setPassword("123123123123");
+        student.setClassId(2);
+        student.setStudentNumber("33434");
+        student.setQq("qweqwe");
+        student.setTel("qweqwe");
+        System.out.println(studentService.update(student));
     }
 
     /**

@@ -30,7 +30,8 @@
     </select>
 
     <insert id="save">
-        insert into teacher(teacherNumber, name, password, professionalId) values (#{teacherNumber},#{name},#{password},#{professionalId})
+        insert into teacher(teacherNumber, name, password,tel,qq, professionalId)
+        values (#{teacherNumber},#{name},#{password},#{tel},#{qq},#{professionalId})
     </insert>
 
     <update id="update">
@@ -38,6 +39,8 @@
         <set>
             <if test="name!=null">name=#{name},</if>
             <if test="password!=null">password=#{password},</if>
+            <if test="tel!=null">tel=#{tel},</if>
+            <if test="qq!=null">qq=#{qq},</if>
             <if test="professionalId!=null">professionalId=#{professionalId},</if>
         </set>
        where teacherNumber = #{teacherNumber}

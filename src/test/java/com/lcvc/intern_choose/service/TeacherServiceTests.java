@@ -29,9 +29,13 @@ public class TeacherServiceTests {
     @Test
     void  save(){
         Teacher teacher = new Teacher();
-        teacher.setTeacherNumber("1");
+        teacher.setTeacherNumber("12323");
         teacher.setProfessionalId(1);
         teacher.setName("张三");
+        teacher.setStudentQuantity(10);
+        teacher.setPassword("123123123");
+        teacher.setQq("123123123");
+        teacher.setTel("123123");
         System.out.println(teacherService.save(teacher));
     }
 
@@ -43,10 +47,13 @@ public class TeacherServiceTests {
     @Test
     void  update(){
         Teacher teacher = new Teacher();
-        teacher.setTeacherNumber("1");
-        teacher.setProfessionalId(1);
-        teacher.setName("张三1");
-        System.out.println(teacherService.save(teacher));
+        teacher.setTeacherNumber("12323");
+        teacher.setProfessionalId(2);
+        teacher.setName("张三223");
+        teacher.setPassword("qweqwe");
+        teacher.setQq("qweqwe");
+        teacher.setTel("qweqwe");
+        System.out.println(teacherService.update(teacher));
     }
 
     /**

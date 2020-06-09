@@ -90,4 +90,18 @@ public class FrontTeacherController {
         }
         return map;
     }
+
+    @PutMapping
+    public Map<String, Object> update(@RequestBody Teacher teacher, HttpSession session){
+        Map<String, Object> map=new HashMap<String, Object>();
+        Teacher teacherSession=((Teacher) session.getAttribute("teacher"));
+        Teacher newTeacher=new Teacher();
+        newTeacher.setTeacherNumber(teacherSession.getTeacherNumber());
+        newTeacher.setTel(teacher.getTel());
+        newTeacher.setQq(teacher.getQq());
+        Boolean status=teacherService.update(newTeacher);
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA,status);
+        return map;
+    }
 }

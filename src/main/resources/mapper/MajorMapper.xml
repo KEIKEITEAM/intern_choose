@@ -18,6 +18,7 @@
 
     <select id="querySize" resultType="Integer">
         select count(1)  from major
+        <include refid="queryWhere"></include>
     </select>
 
     <select id="get" resultMap="professional">
@@ -42,4 +43,14 @@
          delete from Major where id = #{id}
     </delete>
 
+    <!--统一查询的条件-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.professionalId!=null">
+                    and professionalId=#{objectQuery.professionalId}
+                </if>
+            </where>
+        </if>
+    </sql>
 </mapper>

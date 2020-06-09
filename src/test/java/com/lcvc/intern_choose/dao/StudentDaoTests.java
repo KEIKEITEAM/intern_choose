@@ -51,6 +51,8 @@ public class StudentDaoTests {
         student.setPassword("121");
         student.setClassId(1);
         student.setStudentNumber("33434");
+        student.setQq("123123");
+        student.setTel("123123123");
         studentDao.save(student);
     }
 
@@ -74,10 +76,12 @@ public class StudentDaoTests {
     @Test
     void update() {
         Student student = new Student();
-        //student.setPassword("11");
-        student.setClassId(1);
-        student.setStudentNumber("1");
+        student.setPassword("11");
+        student.setClassId(2);
+        student.setStudentNumber("33434");
         student.setName("klf");
+        student.setTel("189898989");
+        student.setQq("123123123");
         System.out.println(studentDao.update(student));
     }
 

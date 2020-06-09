@@ -29,11 +29,12 @@
 
     <select id="querySize" resultType="Integer">
         select count(1)  from student
+        <include refid="queryWhere"></include>
     </select>
 
     <insert id="save">
-         insert into student (studentNumber,name,password,classId)
-         values(#{studentNumber},#{name},#{password},#{classId})
+         insert into student (studentNumber,name,password,tel,qq,classId)
+         values(#{studentNumber},#{name},#{password},#{tel},#{qq},#{classId})
     </insert>
 
     <insert id="update">
@@ -45,6 +46,12 @@
              <if test="password!=null">
                  password=#{password},
              </if>
+             <if test="tel!=null">
+                 tel=#{tel},
+             </if>
+             <if test="qq!=null">
+                 qq=#{qq},
+             </if>
              <if test="classId!=null">
                  classId=#{classId},
              </if>
@@ -55,5 +62,16 @@
     <delete id="delete">
         delete from student where studentNumber=#{studentNumber}
     </delete>
+
+    <!--统一查询的条件-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.classId!=null">
+                    and classId=#{objectQuery.classId}
+                </if>
+            </where>
+        </if>
+    </sql>
 
 </mapper>

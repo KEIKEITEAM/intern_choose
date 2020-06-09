@@ -1,8 +1,11 @@
 package com.lcvc.intern_choose.service.imp;
 
+import com.lcvc.intern_choose.dao.ClassesDao;
 import com.lcvc.intern_choose.dao.GradesDao;
 import com.lcvc.intern_choose.model.Grades;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.exception.MyServiceException;
+import com.lcvc.intern_choose.model.query.ClassesQuery;
 import com.lcvc.intern_choose.service.GradesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,8 @@ public class GradesServiceImpl implements GradesService {
 
     @Autowired
     private GradesDao gradesDao;
+    @Autowired
+    private ClassesDao classesDao;
     @Override
     public Grades get(@NotNull Integer id) {
         return gradesDao.get(id);
@@ -35,7 +40,13 @@ public class GradesServiceImpl implements GradesService {
 
     @Override
     public Boolean delete(@NotNull Integer id) {
-        return gradesDao.delete(id)==1? true:false;
+        ClassesQuery classesQuery=new ClassesQuery();
+        classesQuery.setGradeId(id);
+        int sum=classesDao.querySize(classesQuery);
+        if (sum!=0){
+            throw new MyServiceException("该年级下还有"+sum+"条班级记录，不能删除！");
+        }
+        return gradesDao.delete(id)==1;
     }
 
     @Override

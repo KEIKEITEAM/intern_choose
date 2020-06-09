@@ -26,6 +26,7 @@
 
     <select id="querySize" resultType="Integer">
         select count(1)  from classes
+        <include refid="queryWhere"></include>
     </select>
 
     <insert id="save">
@@ -47,5 +48,17 @@
         delete from classes where id=#{id}
     </delete>
 
-
+    <!--统一查询的条件-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <if test="objectQuery.gradeId!=null">
+                    and gradeId=#{objectQuery.gradeId}
+                </if>
+                <if test="objectQuery.majorId!=null">
+                    and majorId=#{objectQuery.majorId}
+                </if>
+            </where>
+        </if>
+    </sql>
 </mapper>
