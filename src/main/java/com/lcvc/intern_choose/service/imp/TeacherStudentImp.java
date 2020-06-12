@@ -3,6 +3,7 @@ package com.lcvc.intern_choose.service.imp;
 import com.lcvc.intern_choose.dao.StudentDao;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherStudentDao;
+import com.lcvc.intern_choose.model.Student;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.TeacherStudent;
 import com.lcvc.intern_choose.model.base.PageObject;
@@ -13,6 +14,7 @@ import com.lcvc.intern_choose.service.TeacherStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -99,5 +101,39 @@ public class TeacherStudentImp implements TeacherStudentService {
         PageObject pageObject = new PageObject(limit,page,teacherStudentDao.querySize(teacherStudentQuery));
         pageObject.setList(teacherStudentDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherStudentQuery));
         return pageObject;
+    }
+
+    @Override
+    public int batchAdd(String studentNumbers, Integer tpgId) {
+        String[] arr=studentNumbers.split(",");
+        //获取教师专业群年级对象
+        TeacherProfessionalGrade teacherProfessionalGrade=teacherProfessionalGradeDao.get(tpgId);
+        int sum=0;
+        for (int i = 0; i < arr.length ; i++) {
+            //判断该条记录是否存在
+            TeacherStudentQuery teacherStudentQuery = null;
+            teacherStudentQuery =new TeacherStudentQuery();
+            teacherStudentQuery.setStudentNumber(arr[i]);
+            int teacherStudentSize=teacherStudentDao.querySize(teacherStudentQuery);
+            if (teacherStudentSize==0){
+                teacherStudentQuery = new TeacherStudentQuery();
+                teacherStudentQuery.setTpgId(tpgId);
+                int size= teacherStudentDao.querySize(teacherStudentQuery);
+                //判断是否小于教师的学生数量
+                if (size<teacherProfessionalGrade.getStudentQuantity()){
+                    Student student=studentDao.get(Integer.parseInt(arr[i]));
+                    if (student!=null){
+                        TeacherStudent teacherStudent=new TeacherStudent();
+                        teacherStudent.setStudentNumber(arr[i]);
+                        teacherStudent.setTpgId(tpgId);
+                        teacherStudent.setCreatTime(new Date());
+                        if (teacherStudentDao.save(teacherStudent)>0){
+                            sum++;
+                        }
+                    }
+                }
+            }
+        }
+        return sum;
     }
 }

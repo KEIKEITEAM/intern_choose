@@ -61,4 +61,19 @@ public class TeacherStudentController {
         map.put(Constant.JSON_DATA, teacherStudentService.update(teacherStudent));
         return map;
     }
+
+    /**
+     * 批量添加
+     * @param students
+     * @param tpgId
+     * @return
+     */
+    @PostMapping("/batchAdd")
+    public Map<String, Object> batchAdd(String students,Integer tpgId){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA, teacherStudentService.batchAdd(students,tpgId));
+        return map;
+    }
+
 }

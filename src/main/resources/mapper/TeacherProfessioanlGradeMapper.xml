@@ -7,6 +7,8 @@
     <resultMap id="teacherProfessionalGrade" type="com.lcvc.intern_choose.model.TeacherProfessionalGrade">
         <association property="teacher" javaType="com.lcvc.intern_choose.model.Teacher" column="teacherNumber" select="com.lcvc.intern_choose.dao.TeacherDao.get">
         </association>
+        <association property="professionalGrade" javaType="com.lcvc.intern_choose.model.ProfessionalGrade" column="professionalGradeId" select="com.lcvc.intern_choose.dao.ProfessionalGradeDao.get">
+        </association>
     </resultMap>
 
     <select id="get" resultMap="teacherProfessionalGrade">
@@ -27,6 +29,7 @@
 
     <select id="querySize" resultType="Integer">
         select count(1)  from teacher_professional_grade
+        <include refid="queryWhere"></include>
     </select>
 
     <insert id="save">

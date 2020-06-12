@@ -5,7 +5,8 @@
     <!--==================================基本查询============================-->
     <!-- 学生表的Classes关联对象-->
     <resultMap id="classes" type="com.lcvc.intern_choose.model.Student">
-        <association property="classes" javaType="com.lcvc.intern_choose.model.Classes" column="classId" select="com.lcvc.intern_choose.dao.ClassesDao.get">
+        <association property="classes" javaType="com.lcvc.intern_choose.model.Classes" column="classId"
+                     select="com.lcvc.intern_choose.dao.ClassesDao.get">
         </association>
     </resultMap>
 
@@ -13,22 +14,25 @@
         select * from student where studentNumber=#{studentNumber}
     </select>
 
-    <select id="login"  resultType="Integer">
+    <select id="login" resultType="Integer">
         select count(1) from student where studentNumber=#{studentNumber} and password=#{password}
     </select>
 
 
-    <select id="readAll"  resultMap="classes">
-        select * from student order by studentNumber
+    <select id="readAll" resultMap="classes">
+        select * from student
+        <include refid="queryWhere"></include>
+        order by studentNumber asc
     </select>
 
     <select id="query" resultMap="classes">
         select * from student
+        <include refid="queryWhere"></include>
         order by studentNumber asc limit #{offset},#{length}
     </select>
 
     <select id="querySize" resultType="Integer">
-        select count(1)  from student
+        select count(1) from student
         <include refid="queryWhere"></include>
     </select>
 
@@ -38,24 +42,24 @@
     </insert>
 
     <insert id="update">
-         update student
-         <set>
-             <if test="name!=null">
+        update student
+        <set>
+            <if test="name!=null">
                 name=#{name},
-             </if>
-             <if test="password!=null">
-                 password=#{password},
-             </if>
-             <if test="tel!=null">
-                 tel=#{tel},
-             </if>
-             <if test="qq!=null">
-                 qq=#{qq},
-             </if>
-             <if test="classId!=null">
-                 classId=#{classId},
-             </if>
-         </set>
+            </if>
+            <if test="password!=null">
+                password=#{password},
+            </if>
+            <if test="tel!=null">
+                tel=#{tel},
+            </if>
+            <if test="qq!=null">
+                qq=#{qq},
+            </if>
+            <if test="classId!=null">
+                classId=#{classId},
+            </if>
+        </set>
         where studentNumber=#{studentNumber}
     </insert>
 
@@ -67,6 +71,29 @@
     <sql id="queryWhere">
         <if test="objectQuery!=null">
             <where>
+                <if test="objectQuery.name!=null and objectQuery.name.length()>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="name" value="'%' + _parameter.objectQuery.name + '%'" />
+                    and name like #{name}
+                </if>
+                <!-- 排除下列的学号来查询学生集合-->
+                <if test="objectQuery.studentNumbers!=null">
+                    <if test="objectQuery.studentNumbers.length>0">
+                        studentNumber not in
+                        <foreach item="items" collection="objectQuery.studentNumbers" open="(" separator="," close=")">
+                            #{items}
+                        </foreach>
+                    </if>
+                </if>
+                <!-- 根据classIds查询学生集合-->
+                <if test="objectQuery.classIds!=null">
+                    <if test="objectQuery.classIds.size()>0">
+                        classId  in
+                        <foreach item="items" collection="objectQuery.classIds" open="(" separator="," close=")">
+                            #{items}
+                        </foreach>
+                    </if>
+                </if>
                 <if test="objectQuery.classId!=null">
                     and classId=#{objectQuery.classId}
                 </if>

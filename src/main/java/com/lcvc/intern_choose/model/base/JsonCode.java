@@ -5,8 +5,8 @@ package com.lcvc.intern_choose.model.base;
  */
 public enum JsonCode {
     SUCCESS(0),
-    ERROR(-1);
-    //LOGIN(-2);
+    ERROR(-1),
+    LOGIN(-2);
 
     private Integer value;
 

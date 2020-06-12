@@ -56,7 +56,10 @@ public interface StudentService {
     boolean  save(Student student);
 
     /**
-     *实习学生选择实习老师
+     * 实习学生选择实习老师
+     * @param studentNumber
+     * @param teacherNumber
+     * @throws ParseException
      */
     void choose(String studentNumber,String teacherNumber) throws ParseException;
 
@@ -86,4 +89,22 @@ public interface StudentService {
      * @return
      */
     Boolean updatePassword(StudentPasswordForm studentPasswordForm, String studentNumber);
+
+
+    /**
+     * 获取未选择实习老师的学生
+     * @param page
+     * @param limit
+     * @param studentQuery
+     * @return
+     */
+   PageObject getNotChooseStudent(int page,int limit,StudentQuery studentQuery);
+
+    /**
+     * 查询开放权限的学生集合
+     * @param page
+     * @param limit
+     * @return
+     */
+   PageObject getOpenStudent(int page,int limit);
 }

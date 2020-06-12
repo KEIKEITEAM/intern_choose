@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -55,7 +56,7 @@ public class ProfessionalGradeController {
     }
 
     @PutMapping
-    public Map<String, Object> update(@RequestBody ProfessionalGrade professionalGrade){
+    public Map<String, Object> update(@RequestBody ProfessionalGrade professionalGrade) throws ParseException {
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, professionalGradeService.update(professionalGrade));

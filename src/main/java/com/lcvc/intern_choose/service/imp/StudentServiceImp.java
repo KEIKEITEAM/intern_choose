@@ -6,10 +6,7 @@ import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.model.form.StudentPasswordForm;
-import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
-import com.lcvc.intern_choose.model.query.StudentQuery;
-import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
-import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
+import com.lcvc.intern_choose.model.query.*;
 import com.lcvc.intern_choose.service.StudentService;
 import com.lcvc.intern_choose.util.IsInDate;
 import com.lcvc.intern_choose.util.SHA;
@@ -19,8 +16,7 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 
 @Service
@@ -74,34 +70,37 @@ public class StudentServiceImp implements StudentService {
     @Override
     public Boolean delete(@NotNull String teacherNumber) {
         int k = studentDao.delete(teacherNumber);
-        return k > 0 ;
+        return k > 0;
     }
 
     @Override
     public boolean update(Student student) {
-        if (student.getClassId()!=null){
-            if(classesDao.get(student.getClassId())==null){
+        if (student.getClassId() != null) {
+            if (classesDao.get(student.getClassId()) == null) {
                 throw new MyServiceException("不存在此专业");
             }
         }
-        if (student.getPassword()!=null){
+        if (student.getPassword() != null) {
             student.setPassword(SHA.getResult(student.getPassword()));
         }
         int k = studentDao.update(student);
-        return k > 0 ;
+        return k > 0;
     }
 
 
     @Override
     public boolean save(Student student) {
-        if(classesDao.get(student.getClassId())==null){
+        if (classesDao.get(student.getClassId()) == null) {
             throw new MyServiceException("不存在此专业");
         }
-        if (student.getPassword()!=null){
+        if (student.getPassword() != null) {
             student.setPassword(SHA.getResult(student.getPassword()));
+        } else {
+            student.setPassword(SHA.getResult(student.getStudentNumber()));
         }
+
         int k = studentDao.save(student);
-        return k > 0 ;
+        return k > 0;
     }
 
     @Override
@@ -120,7 +119,7 @@ public class StudentServiceImp implements StudentService {
         }
         ProfessionalGrade professionalGrade = list.get(0);
         //判断是否开放选择权限
-        if (professionalGrade.isOpen()&&major.getOpen()) {
+        if (professionalGrade.isOpen() && major.getOpen()) {
             //判断当前时间是不是在开放的时间范围内
             if (IsInDate.judge(new Date(), professionalGrade.getStartTime(), professionalGrade.getEndTime())) {
                 Teacher teacher = teacherDao.get(teacherNumber);
@@ -197,7 +196,7 @@ public class StudentServiceImp implements StudentService {
     public List<TeacherProfessionalGrade> getAvailableTeacher(Integer classesId) {
         Classes classes = classesDao.get(classesId);
         Major major = majorDao.get(classes.getMajor().getId());
-        if (!major.getOpen()){
+        if (!major.getOpen()) {
             throw new MyServiceException("还没有开放您专业的选择权限");
         }
         //查询条件
@@ -216,25 +215,133 @@ public class StudentServiceImp implements StudentService {
 
     @Override
     public PageObject query(Integer page, Integer limit, StudentQuery studentQuery) {
-        PageObject pageObject = new PageObject(limit,page,studentDao.querySize(studentQuery));
-        pageObject.setList(studentDao.query(pageObject.getOffset(),pageObject.getLimit(),studentQuery));
+        /**
+         * 思路：
+         * 根据年级、专业群、专业、班级等条件查询都能获取到该学生的班级Id，
+         * 单条件的话，则判断是否能查到班级ids，
+         *如果有多条件的话，则按照年级、专业群、专业、班级的大小范围依次取之交集，则得到多条件下的那个班级
+         *最后判断查询条件是否为空和classesIds.size()是否>0,如果否返回null
+         */
+        ClassesQuery classesQuery = null;
+        List<Integer> classesIds = new ArrayList<>();
+
+        //如果年级不为空  gradeId-->classIds-->Set<Integer> classesIds
+        if (studentQuery.getGradeQuery() != null) {
+            classesQuery = new ClassesQuery();
+            classesQuery.setGradeId(studentQuery.getGradeQuery());
+            List<Classes> classesList = classesDao.readAll(classesQuery);
+            for (int i = 0; i < classesList.size(); i++) {
+                classesIds.add(classesList.get(i).getId());
+            }
+        }
+
+        //如果专业群查询字段不为空   professionalId-->majorIds-->classIds-->Set<Integer> classesIds
+        if (studentQuery.getProfessionalQuery() != null) {
+            //majorIds
+            MajorQuery majorQuery = new MajorQuery();
+            majorQuery.setProfessionalId(studentQuery.getProfessionalQuery());
+            List<Major> majorList = majorDao.readAll(majorQuery);
+            List<Integer> majorIds = new ArrayList<>();
+            for (int i = 0; i < majorList.size(); i++) {
+                majorIds.add(majorList.get(i).getId());
+            }
+            //classIds
+            classesQuery = new ClassesQuery();
+            classesQuery.setMajorIds(majorIds);
+            List<Classes> classesList = classesDao.readAll(classesQuery);
+            //创建集合
+            List<Integer> newClassIds = new ArrayList<>();
+            for (int i = 0; i < classesList.size(); i++) {
+                newClassIds.add(classesList.get(i).getId());
+            }
+            //取两个集合的交集，
+            classesIds.retainAll(newClassIds);
+        }
+
+        //如果专业查询字段不为空      majorId-->classIds->Set<Integer> classesIds
+        if (studentQuery.getMajorQuery() != null) {
+            classesQuery = new ClassesQuery();
+            classesQuery.setMajorId(studentQuery.getMajorQuery());
+            List<Classes> classesList = classesDao.readAll(classesQuery);
+            //创建一个新集合添加班级Id,之后如果有多条件的话则取交集，如果没有的话就全部添加
+            List<Integer> newClassIds = new ArrayList<>();
+            for (int i = 0; i < classesList.size(); i++) {
+                newClassIds.add(classesList.get(i).getId());
+            }
+            //取两个集合的交集，
+            classesIds.retainAll(newClassIds);
+        }
+        //如果班级不为空 classId-->Set<Integer> classesIds
+        if (studentQuery.getClassQuery() != null) {
+            List<Integer> newClassIds = new ArrayList<>();
+            newClassIds.add(studentQuery.getClassQuery());
+            //取两个集合的交集，
+            classesIds.retainAll(newClassIds);
+        }
+        //将set集合的classIds加入查询条件
+        Boolean status = (studentQuery.getClassQuery() != null ||
+                studentQuery.getGradeQuery() != null ||
+                studentQuery.getProfessionalQuery() != null ||
+                studentQuery.getMajorQuery() != null) &&
+                classesIds.size() == 0;
+        if (status) {
+            return null;
+        }
+        studentQuery.setClassIds(classesIds);
+        PageObject pageObject = new PageObject(limit, page, studentDao.querySize(studentQuery));
+        pageObject.setList(studentDao.query(pageObject.getOffset(), pageObject.getLimit(), studentQuery));
         return pageObject;
     }
 
     @Override
     public Boolean updatePassword(StudentPasswordForm studentPasswordForm, String studentNumber) {
-        Student student=studentDao.get(studentNumber);
-        if (!student.getPassword().equals(SHA.getResult(studentPasswordForm.getPassword()))){
+        Student student = studentDao.get(studentNumber);
+        if (!student.getPassword().equals(SHA.getResult(studentPasswordForm.getPassword()))) {
             throw new MyServiceException("与原密码不一致");
         }
-        if (!studentPasswordForm.getNewPassword().equals(studentPasswordForm.getConfirmPassword())){
+        if (!studentPasswordForm.getNewPassword().equals(studentPasswordForm.getConfirmPassword())) {
             throw new MyServiceException("新密码与确认密码不一致");
         }
-        Student newStduent=new Student();
+        Student newStduent = new Student();
         newStduent.setStudentNumber(studentNumber);
         newStduent.setPassword(SHA.getResult(studentPasswordForm.getNewPassword()));
 
-        return studentDao.update(newStduent)>0;
+        return studentDao.update(newStduent) > 0;
+    }
+
+    @Override
+    public PageObject getNotChooseStudent(int page, int limit, StudentQuery studentQuery) {
+        List<TeacherStudent> teacherStudentList = teacherStudentDao.readAll(null);
+        int length = teacherStudentList.size();
+        String s[] = new String[length];
+        for (int i = 0; i < length; i++) {
+            s[i] = teacherStudentList.get(i).getStudent().getStudentNumber();
+        }
+        studentQuery.setStudentNumbers(s);
+        PageObject pageObject = new PageObject(limit, page, studentDao.querySize(studentQuery));
+        pageObject.setList(studentDao.query(pageObject.getOffset(), pageObject.getLimit(), studentQuery));
+        return pageObject;
+    }
+
+    @Override
+    public PageObject getOpenStudent(int page, int limit) {
+        //获取开发权限的年级专业群集合
+        ProfessionalGradeQuery professionalGradeQuery = new ProfessionalGradeQuery();
+        professionalGradeQuery.setAvailableOpen(true);
+        professionalGradeQuery.setOpen(true);
+        List<ProfessionalGrade> professionalGradeList = professionalGradeDao.readAll(professionalGradeQuery);
+        //通过开发的年级专业群集合查找专业群
+        List<Professional> professionalList = new ArrayList<>();
+        for (int i = 0; i < professionalGradeList.size(); i++) {
+            int id = professionalGradeList.get(i).getProfessional().getId();
+            Professional professional = professionalDao.get(id);
+            if (professional != null) {
+                professionalList.addAll((Collection<? extends Professional>) professional);
+            }
+        }
+
+
+        return null;
     }
 
 }

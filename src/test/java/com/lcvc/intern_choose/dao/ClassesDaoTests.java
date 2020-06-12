@@ -1,9 +1,13 @@
 package com.lcvc.intern_choose.dao;
 
 import com.lcvc.intern_choose.model.Classes;
+import com.lcvc.intern_choose.model.query.ClassesQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SpringBootTest
 class ClassesDaoTests {
@@ -68,5 +72,15 @@ class ClassesDaoTests {
     @Test
     void  realAll(){
         System.out.println(classesDao.readAll(null));
+    }
+
+    @Test
+    void getByMajorIds(){
+        ClassesQuery classesQuery=new ClassesQuery();
+        List<Integer> ids=new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        classesQuery.setMajorIds(ids);
+        System.out.println(classesDao.querySize(classesQuery));
     }
 }

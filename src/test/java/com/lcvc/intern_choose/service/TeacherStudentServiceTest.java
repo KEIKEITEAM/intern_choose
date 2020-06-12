@@ -1,12 +1,9 @@
 package com.lcvc.intern_choose.service;
 
-import com.lcvc.intern_choose.dao.TeacherStudentDao;
 import com.lcvc.intern_choose.model.TeacherStudent;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class TeacherStudentServiceTest {
@@ -43,5 +40,19 @@ class TeacherStudentServiceTest {
     @Test
     void delete() {
         System.out.println(teacherStudentService.delete(9));
+    }
+
+    @Test
+    void batchAdd(){
+        /*
+        184023086
+184023087
+184023088
+184023092
+184023102
+184023104
+         */
+        int k=teacherStudentService.batchAdd("184023086,184023087,184023088,184023092,184023102,184023104",7);
+        System.out.println(k);
     }
 }

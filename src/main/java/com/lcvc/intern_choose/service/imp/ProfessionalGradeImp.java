@@ -14,6 +14,7 @@ import com.lcvc.intern_choose.service.ProfessionalGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,8 +82,7 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
     }
 
     @Override
-    public Boolean update(ProfessionalGrade professionalGrade) {
-
+    public Boolean update(ProfessionalGrade professionalGrade) throws ParseException {
         //判断professional是否存在
         if (professionalGrade.getProfessionalId() != null) {
             if (professionalDao.get(professionalGrade.getProfessionalId()) == null) {
@@ -124,7 +124,7 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
         List<ProfessionalGrade> professionalGradeList = new ArrayList<>();
         //将 teacherProfessionalGradeList.
         for (int i = 0; i < teacherProfessionalGradeList.size(); i++) {
-            int id = teacherProfessionalGradeList.get(i).getProfessionalGradeId();
+            int id = teacherProfessionalGradeList.get(i).getProfessionalGrade().getId();
             ProfessionalGrade professionalGrade = professionalGradeDao.get(id);
             if (professionalGrade != null) {
                 professionalGradeList.add(professionalGrade);

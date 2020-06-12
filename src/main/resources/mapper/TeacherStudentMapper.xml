@@ -44,6 +44,7 @@
     <select id="readAll" resultMap="studentAndTeacher">
         select * from teacher_student
         <include refid="queryWhere"></include>
+        order by studentNumber asc
     </select>
 
     <select id="query" resultMap="studentAndTeacher">

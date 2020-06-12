@@ -4,6 +4,7 @@ import com.lcvc.intern_choose.model.ProfessionalGrade;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.query.ProfessionalGradeQuery;
 
+import java.text.ParseException;
 import java.util.List;
 
 public interface ProfessionalGradeService {
@@ -19,7 +20,7 @@ public interface ProfessionalGradeService {
 
     Boolean save(ProfessionalGrade professionalGrade);
 
-    Boolean update(ProfessionalGrade professionalGrade);
+    Boolean update(ProfessionalGrade professionalGrade) throws ParseException;
 
     Boolean delete(Integer id);
 

@@ -21,14 +21,18 @@ public class TeacherStudent {
     @NotNull(message = "tpgId不能为空")
     private Integer tpgId;
 
-    /*
+    /**
      *创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date creatTime;
-
+    /**
+     * 学生对象
+     */
     private Student student;
-
+    /**
+     * 教师专业群年级关系对象
+     */
     private TeacherProfessionalGrade teacherProfessionalGrade;
 
     public Integer getId() {

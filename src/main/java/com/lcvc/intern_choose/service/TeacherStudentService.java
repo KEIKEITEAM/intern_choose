@@ -39,5 +39,13 @@ public interface TeacherStudentService {
                                   Integer professionalGradeId,
                                   Integer page,
                                   Integer limit);
+
+    /**
+     * 批量添加
+     * @param studentNumbers
+     * @param tpgId
+     * @return
+     */
+    int batchAdd(String studentNumbers,Integer tpgId);
 }
 

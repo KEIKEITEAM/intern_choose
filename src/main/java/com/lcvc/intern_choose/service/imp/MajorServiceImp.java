@@ -24,8 +24,8 @@ public class MajorServiceImp implements MajorService {
     @Autowired
     private ClassesDao classesDao;
     @Override
-    public Major get(@NotNull Integer id) {
-        return null;
+    public Major get(Integer id) {
+        return majorDao.get(id);
     }
 
     @Override

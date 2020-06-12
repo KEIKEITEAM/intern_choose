@@ -8,8 +8,14 @@ import javax.validation.constraints.NotNull;
  * @author 张峰
  */
 public class Teacher{
+    /**
+     * 教师工号
+     */
     @NotNull(message = "教师工号不能为空")
     private String teacherNumber;
+    /**
+     * 教师姓名
+     */
     @NotNull(message = "教师姓名不能为空")
     @Length(min = 2,max = 10,message = "教师姓名长度要求2到10之间")
     private String name;
@@ -27,7 +33,6 @@ public class Teacher{
     /**
      * 电话号码
      */
-    @Length(min = 11,max = 11,message = "电话号码的长度必须为11")
     private String tel;
 
     /**

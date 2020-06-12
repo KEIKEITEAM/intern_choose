@@ -12,7 +12,9 @@
     </resultMap>
 
     <select id="readAll"  resultMap="majorAndGrade">
-        select * from classes order by Id
+        select * from classes
+        <include refid="queryWhere"></include>
+        order by Id
     </select>
 
     <select id="get"  resultMap="majorAndGrade">
@@ -21,6 +23,7 @@
 
     <select id="query" resultMap="majorAndGrade">
         select * from classes
+        <include refid="queryWhere"></include>
         order by id asc limit #{offset},#{length}
     </select>
 
@@ -57,6 +60,15 @@
                 </if>
                 <if test="objectQuery.majorId!=null">
                     and majorId=#{objectQuery.majorId}
+                </if>
+                <!-- 根据majorIds查询classes集合-->
+                <if test="objectQuery.majorIds!=null">
+                    <if test="objectQuery.majorIds.size()>0">
+                        majorId  in
+                        <foreach item="items" collection="objectQuery.majorIds" open="(" separator="," close=")">
+                            #{items}
+                        </foreach>
+                    </if>
                 </if>
             </where>
         </if>

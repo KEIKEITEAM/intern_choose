@@ -1,11 +1,13 @@
 package com.lcvc.intern_choose.dao;
 
 import com.lcvc.intern_choose.model.Student;
+import com.lcvc.intern_choose.model.query.StudentQuery;
 import com.lcvc.intern_choose.util.SHA;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -26,13 +28,12 @@ public class StudentDaoTests {
     void realAll(){
         List<Student>list=studentDao.readAll(null);
         for (int i = 0; i < list.size(); i++) {
-            //452130199811031813
-            String s=list.get(i).getPassword();
-            System.out.println(s+" "+list.get(i).getStudentNumber());
-            Student student=new Student();
-            student.setPassword(SHA.getResult(s));
-            student.setStudentNumber(list.get(i).getStudentNumber());
-            studentDao.update(student);
+                String s=list.get(i).getPassword().substring(12,18);
+                System.out.println(s+" "+list.get(i).getStudentNumber());
+                Student student=new Student();
+                student.setPassword(SHA.getResult(s));
+                student.setStudentNumber(list.get(i).getStudentNumber());
+                studentDao.update(student);
         }
 
     }
@@ -63,7 +64,9 @@ public class StudentDaoTests {
      */
     @Test
     void readAll() {
-        for (Student student : studentDao.readAll(null)) {
+        StudentQuery studentQuery=new StudentQuery();
+        studentQuery.setName("本");
+        for (Student student : studentDao.readAll(studentQuery)) {
             System.out.println(student.getName()+"————");
         }
     }
@@ -95,7 +98,47 @@ public class StudentDaoTests {
         System.out.println(studentDao.delete("1"));
     }
 
+    /**
+     *
+     */
     @Test
     void test(){
+        StudentQuery studentQuery=new StudentQuery();
+//        List<String>  list=new ArrayList<>();
+//        list.add("184023102");
+//        list.add("184023095");
+//        list.add("184023092");
+        String [] arr={"184023102","184023095","184023092"};
+        studentQuery.setStudentNumbers(arr);
+       System.out.println(studentDao.querySize(studentQuery));
+    }
+
+    @Test
+    void getAll(){
+        StudentQuery studentQuery=new StudentQuery();
+        //,184023095,184023092
+        String [] s={"184023102","184023095","184023092"};
+        //studentQuery.setStudentNumber("(184023102)");
+        //studentQuery.setClassId(1);
+        studentQuery.setStudentNumbers(s);
+        //System.out.println(studentDao.readAll(studentQuery));
+    }
+
+    @Test
+    void getByClassIds(){
+        List<Integer> ids= new ArrayList<>();
+        ids.add(1);
+        ids.add(2);
+        StudentQuery studentQuery=new StudentQuery();
+        studentQuery.setClassIds(ids);
+        System.out.println(studentDao.querySize(studentQuery));
+    }
+
+    @Test
+    void getByMajorIds(){
+        List<Integer> ids= new ArrayList<>();
+        StudentQuery studentQuery=new StudentQuery();
+        studentQuery.setProfessionalQuery(1);
+        System.out.println(studentDao.querySize(studentQuery));
     }
 }

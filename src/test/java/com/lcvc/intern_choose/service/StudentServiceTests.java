@@ -1,12 +1,14 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Student;
+import com.lcvc.intern_choose.model.query.StudentQuery;
 import com.lcvc.intern_choose.util.SHA;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
+import java.util.List;
 
 @SpringBootTest
 public class StudentServiceTests {
@@ -85,6 +87,16 @@ public class StudentServiceTests {
 
     @Test
     void test(){
-        System.out.println(studentService.getAvailableTeacher(1));
+        List<Student> list=studentService.getNotChooseStudent(20,20,null).getList();
+        for (Student student:list) {
+            System.out.println(student.getStudentNumber());
+        }
+    }
+
+    @Test
+    void testStduentQuery(){
+        StudentQuery studentQuery=new StudentQuery();
+        studentQuery.setProfessionalQuery(1);
+        System.out.println(studentService.query(null,null,studentQuery));
     }
 }

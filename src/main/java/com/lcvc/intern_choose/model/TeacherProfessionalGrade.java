@@ -7,19 +7,35 @@ import java.util.Date;
 
 public class TeacherProfessionalGrade {
     private Integer id;
-    @NotNull
+    /**
+     * 教师Id
+     */
+    @NotNull(message = "教师学号不能为空")
     private String teacherNumber;
-    @NotNull
-    private Integer professionalGradeId;//专业群年级关系表ID外键
-    @NotNull
-    private Integer studentQuantity;//实习学生最大选择数量
-    /*
+    /**
+     * 专业群年级关系表ID外键
+     */
+    @NotNull(message = "professionalGradeId不能为空")
+    private Integer professionalGradeId;
+    /**
+     * 实习学生最大选择数量
+     */
+    @NotNull(message = "实习生数量不能为空")
+    private Integer studentQuantity;
+    /**
      * 创建时间
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private Date creatTime;
-
+    /**
+     * 教师对象
+     */
     private Teacher teacher;
+    /**
+     * 专业群年级对象
+     */
+    private ProfessionalGrade professionalGrade;
+
 
     public Integer getId() {
         return id;
@@ -67,5 +83,13 @@ public class TeacherProfessionalGrade {
 
     public void setCreatTime(Date creatTime) {
         this.creatTime = creatTime;
+    }
+
+    public ProfessionalGrade getProfessionalGrade() {
+        return professionalGrade;
+    }
+
+    public void setProfessionalGrade(ProfessionalGrade professionalGrade) {
+        this.professionalGrade = professionalGrade;
     }
 }

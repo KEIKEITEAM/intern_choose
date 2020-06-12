@@ -12,7 +12,7 @@ public interface MajorService {
      * @param id
      * @return
      */
-    Major get(@NotNull Integer id);
+    Major get(Integer id);
 
     /**
      * 获取该表全部数据

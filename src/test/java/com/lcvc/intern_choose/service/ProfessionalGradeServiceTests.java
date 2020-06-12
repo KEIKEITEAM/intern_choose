@@ -46,7 +46,7 @@ class ProfessionalGradeServiceTests {
     }
 
     @Test
-    void update() {
+    void update() throws ParseException {
         ProfessionalGrade professionalGradesave=new ProfessionalGrade();
         professionalGradesave.setId(16);
         professionalGradesave.setProfessionalId(3);

@@ -11,20 +11,21 @@ public class Student {
     @NotNull(message = "学号不能为空")
     private String studentNumber;
 
-    @Length(min = 2,max = 10 ,message = "name长度要求2到10之间。")
-    @NotNull
+    /**
+     * 密码
+     */
     private String password;
 
     /**
      * 学生名字
      */
     @NotNull(message = "姓名不能为空")
+    @Length(min = 2,max = 10,message = "姓名长度要求2到10之间")
     private String name;
 
     /**
      * 电话号码
      */
-    @Length(min = 11,max = 11,message = "电话号码的长度必须为11")
     private String tel;
 
     /**

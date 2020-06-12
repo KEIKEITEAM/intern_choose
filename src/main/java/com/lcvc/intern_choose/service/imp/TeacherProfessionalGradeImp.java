@@ -3,6 +3,8 @@ package com.lcvc.intern_choose.service.imp;
 import com.lcvc.intern_choose.dao.ProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherDao;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
+import com.lcvc.intern_choose.model.ProfessionalGrade;
+import com.lcvc.intern_choose.model.Teacher;
 import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
@@ -48,14 +50,22 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
         }else if (size>1){
             throw new MyServiceException("数据库有误，请联系管理员");
         }
+
         //判断教师是否存在
-        if(teacherDao.get(teacherProfessionalGrade.getTeacherNumber())==null){
+        Teacher teacher=teacherDao.get(teacherProfessionalGrade.getTeacherNumber());
+        if(teacher==null){
             throw new MyServiceException("teacherNumber数据有误，请重新提交");
         }
         //判断专业群是否存在
-        if (professionalGradeDao.get(teacherProfessionalGrade.getProfessionalGradeId()) == null ){
+        ProfessionalGrade professionalGrade=professionalGradeDao.get(teacherProfessionalGrade.getProfessionalGradeId());
+        if ( professionalGrade== null ){
             throw new MyServiceException("professionalGradeId数据有误，请重新提交");
         }
+        //判断该ProfessionalGrade的专业群是否是与该老师一致
+        if (!teacher.getProfessional().getId().equals(professionalGrade.getProfessional().getId())){
+            throw new MyServiceException("该专业群与实习老师的专业群不一致");
+        }
+
         teacherProfessionalGrade.setCreatTime(new Date());
         int k = teacherProfessionalGradeDao.save(teacherProfessionalGrade);
         return k>0;
@@ -63,18 +73,19 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
 
     @Override
     public Boolean update(TeacherProfessionalGrade teacherProfessionalGrade) {
-
-        //判断专业群是否存在
-        if (teacherProfessionalGrade.getProfessionalGradeId()!=null){
-            if (professionalGradeDao.get(teacherProfessionalGrade.getProfessionalGradeId()) == null ){
-                throw new MyServiceException("professionalGradeId数据有误，请重新提交");
-            }
-        }
         //判断教师是否存在
-        if (teacherProfessionalGrade.getTeacherNumber()!=null){
-            if(teacherDao.get(teacherProfessionalGrade.getTeacherNumber())==null){
-                throw new MyServiceException("teacherNumber数据有误，请重新提交");
-            }
+        Teacher teacher=teacherDao.get(teacherProfessionalGrade.getTeacherNumber());
+        if(teacher==null){
+            throw new MyServiceException("teacherNumber数据有误，请重新提交");
+        }
+        //判断专业群是否存在
+        ProfessionalGrade professionalGrade=professionalGradeDao.get(teacherProfessionalGrade.getProfessionalGradeId());
+        if ( professionalGrade== null ){
+            throw new MyServiceException("professionalGradeId数据有误，请重新提交");
+        }
+        //判断该ProfessionalGrade的专业群是否是与该老师一致
+        if (!teacher.getProfessional().getId().equals(professionalGrade.getProfessional().getId())){
+            throw new MyServiceException("该专业群与实习老师的专业群不一致");
         }
         int k = teacherProfessionalGradeDao.update(teacherProfessionalGrade);
         return k>0;
