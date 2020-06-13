@@ -16,7 +16,10 @@ import org.springframework.util.StringUtils;
 
 import javax.validation.constraints.NotNull;
 import java.text.ParseException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
 
 
 @Service
@@ -213,15 +216,15 @@ public class StudentServiceImp implements StudentService {
         return list.size() > 0 ? list : null;
     }
 
+    /**
+     * 思路：
+     * 根据年级、专业群、专业、班级等条件查询都能获取到该学生的班级Id，
+     * 单条件的话，则判断是否能查到班级ids，
+     * 如果有多条件的话，则按照年级、专业群、专业、班级的大小范围依次取之交集，则得到多条件下的那个班级
+     * 最后判断查询条件是否为空和classesIds.size()是否>0,如果否返回null
+     */
     @Override
     public PageObject query(Integer page, Integer limit, StudentQuery studentQuery) {
-        /**
-         * 思路：
-         * 根据年级、专业群、专业、班级等条件查询都能获取到该学生的班级Id，
-         * 单条件的话，则判断是否能查到班级ids，
-         *如果有多条件的话，则按照年级、专业群、专业、班级的大小范围依次取之交集，则得到多条件下的那个班级
-         *最后判断查询条件是否为空和classesIds.size()是否>0,如果否返回null
-         */
         ClassesQuery classesQuery = null;
         List<Integer> classesIds = new ArrayList<>();
 
@@ -275,8 +278,12 @@ public class StudentServiceImp implements StudentService {
         if (studentQuery.getClassQuery() != null) {
             List<Integer> newClassIds = new ArrayList<>();
             newClassIds.add(studentQuery.getClassQuery());
-            //取两个集合的交集，
-            classesIds.retainAll(newClassIds);
+            //如果classesIds集合数量大于0，取两个集合的交集，否则添加classQuery添加到classIds集合
+            if (classesIds.size() > 0) {
+                classesIds.retainAll(newClassIds);
+            } else {
+                classesIds.add(studentQuery.getClassQuery());
+            }
         }
         //将set集合的classIds加入查询条件
         Boolean status = (studentQuery.getClassQuery() != null ||
@@ -324,24 +331,54 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public PageObject getOpenStudent(int page, int limit) {
-        //获取开发权限的年级专业群集合
+    public PageObject getOpenStudent(Integer page, Integer limit) {
+        //获取开放权限的年级专业群集合
         ProfessionalGradeQuery professionalGradeQuery = new ProfessionalGradeQuery();
         professionalGradeQuery.setAvailableOpen(true);
         professionalGradeQuery.setOpen(true);
+        professionalGradeQuery.setAvailableOpen(true);
         List<ProfessionalGrade> professionalGradeList = professionalGradeDao.readAll(professionalGradeQuery);
-        //通过开发的年级专业群集合查找专业群
-        List<Professional> professionalList = new ArrayList<>();
+        if (professionalGradeList.size() == 0) {
+            return null;
+        }
+        //通过开放的年级专业群集合查找专业群
+        List<Integer> professinalIds = new ArrayList<>();
         for (int i = 0; i < professionalGradeList.size(); i++) {
             int id = professionalGradeList.get(i).getProfessional().getId();
-            Professional professional = professionalDao.get(id);
-            if (professional != null) {
-                professionalList.addAll((Collection<? extends Professional>) professional);
-            }
+            professinalIds.add(id);
         }
 
-
-        return null;
+        MajorQuery majorQuery = new MajorQuery();
+        majorQuery.setProfessionalIds(professinalIds);
+        majorQuery.setAvailableOpen(true);
+        majorQuery.setOpen(true);
+        List<Major> majorList = majorDao.readAll(majorQuery);
+        if (majorList.size() == 0) {
+            return null;
+        }
+        List<Integer> majorIds = new ArrayList<>();
+        for (int i = 0; i < majorList.size(); i++) {
+            majorIds.add(majorList.get(i).getId());
+        }
+        //获取classIds
+        ClassesQuery classesQuery = new ClassesQuery();
+        classesQuery.setMajorIds(majorIds);
+        List<Classes> classesList = classesDao.readAll(classesQuery);
+        if (classesList.size() == 0) {
+            return null;
+        }
+        List<Integer> classIds = new ArrayList<>();
+        for (int i = 0; i < classesList.size(); i++) {
+            classIds.add(classesList.get(i).getId());
+        }
+        StudentQuery studentQuery = new StudentQuery();
+        studentQuery.setClassIds(classIds);
+        PageObject pageObject = new PageObject(limit, page, studentDao.querySize(studentQuery));
+        pageObject.setList(studentDao.query(pageObject.getOffset(), pageObject.getLimit(), studentQuery));
+        return pageObject;
     }
+
+
+
 
 }

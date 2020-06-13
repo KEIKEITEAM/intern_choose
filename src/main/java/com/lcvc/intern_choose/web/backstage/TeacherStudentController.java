@@ -76,4 +76,17 @@ public class TeacherStudentController {
         return map;
     }
 
+    /**
+     * 随机分配未选择实习老师的学生
+     * @param tpgId
+     * @return 成功记录数
+     */
+    @PostMapping("/randomChoose")
+    public Map<String, Object> randomChoose(Integer tpgId){
+        Map<String, Object> map=new HashMap<String, Object>();
+        map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
+        map.put(Constant.JSON_DATA, teacherStudentService.randomChooseStudent(tpgId));
+        return map;
+    }
+
 }

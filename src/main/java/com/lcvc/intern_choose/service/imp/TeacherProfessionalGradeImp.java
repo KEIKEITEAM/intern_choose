@@ -103,4 +103,9 @@ public class TeacherProfessionalGradeImp implements TeacherProfessionalGradeServ
         pageObject.setList(teacherProfessionalGradeDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherProfessionalGradeQuery));
         return pageObject;
     }
+
+    @Override
+    public PageObject getNotEnough(Integer page, Integer limit) {
+        return null;
+    }
 }

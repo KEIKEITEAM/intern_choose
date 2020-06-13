@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class TeacherServiceTests {
     @Autowired
@@ -73,6 +75,17 @@ public class TeacherServiceTests {
      */
     @Test
     void  realAll(){
-        System.out.println(teacherService.readAll());
+        List<Teacher>list=teacherService.readAll();
+
+        for (int i = 0; i < list.size(); i++) {
+            String id=list.get(i).getTeacherNumber();
+            String password=SHA.getResult(list.get(i).getTeacherNumber());
+            Teacher teacher=new Teacher();
+            teacher.setTeacherNumber(id);
+            teacher.setPassword(password);
+            System.out.println(teacherService.update(teacher));
+        }
     }
+
+
 }

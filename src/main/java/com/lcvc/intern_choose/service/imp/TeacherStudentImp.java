@@ -1,21 +1,18 @@
 package com.lcvc.intern_choose.service.imp;
 
-import com.lcvc.intern_choose.dao.StudentDao;
-import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
-import com.lcvc.intern_choose.dao.TeacherStudentDao;
-import com.lcvc.intern_choose.model.Student;
-import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
-import com.lcvc.intern_choose.model.TeacherStudent;
+import com.lcvc.intern_choose.dao.*;
+import com.lcvc.intern_choose.model.*;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
-import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
-import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
+import com.lcvc.intern_choose.model.query.*;
 import com.lcvc.intern_choose.service.TeacherStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class TeacherStudentImp implements TeacherStudentService {
@@ -25,6 +22,12 @@ public class TeacherStudentImp implements TeacherStudentService {
     private TeacherProfessionalGradeDao teacherProfessionalGradeDao;
     @Autowired
     private StudentDao studentDao;
+    @Autowired
+    private MajorDao majorDao;
+    @Autowired
+    private ProfessionalGradeDao professionalGradeDao;
+    @Autowired
+    private ClassesDao classesDao;
     @Override
     public List<TeacherStudent> readAll(TeacherStudentQuery teacherStudentQuery) {
         return teacherStudentDao.readAll(teacherStudentQuery);
@@ -135,5 +138,82 @@ public class TeacherStudentImp implements TeacherStudentService {
             }
         }
         return sum;
+    }
+
+    @Override
+    public String randomChooseStudent(Integer tpgId) {
+        //获取teacherProfessionalGrade对象
+        TeacherProfessionalGrade tpg = teacherProfessionalGradeDao.get(tpgId);
+        if (tpg==null){
+            throw new  MyServiceException("提交的tpgId数据有误，请重新提交");
+        }
+        //判断该老师的实习名额是否已满
+        TeacherStudentQuery teacherStudentQuery=null;
+        teacherStudentQuery=new TeacherStudentQuery();
+        teacherStudentQuery.setTpgId(tpgId);
+        int size=teacherStudentDao.querySize(teacherStudentQuery);
+        if (size>=tpg.getStudentQuantity()){
+            throw new  MyServiceException("该老师的实习名额已满");
+        }
+        //获取professionalGrade对象
+        ProfessionalGrade professionalGrade = professionalGradeDao.get(tpg.getProfessionalGrade().getId());
+        //获取该专业群相对应的开放权限的专业
+        MajorQuery majorQuery = new MajorQuery();
+        majorQuery.setProfessionalId(professionalGrade.getProfessional().getId());
+        majorQuery.setAvailableOpen(true);
+        majorQuery.setOpen(true);
+        List<Major> majorList = majorDao.readAll(majorQuery);
+        //将专业集合的专业id加入集合
+        List<Integer> majorIds = new ArrayList<>();
+        for (int i = 0; i < majorList.size(); i++) {
+            majorIds.add(majorList.get(i).getId());
+        }
+        //根据年级id和majorids集合查询班级
+        ClassesQuery classesQuery = new ClassesQuery();
+        classesQuery.setGradeId(professionalGrade.getGrades().getId());
+        classesQuery.setMajorIds(majorIds);
+        List<Classes> classesList = classesDao.readAll(classesQuery);
+        List<Integer> classIds = new ArrayList<>();
+        //将班级集合的id加入集合
+        for (int i = 0; i < classesList.size(); i++) {
+            classIds.add(classesList.get(i).getId());
+        }
+        //根据班级ids和已选择实习老师的学生学号集合查询
+        List<TeacherStudent> teacherStudentList = teacherStudentDao.readAll(null);
+        int studentNumberLength = teacherStudentList.size();
+        String[] studentNumbers = new String[studentNumberLength];
+        for (int i = 0; i < studentNumberLength; i++) {
+            studentNumbers[i] = teacherStudentList.get(i).getStudent().getStudentNumber();
+        }
+        //根据已选择实习老师的学生学号和班级集合查询学生集合
+        StudentQuery studentQuery = new StudentQuery();
+        studentQuery.setStudentNumbers(studentNumbers);
+        studentQuery.setClassIds(classIds);
+        List<Student> studentList = studentDao.readAll(studentQuery);
+        if (studentList.size() == 0) {
+            throw new MyServiceException("可供该老师分配的学生数量为0");
+        }
+
+        Random r = new Random();
+        int sum=0;
+        while (studentList.size() > 0) {
+            //判断该实习老师手下的实习学生数量是否超出
+            teacherStudentQuery=new TeacherStudentQuery();
+            teacherStudentQuery.setTpgId(tpgId);
+            int teacherStudentSize=teacherStudentDao.querySize(teacherStudentQuery);
+            if (teacherStudentSize==tpg.getStudentQuantity()){
+                break;
+            }
+            TeacherStudent teacherStudent=new TeacherStudent();
+            int i = r.nextInt(studentList.size());
+            teacherStudent.setStudentNumber(studentList.get(i).getStudentNumber());
+            teacherStudent.setTpgId(tpgId);
+            teacherStudent.setCreatTime(new Date());
+            if (teacherStudentDao.save(teacherStudent)>0){
+                sum++;
+            }
+            studentList.remove(i);
+        }
+        return "该老师有"+tpg.getStudentQuantity()+"名实习生名额,已选"+size+"名,本次分配了"+sum+"名实习生";
     }
 }

@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @SpringBootTest
 public class StudentServiceTests {
@@ -97,6 +99,59 @@ public class StudentServiceTests {
     void testStduentQuery(){
         StudentQuery studentQuery=new StudentQuery();
         studentQuery.setProfessionalQuery(1);
-        System.out.println(studentService.query(null,null,studentQuery));
+        System.out.println(studentService.query(null,null,null));
     }
+
+    @Test
+    void testGetOpenStudent(){
+        System.out.println(studentService.getOpenStudent(1,10));
+    }
+
+    @Test
+    void testtset1(){
+        List<Student> listName=studentService.readAll(null);
+        Random r=new Random();
+        while(listName.size()>0)
+        {
+            int i=r.nextInt(listName.size());
+            // String str=;
+            System.out.print(listName.get(i).getStudentNumber()+" ");
+            listName.remove(i);
+        }
+    }
+
+    /**
+     * 2009010034 2006010016 2009010108 2007010009 2006010149 2007010004 2006020058 2006010006 2007010048 2007010006 2018010121 2009020020
+     * 2006010047 2006020059 2007010002 2009020020 2009010034 2016010005 2007010009 2006010015 2007010048 2006010027 2006010022 2006010006
+     * 2009000062 2006010018 2006010007 2016010005 2006010005 2009010034 2006010149 2018010244 2007010002 2006010028 2018010121 2006010017
+     * 2006010027 2007010006 2006020034 2006010017 2006010047 2007010004 2009010095 2006010014 2009000062 2016010005 2018010234 2007010048
+     */
+    @Test
+    void testtest(){
+        String[] name=new String[]{"1","2","3","4","5","6"};//此处替换bai为你自己的字符du串
+        List<String> listName=new ArrayList<String>();
+        for(String s:name)
+            listName.add(s);
+        Random r=new Random();
+        while(listName.size()>0)
+        {
+            int i=r.nextInt(listName.size());
+            // String str=;
+            System.out.print(listName.get(i)+" ");
+            listName.remove(i);
+        }
+    }
+    /**
+     * 2 5 1 4 3 6
+     * 4 3 2 5 1 6
+     * 2 5 4 1 3 6
+     * 4 2 5 3 6 1
+     */
+
+    @Test
+    void randomChooseStudent(){
+        String k=studentService.randomChooseStudent(4);
+        System.out.println(k);
+    }
+
 }

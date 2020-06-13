@@ -55,6 +55,10 @@
     <sql id="queryWhere">
         <if test="objectQuery!=null">
             <where>
+                <!--子查询，如果为真，则查询根据teacher_professional_grade.id查询没有够实习学生的老师 -->
+                <if test="objectQuery.lessThanStudentQuantity==true">
+                    (select count(1) from teacher_student where tpgId=teacher_professional_grade.id)&lt;studentQuantity
+                </if>
                 <if test="objectQuery.teacherNumber!=null">
                     and teacherNumber=#{objectQuery.teacherNumber}
                 </if>

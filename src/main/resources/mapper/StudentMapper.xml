@@ -79,7 +79,7 @@
                 <!-- 排除下列的学号来查询学生集合-->
                 <if test="objectQuery.studentNumbers!=null">
                     <if test="objectQuery.studentNumbers.length>0">
-                        studentNumber not in
+                       and studentNumber not in
                         <foreach item="items" collection="objectQuery.studentNumbers" open="(" separator="," close=")">
                             #{items}
                         </foreach>
@@ -88,7 +88,7 @@
                 <!-- 根据classIds查询学生集合-->
                 <if test="objectQuery.classIds!=null">
                     <if test="objectQuery.classIds.size()>0">
-                        classId  in
+                        and classId  in
                         <foreach item="items" collection="objectQuery.classIds" open="(" separator="," close=")">
                             #{items}
                         </foreach>

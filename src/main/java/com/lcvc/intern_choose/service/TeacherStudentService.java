@@ -47,5 +47,12 @@ public interface TeacherStudentService {
      * @return
      */
     int batchAdd(String studentNumbers,Integer tpgId);
+
+    /**
+     * 随机分配未选择实习老师的学生
+     * @param tpgId
+     * @return 成功记录数
+     */
+    String randomChooseStudent(Integer tpgId);
 }
 

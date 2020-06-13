@@ -106,5 +106,7 @@ public interface StudentService {
      * @param limit
      * @return
      */
-   PageObject getOpenStudent(int page,int limit);
+   PageObject getOpenStudent(Integer page,Integer limit);
+
+
 }

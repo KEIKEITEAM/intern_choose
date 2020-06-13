@@ -55,12 +55,6 @@
     <sql id="queryWhere">
         <if test="objectQuery!=null">
             <where>
-                <if test="objectQuery.gradeId!=null">
-                    and gradeId=#{objectQuery.gradeId}
-                </if>
-                <if test="objectQuery.majorId!=null">
-                    and majorId=#{objectQuery.majorId}
-                </if>
                 <!-- 根据majorIds查询classes集合-->
                 <if test="objectQuery.majorIds!=null">
                     <if test="objectQuery.majorIds.size()>0">
@@ -69,6 +63,12 @@
                             #{items}
                         </foreach>
                     </if>
+                </if>
+                <if test="objectQuery.gradeId!=null">
+                    and gradeId=#{objectQuery.gradeId}
+                </if>
+                <if test="objectQuery.majorId!=null">
+                    and majorId=#{objectQuery.majorId}
                 </if>
             </where>
         </if>

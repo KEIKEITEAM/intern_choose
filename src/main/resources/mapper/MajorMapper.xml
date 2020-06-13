@@ -8,11 +8,14 @@
         </association>
     </resultMap>
     <select id="readAll" resultMap="professional">
-        select * from major order by id
+        select * from major
+        <include refid="queryWhere"></include>
+        order by id
     </select>
 
     <select id="query" resultMap="professional">
         select * from major
+        <include refid="queryWhere"></include>
         order by id asc limit #{offset},#{length}
     </select>
 
@@ -49,6 +52,18 @@
             <where>
                 <if test="objectQuery.professionalId!=null">
                     and professionalId=#{objectQuery.professionalId}
+                </if>
+                <!-- 根据professional查询学生集合-->
+                <if test="objectQuery.professionalIds!=null">
+                    <if test="objectQuery.professionalIds.size()>0">
+                        professionalId  in
+                        <foreach item="items" collection="objectQuery.professionalIds" open="(" separator="," close=")">
+                            #{items}
+                        </foreach>
+                    </if>
+                </if>
+                <if test="objectQuery.open!=null and objectQuery.availableOpen==true">
+                    and open=#{objectQuery.open}
                 </if>
             </where>
         </if>

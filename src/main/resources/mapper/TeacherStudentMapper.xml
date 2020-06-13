@@ -4,15 +4,18 @@
     <!--==================================基本查询============================-->
     <!-- teacher表 -->
     <resultMap id="studentAndTeacher" type="com.lcvc.intern_choose.model.TeacherStudent">
-        <association property="student" javaType="com.lcvc.intern_choose.model.Student" column="studentNumber" select="com.lcvc.intern_choose.dao.StudentDao.get">
+        <association property="student" javaType="com.lcvc.intern_choose.model.Student" column="studentNumber"
+                     select="com.lcvc.intern_choose.dao.StudentDao.get">
         </association>
-        <association property="teacherProfessionalGrade" javaType="com.lcvc.intern_choose.model.TeacherProfessionalGrade" column="tpgId" select="com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao.get">
+        <association property="teacherProfessionalGrade"
+                     javaType="com.lcvc.intern_choose.model.TeacherProfessionalGrade" column="tpgId"
+                     select="com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao.get">
         </association>
     </resultMap>
 
     <select id="querySize" resultType="Integer">
-        select count(1) from  teacher_student
-       <include refid="queryWhere"></include>
+        select count(1) from teacher_student
+        <include refid="queryWhere"></include>
     </select>
 
     <select id="getByStudentNumber" resultType="TeacherStudent">
@@ -29,7 +32,7 @@
             <if test="studentNumber!=null">studentNumber = #{studentNumber},</if>
             <if test="tpgId!=null">tpgId = #{tpgId},</if>
         </set>
-       where  id = #{id}
+        where id = #{id}
     </update>
 
     <delete id="delete">
@@ -64,6 +67,7 @@
                 <if test="objectQuery.studentNumber!=null">
                     and studentNumber=#{objectQuery.studentNumber}
                 </if>
+
             </where>
         </if>
     </sql>
