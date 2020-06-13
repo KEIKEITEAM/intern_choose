@@ -21,41 +21,42 @@ public class TeacherProfessionalGradeController {
 
     @Autowired
     private TeacherProfessionalGradeService teacherProfessionalGradeService;
+
     @GetMapping
-    public Map<String, Object> readAll(Integer page, Integer limit, TeacherProfessionalGradeQuery teacherProfessionalGradeQuery){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> readAll(Integer page, Integer limit, TeacherProfessionalGradeQuery teacherProfessionalGradeQuery) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherProfessionalGradeService.query(page,limit,teacherProfessionalGradeQuery));
+        map.put(Constant.JSON_DATA, teacherProfessionalGradeService.query(page, limit, teacherProfessionalGradeQuery));
         return map;
     }
 
     @GetMapping("/{id}")
-    public Map<String, Object> get(@PathVariable Integer id){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> get(@PathVariable Integer id) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherProfessionalGradeService.get(id));
         return map;
     }
 
     @DeleteMapping("/{id}")
-    public Map<String, Object> delete(@PathVariable Integer id){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> delete(@PathVariable Integer id) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherProfessionalGradeService.delete(id));
         return map;
     }
 
     @PostMapping
-    public Map<String, Object> save(@Validated @RequestBody TeacherProfessionalGrade teacherProfessionalGrade){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> save(@Validated @RequestBody TeacherProfessionalGrade teacherProfessionalGrade) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherProfessionalGradeService.save(teacherProfessionalGrade));
         return map;
     }
 
     @PutMapping
-    public Map<String, Object> update(@RequestBody TeacherProfessionalGrade teacherProfessionalGrade){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> update(@RequestBody TeacherProfessionalGrade teacherProfessionalGrade) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherProfessionalGradeService.update(teacherProfessionalGrade));
         return map;
@@ -63,17 +64,18 @@ public class TeacherProfessionalGradeController {
 
     /**
      * 获取不够实习学生的老师
+     *
      * @param page
      * @param limit
      * @return
      */
     @GetMapping("/getEnough")
-    public Map<String, Object> getEnough(Integer page, Integer limit, TeacherProfessionalGradeQuery teacherProfessionalGradeQuery){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> getEnough(Integer page, Integer limit, TeacherProfessionalGradeQuery teacherProfessionalGradeQuery) {
+        Map<String, Object> map = new HashMap<String, Object>();
         //关键，为true则打开获取不够实习学生的老师的子查询
         teacherProfessionalGradeQuery.setLessThanStudentQuantity(true);
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherProfessionalGradeService.query(page,limit,teacherProfessionalGradeQuery));
+        map.put(Constant.JSON_DATA, teacherProfessionalGradeService.query(page, limit, teacherProfessionalGradeQuery));
         return map;
     }
 

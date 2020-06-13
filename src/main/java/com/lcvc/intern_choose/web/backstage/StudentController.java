@@ -28,7 +28,7 @@ public class StudentController {
     public Map<String, Object> readAll(Integer page, Integer limit, StudentQuery studentQuery) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, studentService.query(page,limit,studentQuery));
+        map.put(Constant.JSON_DATA, studentService.query(page, limit, studentQuery));
         return map;
     }
 
@@ -66,31 +66,33 @@ public class StudentController {
 
     /**
      * 获取没有选择实习老师的学生集合
+     *
      * @param page
      * @param limit
      * @param studentQuery
      * @return
      */
     @GetMapping("/getNotChooseStudent")
-    public Map<String, Object> getNotChooseStudent(Integer page,Integer limit,StudentQuery studentQuery) {
-        Map<String, Object> map = new HashMap<String,Object>();
+    public Map<String, Object> getNotChooseStudent(Integer page, Integer limit, StudentQuery studentQuery) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, studentService.query(page,limit,studentQuery));
+        map.put(Constant.JSON_DATA, studentService.query(page, limit, studentQuery));
         return map;
     }
 
     /**
      * 获取开放选择权限的实习学生
      * （major和professionalGrade open为true）
+     *
      * @param page
      * @param limit
      * @return
      */
     @GetMapping("/getOpenStudent")
-    public Map<String, Object> getOpenStudent(Integer page,Integer limit) {
-        Map<String, Object> map = new HashMap<String,Object>();
+    public Map<String, Object> getOpenStudent(Integer page, Integer limit) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, studentService.getOpenStudent(page,limit));
+        map.put(Constant.JSON_DATA, studentService.getOpenStudent(page, limit));
         return map;
     }
 

@@ -20,41 +20,42 @@ import java.util.Map;
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
+
     @GetMapping
-    public Map<String, Object> readAll(Integer page, Integer limit, TeacherQuery teacherQuery){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> readAll(Integer page, Integer limit, TeacherQuery teacherQuery) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherService.query(page,limit,teacherQuery));
+        map.put(Constant.JSON_DATA, teacherService.query(page, limit, teacherQuery));
         return map;
     }
 
     @GetMapping("/{id}")
-    public Map<String, Object> get(@PathVariable String id){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> get(@PathVariable String id) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherService.get(id));
         return map;
     }
 
     @DeleteMapping("/{id}")
-    public Map<String, Object> delete(@PathVariable String id){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> delete(@PathVariable String id) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherService.delete(id));
         return map;
     }
 
     @PostMapping
-    public Map<String, Object> save(@Validated @RequestBody Teacher teacher){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> save(@Validated @RequestBody Teacher teacher) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherService.save(teacher));
         return map;
     }
 
     @PutMapping
-    public Map<String, Object> update(@Validated @RequestBody Teacher teacher){
-        Map<String, Object> map=new HashMap<String, Object>();
+    public Map<String, Object> update(@Validated @RequestBody Teacher teacher) {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, teacherService.update(teacher));
         return map;

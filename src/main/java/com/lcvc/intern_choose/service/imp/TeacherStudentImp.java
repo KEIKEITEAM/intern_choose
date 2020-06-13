@@ -28,6 +28,7 @@ public class TeacherStudentImp implements TeacherStudentService {
     private ProfessionalGradeDao professionalGradeDao;
     @Autowired
     private ClassesDao classesDao;
+
     @Override
     public List<TeacherStudent> readAll(TeacherStudentQuery teacherStudentQuery) {
         return teacherStudentDao.readAll(teacherStudentQuery);
@@ -43,7 +44,7 @@ public class TeacherStudentImp implements TeacherStudentService {
         /**
          * tpgId是专业群年级开放权限的教师关系表的ID *TeacherProfessioanlGrade简写tpg
          */
-        if(studentDao.get(teacherStudent.getStudentNumber())==null){
+        if (studentDao.get(teacherStudent.getStudentNumber()) == null) {
             throw new MyServiceException("studentNumber输入有误，请重新输入");
         }
         if (teacherProfessionalGradeDao.get(teacherStudent.getTpgId()) == null) {
@@ -59,7 +60,7 @@ public class TeacherStudentImp implements TeacherStudentService {
         /**
          * tpgId是专业群年级开放权限的教师关系表的ID *TeacherProfessioanlGrade简写tpg
          */
-        if(studentDao.get(teacherStudent.getStudentNumber())==null){
+        if (studentDao.get(teacherStudent.getStudentNumber()) == null) {
             throw new MyServiceException("studentNumber输入有误，请重新输入");
         }
         if (teacherProfessionalGradeDao.get(teacherStudent.getTpgId()) == null) {
@@ -72,19 +73,19 @@ public class TeacherStudentImp implements TeacherStudentService {
     @Override
     public Boolean delete(Integer id) {
         int k = teacherStudentDao.delete(id);
-        return k > 0 ;
+        return k > 0;
     }
 
     @Override
     public PageObject query(Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery) {
-        PageObject pageObject = new PageObject(limit,page,teacherStudentDao.querySize(teacherStudentQuery));
-        pageObject.setList(teacherStudentDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherStudentQuery));
+        PageObject pageObject = new PageObject(limit, page, teacherStudentDao.querySize(teacherStudentQuery));
+        pageObject.setList(teacherStudentDao.query(pageObject.getOffset(), pageObject.getLimit(), teacherStudentQuery));
         return pageObject;
     }
 
     @Override
-    public PageObject getByTeacherNumber(String teacherNumber,Integer professionalGradeId,Integer page, Integer limit) {
-        if (professionalGradeId==null){
+    public PageObject getByTeacherNumber(String teacherNumber, Integer professionalGradeId, Integer page, Integer limit) {
+        if (professionalGradeId == null) {
             throw new MyServiceException("professionalGradeId不能为空");
         }
         //根据teacherNumber查询 TeacherProfessionalGrade对象
@@ -95,42 +96,42 @@ public class TeacherStudentImp implements TeacherStudentService {
         TeacherProfessionalGrade teacherProfessionalGrade = null;
         if (teacherProfessionalGradeList.size() == 1) {
             teacherProfessionalGrade = teacherProfessionalGradeList.get(0);
-        }else {
+        } else {
             throw new MyServiceException("数据有误，请联系管理员");
         }
         //根据tpgId查询 TeacherStudent集合
         TeacherStudentQuery teacherStudentQuery = new TeacherStudentQuery();
         teacherStudentQuery.setTpgId(teacherProfessionalGrade.getId());
-        PageObject pageObject = new PageObject(limit,page,teacherStudentDao.querySize(teacherStudentQuery));
-        pageObject.setList(teacherStudentDao.query(pageObject.getOffset(),pageObject.getLimit(),teacherStudentQuery));
+        PageObject pageObject = new PageObject(limit, page, teacherStudentDao.querySize(teacherStudentQuery));
+        pageObject.setList(teacherStudentDao.query(pageObject.getOffset(), pageObject.getLimit(), teacherStudentQuery));
         return pageObject;
     }
 
     @Override
     public int batchAdd(String studentNumbers, Integer tpgId) {
-        String[] arr=studentNumbers.split(",");
+        String[] arr = studentNumbers.split(",");
         //获取教师专业群年级对象
-        TeacherProfessionalGrade teacherProfessionalGrade=teacherProfessionalGradeDao.get(tpgId);
-        int sum=0;
-        for (int i = 0; i < arr.length ; i++) {
+        TeacherProfessionalGrade teacherProfessionalGrade = teacherProfessionalGradeDao.get(tpgId);
+        int sum = 0;
+        for (int i = 0; i < arr.length; i++) {
             //判断该条记录是否存在
             TeacherStudentQuery teacherStudentQuery = null;
-            teacherStudentQuery =new TeacherStudentQuery();
+            teacherStudentQuery = new TeacherStudentQuery();
             teacherStudentQuery.setStudentNumber(arr[i]);
-            int teacherStudentSize=teacherStudentDao.querySize(teacherStudentQuery);
-            if (teacherStudentSize==0){
+            int teacherStudentSize = teacherStudentDao.querySize(teacherStudentQuery);
+            if (teacherStudentSize == 0) {
                 teacherStudentQuery = new TeacherStudentQuery();
                 teacherStudentQuery.setTpgId(tpgId);
-                int size= teacherStudentDao.querySize(teacherStudentQuery);
+                int size = teacherStudentDao.querySize(teacherStudentQuery);
                 //判断是否小于教师的学生数量
-                if (size<teacherProfessionalGrade.getStudentQuantity()){
-                    Student student=studentDao.get(Integer.parseInt(arr[i]));
-                    if (student!=null){
-                        TeacherStudent teacherStudent=new TeacherStudent();
+                if (size < teacherProfessionalGrade.getStudentQuantity()) {
+                    Student student = studentDao.get(Integer.parseInt(arr[i]));
+                    if (student != null) {
+                        TeacherStudent teacherStudent = new TeacherStudent();
                         teacherStudent.setStudentNumber(arr[i]);
                         teacherStudent.setTpgId(tpgId);
                         teacherStudent.setCreatTime(new Date());
-                        if (teacherStudentDao.save(teacherStudent)>0){
+                        if (teacherStudentDao.save(teacherStudent) > 0) {
                             sum++;
                         }
                     }
@@ -144,16 +145,16 @@ public class TeacherStudentImp implements TeacherStudentService {
     public String randomChooseStudent(Integer tpgId) {
         //获取teacherProfessionalGrade对象
         TeacherProfessionalGrade tpg = teacherProfessionalGradeDao.get(tpgId);
-        if (tpg==null){
-            throw new  MyServiceException("提交的tpgId数据有误，请重新提交");
+        if (tpg == null) {
+            throw new MyServiceException("提交的tpgId数据有误，请重新提交");
         }
         //判断该老师的实习名额是否已满
-        TeacherStudentQuery teacherStudentQuery=null;
-        teacherStudentQuery=new TeacherStudentQuery();
+        TeacherStudentQuery teacherStudentQuery = null;
+        teacherStudentQuery = new TeacherStudentQuery();
         teacherStudentQuery.setTpgId(tpgId);
-        int size=teacherStudentDao.querySize(teacherStudentQuery);
-        if (size>=tpg.getStudentQuantity()){
-            throw new  MyServiceException("该老师的实习名额已满");
+        int size = teacherStudentDao.querySize(teacherStudentQuery);
+        if (size >= tpg.getStudentQuantity()) {
+            throw new MyServiceException("该老师的实习名额已满");
         }
         //获取professionalGrade对象
         ProfessionalGrade professionalGrade = professionalGradeDao.get(tpg.getProfessionalGrade().getId());
@@ -195,25 +196,22 @@ public class TeacherStudentImp implements TeacherStudentService {
         }
 
         Random r = new Random();
-        int sum=0;
+        int sum = 0;
         while (studentList.size() > 0) {
             //判断该实习老师手下的实习学生数量是否超出
-            teacherStudentQuery=new TeacherStudentQuery();
-            teacherStudentQuery.setTpgId(tpgId);
-            int teacherStudentSize=teacherStudentDao.querySize(teacherStudentQuery);
-            if (teacherStudentSize==tpg.getStudentQuantity()){
+            if (tpg.getStudentQuantity() - size == sum) {
                 break;
             }
-            TeacherStudent teacherStudent=new TeacherStudent();
+            TeacherStudent teacherStudent = new TeacherStudent();
             int i = r.nextInt(studentList.size());
             teacherStudent.setStudentNumber(studentList.get(i).getStudentNumber());
             teacherStudent.setTpgId(tpgId);
             teacherStudent.setCreatTime(new Date());
-            if (teacherStudentDao.save(teacherStudent)>0){
+            if (teacherStudentDao.save(teacherStudent) > 0) {
                 sum++;
             }
             studentList.remove(i);
         }
-        return "该老师有"+tpg.getStudentQuantity()+"名实习生名额,已选"+size+"名,本次分配了"+sum+"名实习生";
+        return "该老师有" + tpg.getStudentQuantity() + "名实习生名额,已选" + size + "名,本次分配了" + sum + "名实习生";
     }
 }

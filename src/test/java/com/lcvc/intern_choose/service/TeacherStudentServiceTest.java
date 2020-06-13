@@ -10,6 +10,7 @@ class TeacherStudentServiceTest {
 
     @Autowired
     private TeacherStudentService teacherStudentService;
+
     @Test
     void readAll() {
         teacherStudentService.readAll(null).forEach(System.out::println);
@@ -22,7 +23,7 @@ class TeacherStudentServiceTest {
 
     @Test
     void save() {
-        TeacherStudent teacherStudent=new TeacherStudent();
+        TeacherStudent teacherStudent = new TeacherStudent();
         teacherStudent.setStudentNumber("123123");
         teacherStudent.setTpgId(3);
         System.out.println(teacherStudentService.save(teacherStudent));
@@ -30,7 +31,7 @@ class TeacherStudentServiceTest {
 
     @Test
     void update() {
-        TeacherStudent teacherStudent=new TeacherStudent();
+        TeacherStudent teacherStudent = new TeacherStudent();
         teacherStudent.setId(9);
         teacherStudent.setStudentNumber("1231");
         teacherStudent.setTpgId(3);
@@ -43,7 +44,7 @@ class TeacherStudentServiceTest {
     }
 
     @Test
-    void batchAdd(){
+    void batchAdd() {
         /*
         184023086
 184023087
@@ -52,13 +53,13 @@ class TeacherStudentServiceTest {
 184023102
 184023104
          */
-        int k=teacherStudentService.batchAdd("184023086,184023087,184023088,184023092,184023102,184023104",7);
+        int k = teacherStudentService.batchAdd("184023086,184023087,184023088,184023092,184023102,184023104", 7);
         System.out.println(k);
     }
 
     @Test
-    void randomChooseStudent(){
-        String k=teacherStudentService.randomChooseStudent(4);
+    void randomChooseStudent() {
+        String k = teacherStudentService.randomChooseStudent(4);
         System.out.println(k);
     }
 }

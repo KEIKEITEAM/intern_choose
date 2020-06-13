@@ -23,12 +23,14 @@ public interface TeacherStudentService {
 
     /**
      * 分页获取该表全部数据
+     *
      * @return
      */
-    PageObject query (Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery);
+    PageObject query(Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery);
 
     /**
      * 根据teacherNumber和professionalGradeId查询TeacherStudent集合
+     *
      * @param teacherNumber
      * @param professionalGradeId
      * @param page
@@ -42,14 +44,16 @@ public interface TeacherStudentService {
 
     /**
      * 批量添加
+     *
      * @param studentNumbers
      * @param tpgId
      * @return
      */
-    int batchAdd(String studentNumbers,Integer tpgId);
+    int batchAdd(String studentNumbers, Integer tpgId);
 
     /**
      * 随机分配未选择实习老师的学生
+     *
      * @param tpgId
      * @return 成功记录数
      */
