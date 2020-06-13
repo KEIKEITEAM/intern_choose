@@ -147,11 +147,4 @@ public class StudentServiceTests {
      * 2 5 4 1 3 6
      * 4 2 5 3 6 1
      */
-
-    @Test
-    void randomChooseStudent(){
-        String k=studentService.randomChooseStudent(4);
-        System.out.println(k);
-    }
-
 }

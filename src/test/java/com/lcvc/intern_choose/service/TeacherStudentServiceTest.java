@@ -55,4 +55,10 @@ class TeacherStudentServiceTest {
         int k=teacherStudentService.batchAdd("184023086,184023087,184023088,184023092,184023102,184023104",7);
         System.out.println(k);
     }
+
+    @Test
+    void randomChooseStudent(){
+        String k=teacherStudentService.randomChooseStudent(4);
+        System.out.println(k);
+    }
 }
