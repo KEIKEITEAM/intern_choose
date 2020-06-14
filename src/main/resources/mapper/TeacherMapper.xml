@@ -43,8 +43,8 @@
         <set>
             <if test="name!=null">name=#{name},</if>
             <if test="password!=null">password=#{password},</if>
-            <if test="tel!=null">tel=#{tel},</if>
-            <if test="qq!=null">qq=#{qq},</if>
+            <if test="tel!=null and tel.length>0">tel=#{tel},</if>
+            <if test="qq!=null and qq.length>0">qq=#{qq},</if>
             <if test="professionalId!=null">professionalId=#{professionalId},</if>
         </set>
         where teacherNumber = #{teacherNumber}
