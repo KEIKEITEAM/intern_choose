@@ -10,6 +10,7 @@ import com.lcvc.intern_choose.model.query.*;
 import com.lcvc.intern_choose.service.StudentService;
 import com.lcvc.intern_choose.util.IsInDate;
 import com.lcvc.intern_choose.util.SHA;
+import com.lcvc.intern_choose.util.StudentQueryByGpmc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -19,7 +20,6 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 
 @Service
@@ -41,6 +41,8 @@ public class StudentServiceImp implements StudentService {
     private TeacherStudentDao teacherStudentDao;
     @Autowired
     private TeacherDao teacherDao;
+    @Autowired
+    private StudentQueryByGpmc studentQueryByGpmc;
 
     @Override
     public Student get(String id) {
@@ -225,9 +227,7 @@ public class StudentServiceImp implements StudentService {
      */
     @Override
     public PageObject query(Integer page, Integer limit, StudentQuery studentQuery) {
-        ClassesQuery classesQuery = null;
-        List<Integer> classesIds = new ArrayList<>();
-
+/*
         //如果年级不为空  gradeId-->classIds-->Set<Integer> classesIds
         if (studentQuery.getGradeQuery() != null) {
             classesQuery = new ClassesQuery();
@@ -294,6 +294,10 @@ public class StudentServiceImp implements StudentService {
         if (status) {
             return null;
         }
+
+ */
+
+        List<Integer> classesIds = studentQueryByGpmc.getClassIds(studentQuery);
         studentQuery.setClassIds(classesIds);
         PageObject pageObject = new PageObject(limit, page, studentDao.querySize(studentQuery));
         pageObject.setList(studentDao.query(pageObject.getOffset(), pageObject.getLimit(), studentQuery));

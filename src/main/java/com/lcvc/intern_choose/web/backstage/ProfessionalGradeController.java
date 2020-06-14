@@ -24,7 +24,7 @@ public class ProfessionalGradeController {
     private ProfessionalGradeService professionalGradeService;
 
     @GetMapping
-    public Map<String, Object> readAll(Integer page, Integer limit, ProfessionalGradeQuery professionalGradeQuery){
+    public Map<String, Object> readAll( Integer page,Integer limit, ProfessionalGradeQuery professionalGradeQuery){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, professionalGradeService.query(page,limit,professionalGradeQuery));

@@ -5,14 +5,11 @@ import com.lcvc.intern_choose.dao.TeacherDao;
 import com.lcvc.intern_choose.dao.TeacherProfessionalGradeDao;
 import com.lcvc.intern_choose.dao.TeacherStudentDao;
 import com.lcvc.intern_choose.model.Teacher;
-import com.lcvc.intern_choose.model.TeacherProfessionalGrade;
 import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.model.form.TeacherPasswordForm;
-import com.lcvc.intern_choose.model.query.TeacherProfessionalGradeQuery;
 import com.lcvc.intern_choose.model.query.TeacherQuery;
-import com.lcvc.intern_choose.model.query.TeacherStudentQuery;
 import com.lcvc.intern_choose.service.TeacherService;
 import com.lcvc.intern_choose.util.SHA;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,8 +55,8 @@ public class TeacherServiceImp implements TeacherService {
 
 
     @Override
-    public List<Teacher> readAll() {
-        List list = teacherDao.readAll(null);
+    public List<Teacher> readAll(TeacherQuery teacherQuery) {
+        List list = teacherDao.readAll(teacherQuery);
         return list.size() != 0 ? list : null;
     }
 

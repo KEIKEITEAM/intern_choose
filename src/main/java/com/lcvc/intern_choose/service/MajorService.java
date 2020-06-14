@@ -2,6 +2,7 @@ package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Major;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.query.MajorQuery;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -18,13 +19,13 @@ public interface MajorService {
      * 获取该表全部数据
      * @return
      */
-    List<Major> readAll();
+    List<Major> readAll(MajorQuery majorQuery);
 
     /**
      * 分页获取该表全部数据
      * @return
      */
-    PageObject query (Integer page, Integer limit, Major major);
+    PageObject query (Integer page, Integer limit, MajorQuery majorQuery);
 
     /**
      * 根据ID删除该表数据

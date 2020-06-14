@@ -59,6 +59,15 @@
                 <if test="objectQuery.lessThanStudentQuantity==true">
                     (select count(1) from teacher_student where tpgId=teacher_professional_grade.id)&lt;studentQuantity
                 </if>
+                <!--子查询,名字模糊查询,根据名字模糊查询teacher表-->
+                <if test="objectQuery.name!=null and objectQuery.name.length()>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="name" value="'%' + _parameter.objectQuery.name + '%'" />
+                    and teacherNumber in (select teacherNumber from teacher where name like #{name})
+                </if>
+                <if test="objectQuery.professionalId!=null">
+                    and teacherNumber in (SELECT teacherNumber FROM teacher WHERE professionalId= #{objectQuery.professionalId})
+                </if>
                 <if test="objectQuery.teacherNumber!=null">
                     and teacherNumber=#{objectQuery.teacherNumber}
                 </if>

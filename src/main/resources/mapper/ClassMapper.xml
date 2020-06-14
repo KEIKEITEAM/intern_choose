@@ -70,6 +70,12 @@
                 <if test="objectQuery.majorId!=null">
                     and majorId=#{objectQuery.majorId}
                 </if>
+                <!--班级名称的模糊查询-->
+                <if test="objectQuery.name!=null and objectQuery.name.length()>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="name" value="'%' + _parameter.objectQuery.name + '%'" />
+                    and name like #{name}
+                </if>
             </where>
         </if>
     </sql>

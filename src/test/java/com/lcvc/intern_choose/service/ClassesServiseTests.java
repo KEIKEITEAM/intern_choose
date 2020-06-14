@@ -1,6 +1,8 @@
 package com.lcvc.intern_choose.service;
 
 import com.lcvc.intern_choose.model.Classes;
+import com.lcvc.intern_choose.model.query.StudentQuery;
+import com.lcvc.intern_choose.util.StudentQueryByGpmc;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,7 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ClassesServiseTests {
         @Autowired
         private  ClassesServise classesServise;
-
+        @Autowired
+        private StudentQueryByGpmc studentQueryByGpmc;
     /**
      * ZF
      * 年级添加方法测试
@@ -66,7 +69,12 @@ class ClassesServiseTests {
      */
     @Test
     void  realAll(){
-        System.out.println(classesServise.readAll());
+        //System.out.println(classesServise.readAll(null));
+        StudentQuery studentQuery=new StudentQuery();
+        studentQuery.setGradeQuery(1);
+        studentQuery.setProfessionalQuery(1);
+        System.out.println(studentQueryByGpmc.getClassIds(studentQuery));
+
     }
 
 

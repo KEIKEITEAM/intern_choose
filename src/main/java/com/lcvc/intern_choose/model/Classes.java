@@ -5,6 +5,9 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+/**
+ * @author 张峰
+ */
 public class Classes {
     private Integer id;
     @NotEmpty(message = "name不能为空")

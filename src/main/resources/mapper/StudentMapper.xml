@@ -71,6 +71,7 @@
     <sql id="queryWhere">
         <if test="objectQuery!=null">
             <where>
+                <!--名字的模糊查询-->
                 <if test="objectQuery.name!=null and objectQuery.name.length()>0">
                     <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
                     <bind name="name" value="'%' + _parameter.objectQuery.name + '%'" />

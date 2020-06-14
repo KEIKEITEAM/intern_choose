@@ -26,11 +26,5 @@ public interface TeacherProfessionalGradeService {
      */
     PageObject query (Integer page, Integer limit, TeacherProfessionalGradeQuery teacherProfessionalGradeQuery);
 
-    /**
-     * 获取不够实习学生的老师
-     * @param page
-     * @param limit
-     * @return
-     */
-    PageObject getNotEnough(Integer page, Integer limit);
+
 }

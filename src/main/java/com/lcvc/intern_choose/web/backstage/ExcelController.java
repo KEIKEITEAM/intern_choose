@@ -64,7 +64,7 @@ public class ExcelController {
     //获取教师的信息
     @GetMapping("/teacher")
     public String getTeacherTable(HttpServletResponse response){
-        List<Teacher> list=teacherService.readAll();
+        List<Teacher> list=teacherService.readAll(null);
         //导出表格
         XSSFWorkbook book= ExcelWirteForTable.getTeacherSheet(list);//根据记录，生成excel表格
         //创建文件对象，导出

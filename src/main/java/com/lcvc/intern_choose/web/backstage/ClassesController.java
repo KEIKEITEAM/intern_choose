@@ -5,6 +5,7 @@ import com.lcvc.intern_choose.model.Classes;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
 import com.lcvc.intern_choose.model.base.PageObject;
+import com.lcvc.intern_choose.model.query.ClassesQuery;
 import com.lcvc.intern_choose.service.ClassesServise;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,9 +31,9 @@ public class ClassesController {
      * @return
      */
     @GetMapping
-    public Map<String, Object> query(Integer page, Integer limit){
+    public Map<String, Object> query(Integer page, Integer limit, ClassesQuery classesQuery){
         Map<String, Object> map=new HashMap<String, Object>();
-        PageObject pageObject =classesServise.query(page,limit,null);
+        PageObject pageObject =classesServise.query(page,limit,classesQuery);
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
         map.put(Constant.JSON_DATA, pageObject);
         return map;

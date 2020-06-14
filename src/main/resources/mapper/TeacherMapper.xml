@@ -5,28 +5,32 @@
     <!--==================================基本查询============================-->
     <!--professional 关联对象    -->
     <resultMap id="professional" type="com.lcvc.intern_choose.model.Teacher">
-        <association property="professional" javaType="com.lcvc.intern_choose.model.Professional" column="professionalId" select="com.lcvc.intern_choose.dao.ProfessionalDao.get">
+        <association property="professional" javaType="com.lcvc.intern_choose.model.Professional"
+                     column="professionalId" select="com.lcvc.intern_choose.dao.ProfessionalDao.get">
         </association>
     </resultMap>
     <select id="get" resultMap="professional">
         select * from teacher where teacherNumber=#{teacherNumber}
     </select>
 
-    <select id="login"  resultType="Integer">
+    <select id="login" resultType="Integer">
         select count(1) from teacher where teacherNumber=#{teacherNumber} and password=#{password}
     </select>
 
     <select id="readAll" resultMap="professional">
         select * from teacher
+        <include refid="queryWhere"></include>
     </select>
 
     <select id="query" resultMap="professional">
         select * from teacher
+        <include refid="queryWhere"></include>
         order by teacherNumber asc limit #{offset},#{length}
     </select>
 
     <select id="querySize" resultType="Integer">
         select count(1)  from teacher
+        <include refid="queryWhere"></include>
     </select>
 
     <insert id="save">
@@ -35,7 +39,7 @@
     </insert>
 
     <update id="update">
-         update teacher
+        update teacher
         <set>
             <if test="name!=null">name=#{name},</if>
             <if test="password!=null">password=#{password},</if>
@@ -43,12 +47,27 @@
             <if test="qq!=null">qq=#{qq},</if>
             <if test="professionalId!=null">professionalId=#{professionalId},</if>
         </set>
-       where teacherNumber = #{teacherNumber}
+        where teacherNumber = #{teacherNumber}
     </update>
 
     <delete id="delete">
          delete from teacher where teacherNumber = #{teacherNumber}
     </delete>
 
-
+    <!--统一查询的条件-->
+    <sql id="queryWhere">
+        <if test="objectQuery!=null">
+            <where>
+                <!--名字的模糊查询-->
+                <if test="objectQuery.name!=null and objectQuery.name.length()>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="name" value="'%' + _parameter.objectQuery.name + '%'"/>
+                    and name like #{name}
+                </if>
+                <if test="objectQuery.professionalId!=null">
+                    and professionalId = #{objectQuery.professionalId}
+                </if>
+            </where>
+        </if>
+    </sql>
 </mapper>

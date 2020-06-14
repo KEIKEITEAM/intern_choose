@@ -5,8 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class MajorServiceTests {
     @Autowired
@@ -67,6 +65,6 @@ class MajorServiceTests {
      */
     @Test
     void  realAll(){
-        System.out.println(majorService.readAll());
+        System.out.println(majorService.readAll(null));
     }
 }

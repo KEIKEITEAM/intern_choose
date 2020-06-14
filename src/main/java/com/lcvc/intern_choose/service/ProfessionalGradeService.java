@@ -8,7 +8,7 @@ import java.text.ParseException;
 import java.util.List;
 
 public interface ProfessionalGradeService {
-    List<ProfessionalGrade> readAll(Object object);
+    List<ProfessionalGrade> readAll(ProfessionalGradeQuery professionalGradeQuery);
 
     /**
      * 分页获取该表全部数据

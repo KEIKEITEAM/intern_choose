@@ -26,7 +26,7 @@ public interface TeacherService {
      * 获取该表全部数据
      * @return
      */
-    List<Teacher> readAll();
+    List<Teacher> readAll(TeacherQuery teacherQuery);
 
     /**
      * 根据ID删除该表数据

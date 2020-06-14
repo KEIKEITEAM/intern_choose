@@ -3,6 +3,7 @@ package com.lcvc.intern_choose.web.backstage;
 import com.lcvc.intern_choose.model.Major;
 import com.lcvc.intern_choose.model.base.Constant;
 import com.lcvc.intern_choose.model.base.JsonCode;
+import com.lcvc.intern_choose.model.query.MajorQuery;
 import com.lcvc.intern_choose.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -18,10 +19,10 @@ public class MajorController {
     private MajorService majorService;
 
     @GetMapping
-    public Map<String, Object> readAll(Integer page,Integer limit){
+    public Map<String, Object> readAll(Integer page, Integer limit, MajorQuery majorQuery){
         Map<String, Object> map=new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, majorService.query(page,limit,null));
+        map.put(Constant.JSON_DATA, majorService.query(page,limit,majorQuery));
         return map;
     }
 

@@ -6,6 +6,7 @@ import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.query.*;
 import com.lcvc.intern_choose.service.TeacherStudentService;
+import com.lcvc.intern_choose.util.StudentQueryByGpmc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +29,8 @@ public class TeacherStudentImp implements TeacherStudentService {
     private ProfessionalGradeDao professionalGradeDao;
     @Autowired
     private ClassesDao classesDao;
+    @Autowired
+    private StudentQueryByGpmc studentQueryByGpmc;
 
     @Override
     public List<TeacherStudent> readAll(TeacherStudentQuery teacherStudentQuery) {
@@ -78,6 +81,8 @@ public class TeacherStudentImp implements TeacherStudentService {
 
     @Override
     public PageObject query(Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery) {
+        List<Integer> classesIds = studentQueryByGpmc.getClassIds(teacherStudentQuery);
+        teacherStudentQuery.setClassIds(classesIds);
         PageObject pageObject = new PageObject(limit, page, teacherStudentDao.querySize(teacherStudentQuery));
         pageObject.setList(teacherStudentDao.query(pageObject.getOffset(), pageObject.getLimit(), teacherStudentQuery));
         return pageObject;
@@ -194,7 +199,7 @@ public class TeacherStudentImp implements TeacherStudentService {
         if (studentList.size() == 0) {
             throw new MyServiceException("可供该老师分配的学生数量为0");
         }
-
+        //随机分配学生
         Random r = new Random();
         int sum = 0;
         while (studentList.size() > 0) {

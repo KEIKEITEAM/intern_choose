@@ -31,12 +31,21 @@ public class ProfessionalGradeImp implements ProfessionalGradeService {
     private TeacherProfessionalGradeDao teacherProfessionalGradeDao;
 
     @Override
-    public List<ProfessionalGrade> readAll(Object object) {
-        return professionalGradeDao.readAll(null);
+    public List<ProfessionalGrade> readAll(ProfessionalGradeQuery professionalGradeQuery) {
+        return professionalGradeDao.readAll(professionalGradeQuery);
     }
 
     @Override
     public PageObject query(Integer page, Integer limit, ProfessionalGradeQuery professionalGradeQuery) {
+        //打开查询开放条件为真的判断,getAvailableOpen为true时才会打开查询open字段
+        if (professionalGradeQuery.getAvailableOpen()!=null){
+            if (professionalGradeQuery.getAvailableOpen()){
+                professionalGradeQuery.setOpen(professionalGradeQuery.getAvailableOpen());
+            }else{
+                professionalGradeQuery.setAvailableOpen(true);
+                professionalGradeQuery.setOpen(false);
+            }
+        }
         PageObject pageObject = new PageObject(limit, page, professionalGradeDao.querySize(professionalGradeQuery));
         pageObject.setList(professionalGradeDao.query(pageObject.getOffset(), pageObject.getLimit(), professionalGradeQuery));
         return pageObject;

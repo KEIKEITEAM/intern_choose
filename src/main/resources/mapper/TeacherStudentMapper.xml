@@ -61,6 +61,24 @@
     <sql id="queryWhere">
         <if test="objectQuery!=null">
             <where>
+                <!-- 根据classIds查询集合-->
+                <if test="objectQuery.classIds!=null">
+                    <if test="objectQuery.classIds.size()>0">
+                        studentNumber in
+                        (
+                        SELECT studentNumber FROM student WHERE classId in
+                        <foreach item="items" collection="objectQuery.classIds" open="(" separator="," close=")">
+                            #{items}
+                        </foreach>
+                        )
+                    </if>
+                </if>
+                <!--学生名字的模糊查询-->
+                <if test="objectQuery.studentName!=null and objectQuery.studentName.length()>0">
+                    <!-- bind，重新定义一个变量，可用于模糊查询等，并且可以直接覆盖原变量 -->
+                    <bind name="studentName" value="'%' + _parameter.objectQuery.studentName + '%'"/>
+                    and studentNumber in (SELECT studentNumber FROM student WHERE name like #{studentName})
+                </if>
                 <if test="objectQuery.tpgId!=null">
                     and tpgId=#{objectQuery.tpgId}
                 </if>

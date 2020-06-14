@@ -8,6 +8,7 @@ import com.lcvc.intern_choose.model.base.PageObject;
 import com.lcvc.intern_choose.model.exception.MyServiceException;
 import com.lcvc.intern_choose.model.exception.MyWebException;
 import com.lcvc.intern_choose.model.query.ClassesQuery;
+import com.lcvc.intern_choose.model.query.MajorQuery;
 import com.lcvc.intern_choose.service.MajorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,15 +30,24 @@ public class MajorServiceImp implements MajorService {
     }
 
     @Override
-    public List<Major> readAll() {
+    public List<Major> readAll(MajorQuery majorQuery) {
         List<Major> list = majorDao.readAll(null);
         return list.size() != 0 ? list : null;
     }
 
     @Override
-    public PageObject query(Integer page, Integer limit, Major major) {
-        PageObject pageObject = new PageObject(limit,page,majorDao.querySize(major));
-        pageObject.setList(majorDao.query(pageObject.getOffset(),pageObject.getLimit(),major));
+    public PageObject query(Integer page, Integer limit, MajorQuery majorQuery) {
+        //打开查询开放条件为真的判断,getAvailableOpen为true时才会打开查询open字段
+        if (majorQuery.getAvailableOpen()!=null){
+            if (majorQuery.getAvailableOpen()){
+                majorQuery.setOpen(majorQuery.getAvailableOpen());
+            }else{
+                majorQuery.setAvailableOpen(true);
+                majorQuery.setOpen(false);
+            }
+        }
+        PageObject pageObject = new PageObject(limit,page,majorDao.querySize(majorQuery));
+        pageObject.setList(majorDao.query(pageObject.getOffset(),pageObject.getLimit(),majorQuery));
         return pageObject;
     }
 
