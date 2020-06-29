@@ -61,7 +61,11 @@ public class ExcelController {
         }
     }
 
-    //获取教师的信息
+    /**获取教师的信息
+     *
+     * @param response
+     * @return
+     */
     @GetMapping("/teacher")
     public String getTeacherTable(HttpServletResponse response){
         List<Teacher> list=teacherService.readAll(null);
@@ -72,7 +76,11 @@ public class ExcelController {
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
 
-    //获取教师的信息
+    /**
+     * 获取学生的信息
+     * @param response
+     * @return
+     */
     @GetMapping("/student")
     public String student(HttpServletResponse response){
         List<Student> list=studentService.readAll(null);
@@ -83,7 +91,11 @@ public class ExcelController {
         return "SUCCESS";//这里其实就是随意返回一个字符串
     }
 
-    //获取已选择的实习老师的学生信息
+    /**获取已选择的实习老师的学生信息
+     *
+     * @param response
+     * @return
+     */
     @GetMapping("/teacherStudent")
     public String teacherStduent(HttpServletResponse response){
         List<TeacherStudent> list=teacherStudentService.readAll(null);

@@ -24,7 +24,12 @@ public class ExcelWirteForTeacherStudentSheet {
                 "年级",
                 "专业",
                 "班级",
-                "实习指导老师"
+                "学生电话",
+                "学生QQ",
+                "教师工号",
+                "实习指导老师",
+                "老师电话",
+                "老师QQ"
         };
 
         // 创建工作表
@@ -136,8 +141,38 @@ public class ExcelWirteForTeacherStudentSheet {
             XSSFCell listRowCell6 = listRow.createCell(6);
             //为列赋值和样式
             listRowCell6.setCellStyle(titleStyle);
-            String s=list.get(i).getTeacherProfessionalGrade().getTeacher().getName();
-            listRowCell6.setCellValue(s);
+            listRowCell6.setCellValue(list.get(i).getStudent().getTel());
+
+            //创建列
+            XSSFCell listRowCell7 = listRow.createCell(7);
+            //为列赋值和样式
+            listRowCell7.setCellStyle(titleStyle);
+            listRowCell7.setCellValue(list.get(i).getStudent().getQq());
+
+            //创建列
+            XSSFCell listRowCell8 = listRow.createCell(8);
+            //为列赋值和样式
+            listRowCell8.setCellStyle(titleStyle);
+            listRowCell8.setCellValue(list.get(i).getTeacherProfessionalGrade().getTeacher().getTeacherNumber());
+
+            //创建列
+            XSSFCell listRowCell9 = listRow.createCell(9);
+            //为列赋值和样式
+            listRowCell9.setCellStyle(titleStyle);
+            listRowCell9.setCellValue(list.get(i).getTeacherProfessionalGrade().getTeacher().getName());
+
+            //创建列
+            XSSFCell listRowCell10 = listRow.createCell(10);
+            //为列赋值和样式
+            listRowCell10.setCellStyle(titleStyle);
+            listRowCell10.setCellValue(list.get(i).getTeacherProfessionalGrade().getTeacher().getTel());
+
+            //创建列
+            XSSFCell listRowCell11 = listRow.createCell(11);
+            //为列赋值和样式
+            listRowCell11.setCellStyle(titleStyle);
+            listRowCell11.setCellValue(list.get(i).getTeacherProfessionalGrade().getTeacher().getQq());
+
         }
         return sheet;
     }

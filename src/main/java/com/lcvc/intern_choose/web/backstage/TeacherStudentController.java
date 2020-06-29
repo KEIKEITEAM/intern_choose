@@ -88,7 +88,7 @@ public class TeacherStudentController {
     public Map<String, Object> randomChoose(@PathVariable Integer tpgId) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherStudentService.randomChooseStudent(tpgId));
+        map.put(Constant.JSON_MESSAGE, teacherStudentService.randomChooseStudent(tpgId));
         return map;
     }
 

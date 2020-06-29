@@ -25,7 +25,8 @@ public class ExcelWirteForTeacherSheet {
                 "工号",
                 "姓名",
                 "专业群",
-                "实习数量"
+                "电话号码",
+                "QQ号码"
         };
 
         // 创建工作表
@@ -119,7 +120,13 @@ public class ExcelWirteForTeacherSheet {
             XSSFCell listRowCell3 = listRow.createCell(3);
             //为列赋值和样式
             listRowCell3.setCellStyle(titleStyle);
-            listRowCell3.setCellValue(" ");
+            listRowCell3.setCellValue(list.get(i).getTel());
+
+            //创建列
+            XSSFCell listRowCell4 = listRow.createCell(4);
+            //为列赋值和样式
+            listRowCell4.setCellStyle(titleStyle);
+            listRowCell4.setCellValue(list.get(i).getQq());
         }
         return sheet;
     }

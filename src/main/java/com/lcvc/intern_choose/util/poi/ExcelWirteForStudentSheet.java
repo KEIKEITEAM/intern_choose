@@ -23,7 +23,9 @@ public class ExcelWirteForStudentSheet {
                 "专业群",
                 "年级",
                 "专业",
-                "班级"
+                "班级",
+                "电话号码",
+                "QQ号码"
         };
 
         // 创建工作表
@@ -130,6 +132,18 @@ public class ExcelWirteForStudentSheet {
             //为列赋值和样式
             listRowCell5.setCellStyle(titleStyle);
             listRowCell5.setCellValue(list.get(i).getClasses().getName());
+
+            //创建列
+            XSSFCell listRowCell6 = listRow.createCell(6);
+            //为列赋值和样式
+            listRowCell6.setCellStyle(titleStyle);
+            listRowCell6.setCellValue(list.get(i).getTel());
+
+            //创建列
+            XSSFCell listRowCell7 = listRow.createCell(7);
+            //为列赋值和样式
+            listRowCell7.setCellStyle(titleStyle);
+            listRowCell7.setCellValue(list.get(i).getQq());
         }
         return sheet;
     }
