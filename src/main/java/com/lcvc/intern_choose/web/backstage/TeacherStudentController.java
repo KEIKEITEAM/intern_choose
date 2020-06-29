@@ -65,15 +65,16 @@ public class TeacherStudentController {
     /**
      * 批量添加
      *
-     * @param students
+     * @param studentNumbers
      * @param tpgId
      * @return
      */
     @PostMapping("/batchAdd")
-    public Map<String, Object> batchAdd(String students, Integer tpgId) {
+    public Map<String, Object> batchAdd(@RequestBody String studentNumbers,Integer tpgId) {
         Map<String, Object> map = new HashMap<String, Object>();
+        int sum=teacherStudentService.batchAdd(studentNumbers, tpgId);
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, teacherStudentService.batchAdd(students, tpgId));
+        map.put(Constant.JSON_DATA,"已批量添加"+sum+"条记录");
         return map;
     }
 
