@@ -82,6 +82,11 @@ public class TeacherStudentImp implements TeacherStudentService {
     @Override
     public PageObject query(Integer page, Integer limit, TeacherStudentQuery teacherStudentQuery) {
         List<Integer> classesIds = studentQueryByGpmc.getClassIds(teacherStudentQuery);
+        if (classesIds==null){
+            PageObject pageObject= new PageObject(limit, page, 0);
+            pageObject.setList(new ArrayList());
+            return pageObject;
+        }
         teacherStudentQuery.setClassIds(classesIds);
         PageObject pageObject = new PageObject(limit, page, teacherStudentDao.querySize(teacherStudentQuery));
         pageObject.setList(teacherStudentDao.query(pageObject.getOffset(), pageObject.getLimit(), teacherStudentQuery));

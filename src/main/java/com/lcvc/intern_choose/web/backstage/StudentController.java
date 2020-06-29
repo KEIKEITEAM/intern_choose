@@ -76,7 +76,7 @@ public class StudentController {
     public Map<String, Object> getNotChooseStudent(Integer page, Integer limit, StudentQuery studentQuery) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(Constant.JSON_CODE, JsonCode.SUCCESS.getValue());
-        map.put(Constant.JSON_DATA, studentService.query(page, limit, studentQuery));
+        map.put(Constant.JSON_DATA, studentService.getNotChooseStudent(page, limit, studentQuery));
         return map;
     }
 

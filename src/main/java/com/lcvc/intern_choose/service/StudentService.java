@@ -98,7 +98,7 @@ public interface StudentService {
      * @param studentQuery
      * @return
      */
-   PageObject getNotChooseStudent(int page,int limit,StudentQuery studentQuery);
+   PageObject getNotChooseStudent(Integer page,Integer limit,StudentQuery studentQuery);
 
     /**
      * 查询开放权限的学生集合

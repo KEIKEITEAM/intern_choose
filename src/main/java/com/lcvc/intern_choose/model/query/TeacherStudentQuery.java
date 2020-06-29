@@ -4,6 +4,9 @@ import com.lcvc.intern_choose.model.TeacherStudent;
 
 import java.util.List;
 
+/**
+ * @author 张峰
+ */
 public class TeacherStudentQuery extends TeacherStudent {
 
     /**

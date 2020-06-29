@@ -227,77 +227,12 @@ public class StudentServiceImp implements StudentService {
      */
     @Override
     public PageObject query(Integer page, Integer limit, StudentQuery studentQuery) {
-/*
-        //如果年级不为空  gradeId-->classIds-->Set<Integer> classesIds
-        if (studentQuery.getGradeQuery() != null) {
-            classesQuery = new ClassesQuery();
-            classesQuery.setGradeId(studentQuery.getGradeQuery());
-            List<Classes> classesList = classesDao.readAll(classesQuery);
-            for (int i = 0; i < classesList.size(); i++) {
-                classesIds.add(classesList.get(i).getId());
-            }
-        }
-
-        //如果专业群查询字段不为空   professionalId-->majorIds-->classIds-->Set<Integer> classesIds
-        if (studentQuery.getProfessionalQuery() != null) {
-            //majorIds
-            MajorQuery majorQuery = new MajorQuery();
-            majorQuery.setProfessionalId(studentQuery.getProfessionalQuery());
-            List<Major> majorList = majorDao.readAll(majorQuery);
-            List<Integer> majorIds = new ArrayList<>();
-            for (int i = 0; i < majorList.size(); i++) {
-                majorIds.add(majorList.get(i).getId());
-            }
-            //classIds
-            classesQuery = new ClassesQuery();
-            classesQuery.setMajorIds(majorIds);
-            List<Classes> classesList = classesDao.readAll(classesQuery);
-            //创建集合
-            List<Integer> newClassIds = new ArrayList<>();
-            for (int i = 0; i < classesList.size(); i++) {
-                newClassIds.add(classesList.get(i).getId());
-            }
-            //取两个集合的交集，
-            classesIds.retainAll(newClassIds);
-        }
-
-        //如果专业查询字段不为空      majorId-->classIds->Set<Integer> classesIds
-        if (studentQuery.getMajorQuery() != null) {
-            classesQuery = new ClassesQuery();
-            classesQuery.setMajorId(studentQuery.getMajorQuery());
-            List<Classes> classesList = classesDao.readAll(classesQuery);
-            //创建一个新集合添加班级Id,之后如果有多条件的话则取交集，如果没有的话就全部添加
-            List<Integer> newClassIds = new ArrayList<>();
-            for (int i = 0; i < classesList.size(); i++) {
-                newClassIds.add(classesList.get(i).getId());
-            }
-            //取两个集合的交集，
-            classesIds.retainAll(newClassIds);
-        }
-        //如果班级不为空 classId-->Set<Integer> classesIds
-        if (studentQuery.getClassQuery() != null) {
-            List<Integer> newClassIds = new ArrayList<>();
-            newClassIds.add(studentQuery.getClassQuery());
-            //如果classesIds集合数量大于0，取两个集合的交集，否则添加classQuery添加到classIds集合
-            if (classesIds.size() > 0) {
-                classesIds.retainAll(newClassIds);
-            } else {
-                classesIds.add(studentQuery.getClassQuery());
-            }
-        }
-        //将set集合的classIds加入查询条件
-        Boolean status = (studentQuery.getClassQuery() != null ||
-                studentQuery.getGradeQuery() != null ||
-                studentQuery.getProfessionalQuery() != null ||
-                studentQuery.getMajorQuery() != null) &&
-                classesIds.size() == 0;
-        if (status) {
-            return null;
-        }
-
- */
-
         List<Integer> classesIds = studentQueryByGpmc.getClassIds(studentQuery);
+        if (classesIds==null){
+            PageObject pageObject= new PageObject(limit, page, 0);
+            pageObject.setList(new ArrayList());
+            return pageObject;
+        }
         studentQuery.setClassIds(classesIds);
         PageObject pageObject = new PageObject(limit, page, studentDao.querySize(studentQuery));
         pageObject.setList(studentDao.query(pageObject.getOffset(), pageObject.getLimit(), studentQuery));
@@ -321,7 +256,7 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public PageObject getNotChooseStudent(int page, int limit, StudentQuery studentQuery) {
+    public PageObject getNotChooseStudent(Integer page, Integer limit, StudentQuery studentQuery) {
         List<TeacherStudent> teacherStudentList = teacherStudentDao.readAll(null);
         int length = teacherStudentList.size();
         String s[] = new String[length];
